@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🧟 Math Monsters — SBAC Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0d1b0f;
+    --panel: #152019;
+    --panel2: #1c2d22;
+    --accent: #7fff5a;
+    --accent2: #55cc33;
+    --red: #ff4f4f;
+    --red2: #cc2222;
+    --yellow: #ffe94f;
+    --blue: #4fbfff;
+    --purple: #c44fff;
+    --orange: #ff8c2a;
+    --teal: #2affd4;
+    --text: #e8f5e0;
+    --muted: #7a9e80;
+    --border: #2a3e2e;
+    --hp-bg: #0a130c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(127,255,90,.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 80% 70%, rgba(196,79,255,.04) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 50% 50%, rgba(255,233,79,.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '👁️ 👁️ 💀 🦷 👁️ 💀 👁️';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    font-size: .7rem;
+    color: rgba(127,255,90,.08);
+    letter-spacing: 3rem;
+    pointer-events: none;
+    z-index: 0;
+    padding: 12px;
+    line-height: 3.5;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .wrapper { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 16px 16px 60px; }
+
+  .site-header { text-align: center; padding: 24px 0 16px; margin-bottom: 22px; border-bottom: 2px dashed var(--border); }
+  .site-header h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--accent); text-shadow: 0 0 20px rgba(127,255,90,.4), 3px 3px 0 rgba(0,0,0,.5); }
+  .site-header h1 span { color: var(--yellow); }
+  .site-header p { color: var(--muted); font-size: .9rem; margin-top: 6px; font-weight: 600; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 24px; border: none; border-radius: 50px; font-family: 'Nunito', sans-serif; font-size: .9rem; font-weight: 800; cursor: pointer; transition: all .18s; letter-spacing: .02em; }
+  .btn-green { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #0a1a0a; box-shadow: 0 4px 0 #2a7020, 0 6px 20px rgba(127,255,90,.25); }
+  .btn-green:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #2a7020, 0 8px 28px rgba(127,255,90,.35); }
+  .btn-green:active { transform: translateY(2px); box-shadow: 0 2px 0 #2a7020; }
+  .btn-ghost { background: transparent; border: 2px solid var(--border); color: var(--muted); font-size: .82rem; padding: 8px 18px; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-yellow { background: linear-gradient(135deg, var(--yellow), #e0c000); color: #1a1000; box-shadow: 0 4px 0 #8a7000; font-weight: 800; }
+  .btn-yellow:hover { transform: translateY(-2px); }
+
+  /* HINT */
+  .hint-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 18px; background: rgba(255,233,79,.1); border: 2px solid rgba(255,233,79,.35); border-radius: 50px; color: var(--yellow); font-family: 'Nunito', sans-serif; font-size: .83rem; font-weight: 800; cursor: pointer; transition: all .2s; }
+  .hint-btn:hover { background: rgba(255,233,79,.18); border-color: var(--yellow); transform: scale(1.03); }
+  .hint-box { margin-top: 10px; padding: 12px 16px; background: rgba(255,233,79,.08); border: 2px solid rgba(255,233,79,.3); border-radius: 12px; color: var(--yellow); font-size: .88rem; font-weight: 700; line-height: 1.55; animation: fadeSlide .3s ease; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card { background: var(--panel); border: 2px solid var(--border); border-radius: 20px; padding: 28px; box-shadow: 0 8px 40px rgba(0,0,0,.5); }
+
+  /* ENTRY */
+  #screen-entry { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px 0; }
+  .entry-card { width: 100%; max-width: 420px; text-align: center; }
+  .entry-card h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--yellow); margin-bottom: 6px; }
+  .entry-card p { color: var(--muted); font-size: .88rem; margin-bottom: 20px; }
+  .field-label { font-size: .75rem; font-weight: 800; color: var(--muted); text-align: left; margin-bottom: 5px; letter-spacing: .08em; text-transform: uppercase; }
+  .text-input, select.text-input {
+    width: 100%; padding: 12px 16px;
+    background: var(--panel2); border: 2px solid var(--border); border-radius: 12px;
+    color: var(--text); font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
+    outline: none; transition: border-color .2s;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e80' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  .text-input:focus, select.text-input:focus { border-color: var(--accent); }
+  .monster-parade { font-size: 2rem; letter-spacing: .4rem; margin-bottom: 12px; animation: parade 3s linear infinite; }
+  @keyframes parade { 0% { letter-spacing: .4rem; } 50% { letter-spacing: .6rem; } 100% { letter-spacing: .4rem; } }
+  .divider { border: none; border-top: 2px dashed var(--border); margin: 18px 0; }
+
+  /* SELECT */
+  #screen-select { display: none; }
+  .monster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 14px; margin-top: 14px; }
+  .monster-card { background: var(--panel); border: 2px solid var(--border); border-radius: 18px; padding: 18px 12px 16px; text-align: center; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+  .monster-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.04), transparent 70%); pointer-events: none; }
+  .monster-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+  .monster-card.slain { opacity: .65; border-style: dashed; }
+  .monster-card.slain::after { content: '💀 SLAIN'; position: absolute; top: 8px; right: 8px; font-size: .58rem; font-weight: 800; color: var(--accent); letter-spacing: .06em; background: rgba(0,0,0,.5); padding: 2px 6px; border-radius: 20px; }
+  .monster-emoji { font-size: 3rem; margin-bottom: 6px; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+  .monster-name { font-family: 'Fredoka One', cursive; font-size: .82rem; margin-bottom: 2px; line-height: 1.2; }
+  .monster-skill { font-size: .7rem; color: var(--muted); font-weight: 700; }
+  .mini-hp { margin-top: 10px; height: 6px; background: var(--hp-bg); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+  .mini-hp-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+
+  /* NAV */
+  .nav-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .nav-bar h2 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent); flex: 1; }
+  .score-pill { background: var(--panel2); border: 2px solid var(--border); border-radius: 50px; padding: 6px 16px; font-weight: 800; font-size: .82rem; color: var(--yellow); }
+
+  /* BATTLE */
+  #screen-battle { display: none; }
+  .battle-wrap { background: var(--panel); border: 2px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 50px rgba(0,0,0,.6); }
+  .monster-zone { padding: 20px 24px 16px; display: flex; align-items: center; gap: 18px; border-bottom: 2px dashed var(--border); position: relative; overflow: hidden; }
+  .monster-zone::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 100% at 50% 0%, rgba(255,255,255,.03), transparent 70%); pointer-events: none; }
+  .m-emoji-big { font-size: 3.8rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); flex-shrink: 0; }
+  .m-emoji-big.hit { animation: monsterHit .35s ease; }
+  @keyframes monsterHit { 0%,100% { transform: scale(1) rotate(0deg); } 30% { transform: scale(1.25) rotate(-8deg); filter: brightness(2) drop-shadow(0 0 12px red); } 60% { transform: scale(.9) rotate(5deg); } }
+  .m-info { flex: 1; }
+  .m-name-big { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 2px; }
+  .m-skill-tag { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; }
+  .hp-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .hp-label { font-size: .68rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; min-width: 60px; }
+  .hp-track { flex: 1; height: 14px; background: var(--hp-bg); border-radius: 7px; overflow: hidden; border: 2px solid var(--border); }
+  .hp-fill { height: 100%; border-radius: 7px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+  .hp-fill.monster-fill { background: linear-gradient(90deg, var(--red2), var(--red)); }
+  .hp-fill.player-fill { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+  .hp-num { font-size: .72rem; font-weight: 800; min-width: 44px; text-align: right; }
+  .player-zone { padding: 10px 24px 12px; display: flex; align-items: center; gap: 14px; background: rgba(0,0,0,.15); border-bottom: 2px dashed var(--border); }
+  .p-avatar { font-size: 2rem; flex-shrink: 0; }
+  .p-avatar.hurt { animation: playerHurt .4s ease; }
+  @keyframes playerHurt { 0%,100% { transform: translateX(0); filter: brightness(1); } 20% { transform: translateX(-10px); filter: brightness(2) sepia(1) hue-rotate(-30deg); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+  .p-info { flex: 1; min-width: 0; }
+  .p-name { font-weight: 800; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .p-label { font-size: .68rem; color: var(--muted); font-weight: 700; }
+
+  .question-zone { padding: 20px 24px 14px; }
+  .q-counter { font-size: .72rem; font-weight: 800; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+
+  /* Retry badge */
+  .retry-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,140,42,.12); border: 2px solid rgba(255,140,42,.35); border-radius: 50px; padding: 4px 14px; font-size: .72rem; font-weight: 800; color: var(--orange); letter-spacing: .03em; margin-bottom: 12px; }
+
+  .q-text { font-size: 1rem; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 18px; }
+  .choices { display: flex; flex-direction: column; gap: 9px; }
+  .choice-btn { padding: 11px 16px; background: var(--panel2); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: .92rem; font-weight: 700; text-align: left; cursor: pointer; transition: all .15s; display: flex; align-items: flex-start; gap: 10px; }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(127,255,90,.07); transform: translateX(3px); }
+  .choice-btn:disabled { cursor: not-allowed; }
+  .choice-btn.correct { border-color: var(--accent); background: rgba(127,255,90,.12); color: var(--accent); }
+  .choice-btn.wrong { border-color: var(--red); background: rgba(255,79,79,.1); color: var(--red); }
+  .choice-letter { font-weight: 800; color: var(--muted); min-width: 20px; font-size: .82rem; padding-top: 1px; }
+
+  .battle-msg { margin: 0 24px 14px; padding: 11px 16px; border-radius: 12px; font-size: .88rem; font-weight: 700; min-height: 42px; transition: all .25s; line-height: 1.5; }
+  .msg-neutral { background: var(--panel2); border: 2px solid var(--border); color: var(--muted); }
+  .msg-correct { background: rgba(127,255,90,.1); border: 2px solid var(--accent2); color: var(--accent); }
+  .msg-wrong { background: rgba(255,79,79,.1); border: 2px solid var(--red2); color: var(--red); }
+  .battle-footer { padding: 10px 24px 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* LEADERBOARD */
+  #screen-leaderboard { display: none; }
+  .lb-title { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--yellow); }
+  .lb-table { width: 100%; border-collapse: collapse; }
+  .lb-table th { font-size: .7rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; padding: 8px 14px; text-align: left; border-bottom: 2px solid var(--border); }
+  .lb-table td { padding: 11px 14px; border-bottom: 1px solid rgba(42,62,46,.5); font-weight: 700; }
+  .lb-table tr:first-child td { color: var(--yellow); }
+  .lb-score { color: var(--accent); }
+
+  /* OVERLAYS */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(6px); }
+  .overlay.show { display: flex; }
+  .overlay-card { background: var(--panel); border: 2px solid var(--border); border-radius: 24px; padding: 36px 36px 30px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.8); animation: popIn .28s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes popIn { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .overlay-icon { font-size: 4.5rem; margin-bottom: 10px; }
+  .overlay-title { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 8px; }
+  .overlay-title.green { color: var(--accent); }
+  .overlay-title.red { color: var(--red); }
+  .overlay-title.yellow { color: var(--yellow); }
+  .overlay-body { color: var(--muted); font-size: .9rem; font-weight: 600; margin-bottom: 22px; line-height: 1.6; }
+  .overlay-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  .pin-input { width: 100%; padding: 12px; background: var(--panel2); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800; text-align: center; letter-spacing: .3em; outline: none; margin: 12px 0 6px; }
+  .pin-input:focus { border-color: var(--accent); }
+
+  .hidden { display: none !important; }
+  .mt12 { margin-top: 12px; }
+
+  @media (max-width: 520px) {
+    .monster-zone { padding: 14px 16px 12px; gap: 12px; }
+    .question-zone { padding: 14px 16px 10px; }
+    .battle-msg { margin: 0 16px 12px; }
+    .battle-footer { padding: 8px 16px 16px; }
+    .player-zone { padding: 10px 16px; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="site-header">
+    <h1>🧟 Math <span>Monsters</span>!</h1>
+    <p>SBAC Review — 4th Grade &nbsp;|&nbsp; Defeat all 5 monsters to prove your mastery!</p>
+  </div>
+
+  <!-- ENTRY -->
+  <div id="screen-entry">
+    <div class="card entry-card">
+      <div class="monster-parade">🧟 👾 🐲 🧌 👹</div>
+      <h2>Enter the Monster Zone!</h2>
+      <p>Answer math questions correctly to zap the monsters. Wrong answers let them zap you back!</p>
+
+      <div class="field-label">Select Your Name</div>
+      <select class="text-input" id="nameSelect" onchange="onNameSelect()">
+        <option value="">— Choose your name —</option>
+      </select>
+
+      <div id="idSection" class="hidden" style="margin-top:14px;">
+        <div class="field-label">Enter Your Student Number</div>
+        <input type="password" class="text-input" id="studentIdInput" placeholder="••••••••" maxlength="12" autocomplete="off"/>
+        <div id="loginError" style="color:var(--red); font-size:.82rem; min-height:18px; margin-top:6px; font-weight:700;"></div>
+      </div>
+
+      <div class="mt12"></div>
+      <button class="btn btn-green" onclick="startGame()" style="width:100%;">⚡ Let's Go!</button>
+      <hr class="divider"/>
+      <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 View Leaderboard</button>
+    </div>
+    <div id="resumeSection" class="hidden">
+      <div class="card entry-card" style="max-width:420px;">
+        <h2 style="font-size:1.1rem; color:var(--muted);">Resume Where You Left Off?</h2>
+        <div id="resumeInfo" style="color:var(--muted); font-size:.85rem; font-weight:600; margin-bottom:14px;"></div>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn-green" onclick="resumeGame()">⚡ Resume</button>
+          <button class="btn btn-ghost" onclick="clearResume()">Start Fresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELECT -->
+  <div id="screen-select">
+    <div class="nav-bar">
+      <h2>Choose a Monster!</h2>
+      <div class="score-pill">⭐ <span id="scoreDisplay">0</span> pts</div>
+      <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 Board</button>
+      <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
+    </div>
+    <div class="monster-grid" id="monsterGrid"></div>
+  </div>
+
+  <!-- BATTLE -->
+  <div id="screen-battle">
+    <div class="nav-bar">
+      <button class="btn btn-ghost" onclick="exitBattle()">← Back</button>
+      <div class="score-pill">⭐ <span id="scoreBattle">0</span> pts</div>
+      <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
+    </div>
+    <div class="battle-wrap">
+      <div class="monster-zone" id="monsterZone">
+        <div class="m-emoji-big" id="mEmoji"></div>
+        <div class="m-info">
+          <div class="m-name-big" id="mName"></div>
+          <div class="m-skill-tag" id="mSkillTag"></div>
+          <div class="hp-row">
+            <div class="hp-label">👾 Monster</div>
+            <div class="hp-track"><div class="hp-fill monster-fill" id="monsterHpBar" style="width:100%"></div></div>
+            <div class="hp-num" id="monsterHpNum"></div>
+          </div>
+        </div>
+      </div>
+      <div class="player-zone">
+        <div class="p-avatar" id="playerAvatar">🧑‍🎓</div>
+        <div class="p-info">
+          <div class="p-label">YOUR HERO</div>
+          <div class="p-name" id="playerNameBattle"></div>
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <div class="hp-row">
+            <div class="hp-label">❤️ You</div>
+            <div class="hp-track"><div class="hp-fill player-fill" id="playerHpBar" style="width:100%"></div></div>
+            <div class="hp-num" id="playerHpNum"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-zone">
+        <div class="q-counter" id="qCounter"></div>
+        <div id="retryBadgeSlot"></div>
+        <div class="q-text" id="qText"></div>
+        <div class="choices" id="choicesDiv"></div>
+        <div id="hintArea"></div>
+      </div>
+      <div class="battle-msg msg-neutral" id="battleMsg">Pick the right answer to zap the monster! ⚡</div>
+      <div class="battle-footer">
+        <button class="btn btn-green hidden" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="screen-leaderboard">
+    <div class="nav-bar">
+      <div class="lb-title">🏆 Monster Slayer Rankings</div>
+      <button class="btn btn-ghost" onclick="goBack()">← Back</button>
+      <button class="btn btn-ghost" style="color:var(--red); border-color:var(--red2);" onclick="promptClear()">🗑 Clear</button>
+    </div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="lb-table">
+        <thead><tr><th>#</th><th>Hero</th><th>Score</th><th>Monsters Slain</th></tr></thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="victoryOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon" id="victoryIcon">🎉</div>
+    <div class="overlay-title green" id="victoryTitle">Monster Slain!</div>
+    <div class="overlay-body" id="victoryBody"></div>
+    <div class="overlay-btns"><button class="btn btn-green" onclick="closeVictory()">Keep Going! →</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="defeatOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">😵</div>
+    <div class="overlay-title red">The Monster Got You!</div>
+    <div class="overlay-body" id="defeatBody"></div>
+    <div class="overlay-btns">
+      <button class="btn btn-green" onclick="retryMonster()">⚡ Try Again!</button>
+      <button class="btn btn-ghost" onclick="closeDefeat()">Pick Different Monster</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="winAllOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">👑</div>
+    <div class="overlay-title yellow">ALL MONSTERS SLAIN!</div>
+    <div class="overlay-body" id="winAllBody"></div>
+    <div class="overlay-btns"><button class="btn btn-yellow" onclick="closeWinAll()">🏆 See Leaderboard!</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="pinOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🔐</div>
+    <div class="overlay-title green">Teacher Access</div>
+    <div class="overlay-body">Enter the teacher PIN to clear all scores.</div>
+    <input type="password" class="pin-input" id="pinInput" placeholder="• • • •" maxlength="8"/>
+    <div id="pinError" style="color:var(--red); font-size:.82rem; min-height:18px; margin-bottom:10px; font-weight:700;"></div>
+    <div class="overlay-btns">
+      <button class="btn btn-green" onclick="checkPin()">Confirm</button>
+      <button class="btn btn-ghost" onclick="closePin()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DATA — 6 questions + hints per monster
+// ═══════════════════════════════════════════════════
+const MONSTERS = [
+  {
+    id: 'fractions', name: 'Fraction Phantom', skill: 'Fractions', emoji: '👻',
+    color: '#c44fff', tagBg: 'rgba(196,79,255,.15)', tagColor: '#c44fff',
+    questions: [
+      { text: 'Which fraction is equivalent to 2/4?', choices: ['A. 1/2','B. 2/3','C. 3/4','D. 4/6'], correct: 0, explain: '✅ 2/4 = 1/2. Divide top and bottom by 2.', hint: '💡 Try dividing both the top number and the bottom number by the same amount.' },
+      { text: 'What is 3/4 + 1/4?', choices: ['A. 4/8','B. 2/4','C. 1 whole','D. 3/8'], correct: 2, explain: '✅ 3/4 + 1/4 = 4/4 = 1 whole!', hint: '💡 When the bottom numbers match, just add the top numbers — then think about what that fraction equals.' },
+      { text: 'Which list shows fractions in order from LEAST to GREATEST?\n\n1/4 &nbsp; 3/8 &nbsp; 1/2 &nbsp; 5/8', choices: ['A. 5/8, 1/2, 3/8, 1/4','B. 1/4, 3/8, 1/2, 5/8','C. 1/2, 1/4, 5/8, 3/8','D. 3/8, 1/4, 5/8, 1/2'], correct: 1, explain: '✅ Using eighths: 2/8, 3/8, 4/8, 5/8 — so 1/4 < 3/8 < 1/2 < 5/8.', hint: '💡 Try converting all the fractions into eighths so they are easier to compare.' },
+      { text: 'Sara ate 3/8 of a pizza. Luis ate 2/8 of the same pizza. How much did they eat altogether?', choices: ['A. 5/16','B. 6/8','C. 1/2','D. 5/8'], correct: 3, explain: '✅ 3/8 + 2/8 = 5/8.', hint: '💡 The bottom numbers are already the same — just add the top numbers together.' },
+      { text: 'A ribbon is 7/8 of a yard long. Maria cuts off 3/8 of a yard. How much ribbon is left?', choices: ['A. 10/8','B. 4/16','C. 1/2','D. 3/4'], correct: 2, explain: '✅ 7/8 − 3/8 = 4/8 = 1/2.', hint: '💡 Subtract the top numbers since the bottoms already match, then check if your answer can be simplified.' },
+      { text: 'Which fraction is GREATER than 1/2?', choices: ['A. 2/6','B. 3/8','C. 4/10','D. 5/8'], correct: 3, explain: '✅ 5/8 > 1/2. All the others are less than 1/2.', hint: '💡 Think of it like a pizza — which fraction gives you MORE than half the slices?' }
+    ]
+  },
+  {
+    id: 'multiplication', name: 'Multiplication Mutant', skill: 'Multiplication', emoji: '👾',
+    color: '#ff8c2a', tagBg: 'rgba(255,140,42,.15)', tagColor: '#ff8c2a',
+    questions: [
+      { text: 'What is 6 × 7?', choices: ['A. 36','B. 48','C. 42','D. 54'], correct: 2, explain: '✅ 6 × 7 = 42.', hint: '💡 Count by 7s six times: 7, 14, 21, 28, 35, 42.' },
+      { text: 'A box holds 8 crayons. How many crayons are in 9 boxes?', choices: ['A. 64','B. 56','C. 81','D. 72'], correct: 3, explain: '✅ 8 × 9 = 72 crayons.', hint: '💡 Multiply the number of boxes by the crayons in each one.' },
+      { text: 'What is 34 × 5?', choices: ['A. 150','B. 170','C. 165','D. 175'], correct: 1, explain: '✅ (30 × 5) + (4 × 5) = 150 + 20 = 170.', hint: '💡 Break 34 into 30 + 4, multiply each part by 5, then add the results.' },
+      { text: 'A theater has 12 rows with 15 seats each. How many seats are there in all?', choices: ['A. 165','B. 160','C. 200','D. 180'], correct: 3, explain: '✅ 12 × 15 = 180 seats.', hint: '💡 Try (10 × 15) + (2 × 15) = 150 + 30.' },
+      { text: 'Which equation shows the distributive property for 7 × 13?', choices: ['A. 7 + 13','B. 70 × 3','C. (7 × 10) + (7 × 3)','D. 7 × 1 × 3'], correct: 2, explain: '✅ 7 × (10 + 3) = (7 × 10) + (7 × 3) = 70 + 21 = 91.', hint: '💡 The distributive property means breaking the bigger number apart and multiplying each piece separately.' },
+      { text: 'There are 24 students in each of the 4 fourth-grade classes at Tisdale. How many fourth graders are there in all?', choices: ['A. 86','B. 96','C. 84','D. 100'], correct: 1, explain: '✅ 4 × 24 = 96 fourth graders.', hint: '💡 Try (4 × 20) + (4 × 4) using the distributive property.' }
+    ]
+  },
+  {
+    id: 'division', name: 'Division Devourer', skill: 'Division', emoji: '🐲',
+    color: '#ff4f4f', tagBg: 'rgba(255,79,79,.15)', tagColor: '#ff4f4f',
+    questions: [
+      { text: 'What is 56 ÷ 8?', choices: ['A. 6','B. 8','C. 9','D. 7'], correct: 3, explain: '✅ 56 ÷ 8 = 7. Check: 7 × 8 = 56.', hint: '💡 Think: what number times 8 equals 56? Use your multiplication facts!' },
+      { text: '72 students are split equally into 9 groups. How many students are in each group?', choices: ['A. 7','B. 6','C. 8','D. 9'], correct: 2, explain: '✅ 72 ÷ 9 = 8 students per group.', hint: '💡 Ask yourself: what times 9 equals 72?' },
+      { text: 'What is 85 ÷ 5?', choices: ['A. 15','B. 18','C. 16','D. 17'], correct: 3, explain: '✅ 85 ÷ 5 = 17. Check: 17 × 5 = 85.', hint: '💡 Try 80 ÷ 5 first, then 5 ÷ 5, and add the two answers.' },
+      { text: 'A baker has 96 muffins. She puts 8 muffins in each box. How many boxes does she fill?', choices: ['A. 14','B. 11','C. 13','D. 12'], correct: 3, explain: '✅ 96 ÷ 8 = 12 boxes.', hint: '💡 8 × 10 = 80, so there are at least 10 boxes. How many more groups of 8 fit in the leftover muffins?' },
+      { text: 'Mr. O has 75 stickers to share equally with 5 students. How many stickers does each student get?', choices: ['A. 14','B. 13','C. 15','D. 16'], correct: 2, explain: '✅ 75 ÷ 5 = 15 stickers each.', hint: '💡 Try 50 ÷ 5 first, then 25 ÷ 5, and add the two answers.' },
+      { text: 'A class collected 132 canned goods to put equally into 4 boxes. How many cans go in each box?', choices: ['A. 36','B. 30','C. 32','D. 33'], correct: 3, explain: '✅ 132 ÷ 4 = 33 cans per box. Check: 33 × 4 = 132.', hint: '💡 Try 120 ÷ 4 first, then 12 ÷ 4, and add those two answers.' }
+    ]
+  },
+  {
+    id: 'wordproblems', name: 'Word Problem Witch', skill: 'Word Problems', emoji: '🧌',
+    color: '#2affd4', tagBg: 'rgba(42,255,212,.12)', tagColor: '#2affd4',
+    questions: [
+      { text: 'Jaylen read 127 pages on Monday and 98 pages on Tuesday. How many pages did he read in all?', choices: ['A. 215','B. 235','C. 225','D. 229'], correct: 2, explain: '✅ 127 + 98 = 225 pages.', hint: '💡 "In all" means add. Try 127 + 100, then subtract 2.' },
+      { text: 'A store had 432 apples. They sold 185 apples. How many apples are left?', choices: ['A. 257','B. 252','C. 617','D. 247'], correct: 3, explain: '✅ 432 − 185 = 247 apples.', hint: '💡 "How many are left" means subtract. Line up your digits carefully and regroup if needed.' },
+      { text: 'Mia earns $6 for each hour she babysits. She babysat for 7 hours. How much money did she earn?', choices: ['A. $48','B. $54','C. $36','D. $42'], correct: 3, explain: '✅ $6 × 7 = $42.', hint: '💡 She earns the same amount every hour — that means you multiply.' },
+      { text: 'There are 3 boxes of markers. Each box has 24 markers. The class uses 15 markers. How many markers are left?', choices: ['A. 63','B. 51','C. 57','D. 72'], correct: 2, explain: '✅ 3 × 24 = 72 total. 72 − 15 = 57 markers left.', hint: '💡 Two steps: first find the total markers, then subtract the ones that were used.' },
+      { text: 'A garden has 4 rows of flowers with 18 flowers in each row. The gardener plants 12 more. How many flowers are there now?', choices: ['A. 72','B. 78','C. 80','D. 84'], correct: 3, explain: '✅ 4 × 18 = 72. 72 + 12 = 84 flowers.', hint: '💡 First multiply to find the flowers already there, then add the new ones.' },
+      { text: 'A school orders 8 cases of juice boxes with 24 in each case. They give 36 to the kindergartners. How many juice boxes are left?', choices: ['A. 168','B. 156','C. 164','D. 180'], correct: 1, explain: '✅ 8 × 24 = 192 total. 192 − 36 = 156 left.', hint: '💡 Two steps: multiply to find the total, then subtract what was given away.' }
+    ]
+  },
+  {
+    id: 'geometry', name: 'Geometry Goblin', skill: 'Geometry & Measurement', emoji: '👹',
+    color: '#4fbfff', tagBg: 'rgba(79,191,255,.12)', tagColor: '#4fbfff',
+    questions: [
+      { text: 'A rectangle has a length of 9 cm and a width of 5 cm. What is the perimeter?', choices: ['A. 45 cm','B. 14 cm','C. 25 cm','D. 28 cm'], correct: 3, explain: '✅ Perimeter = 2 × (9 + 5) = 2 × 14 = 28 cm.', hint: '💡 Perimeter = all the way around. Add the length and width, then double it because there are two of each.' },
+      { text: 'A square has sides that are 6 inches long. What is the area?', choices: ['A. 24 sq in','B. 36 sq in','C. 12 sq in','D. 30 sq in'], correct: 1, explain: '✅ Area = 6 × 6 = 36 square inches.', hint: '💡 Area = the space inside. For a square, multiply the side length by itself.' },
+      { text: 'How many lines of symmetry does a rectangle have?', choices: ['A. 0','B. 4','C. 2','D. 1'], correct: 2, explain: '✅ A rectangle has 2 lines of symmetry — one horizontal and one vertical.', hint: '💡 A line of symmetry folds the shape into two matching halves. Can you fold a rectangle top-to-bottom? Left-to-right? What about corner-to-corner?' },
+      { text: 'A clock shows 3:00. What type of angle is formed by the clock hands?', choices: ['A. Acute angle','B. Obtuse angle','C. Straight angle','D. Right angle'], correct: 3, explain: '✅ At 3:00 the hands form a 90° right angle.', hint: '💡 A right angle looks like the corner of a square. Picture where the 12 and the 3 sit on a clock.' },
+      { text: 'A garden is 8 meters long and 4 meters wide. What is the area?', choices: ['A. 12 sq m','B. 24 sq m','C. 40 sq m','D. 32 sq m'], correct: 3, explain: '✅ Area = 8 × 4 = 32 square meters.', hint: '💡 To find area of a rectangle, multiply length times width.' },
+      { text: 'Which shape has exactly 4 right angles AND 4 equal sides?', choices: ['A. Rectangle','B. Rhombus','C. Square','D. Trapezoid'], correct: 2, explain: '✅ A square has 4 equal sides AND 4 right angles. A rhombus has equal sides but not always right angles.', hint: '💡 You need BOTH: all 4 sides equal AND all 4 corners are right angles. Which shape fits both rules?' }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════
+//  CLASS ROSTER — name → student number
+// ═══════════════════════════════════════════════════
+const ROSTER = [
+  { name: 'Aquino-Perez, Steven',    id: '10048814' },
+  { name: 'Camas-Alvarez, Mike',     id: '10060436' },
+  { name: 'Earle, Jeremiah',         id: '10038362' },
+  { name: 'Felix, Chloe',            id: '10065242' },
+  { name: 'Flores Marcos, Cornelio', id: '10037877' },
+  { name: 'Gardner, Zy\'iere',       id: '10057389' },
+  { name: 'Giraldo, Layla',          id: '10053382' },
+  { name: 'Lawrence, Lennox',        id: '10045050' },
+  { name: 'Michael, Mulan',          id: '10051762' },
+  { name: 'Millet, Zion',            id: '10053340' },
+  { name: 'Murillo Estrada, Kevin',  id: '10065967' },
+  { name: 'Romaniello, Kaylib',      id: '10041081' },
+  { name: 'Sanango-Quizhpi, Anthony',id: '10065990' },
+  { name: 'Santos-Bautista, Scarlet',id: '10062436' },
+  { name: 'Simpson, Jordyn',         id: '10045306' },
+  { name: 'Torres, Aryana',          id: '10053178' },
+  { name: 'Towns, Micah',            id: '10043892' },
+  { name: 'Ulerio-Jimenez, Adrian',  id: '10061117' }
+];
+const SAVE_KEY    = 'mathMonsters_save_v3';
+const LB_KEY      = 'mathMonsters_lb_v2';
+const TEACHER_PIN = '9377';
+const MAX_HP      = 100;
+const DMG         = Math.floor(MAX_HP / 3); // 3 wrong = defeated
+
+let state = {};
+let currentScreen = 'entry';
+let prevScreen    = 'entry';
+// missedQs[monsterId] = Set of question indices missed on the LAST attempt
+let missedQs = {};
+// onRetry[monsterId] = true after a defeat + retry
+let onRetry  = {};
+
+function freshState(name) {
+  const hp = {};
+  MONSTERS.forEach(m => hp[m.id] = m.questions.length);
+  return { playerName: name, score: 0, slain: [], monsterHp: hp,
+           playerHp: MAX_HP, currentMonsterId: null, currentQIndex: 0, awaitingNext: false };
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+window.onload = () => {
+  // Populate name dropdown from roster
+  const sel = document.getElementById('nameSelect');
+  ROSTER.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.name;
+    opt.textContent = s.name;
+    sel.appendChild(opt);
+  });
+
+  document.getElementById('studentIdInput').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
+  document.getElementById('pinInput').addEventListener('keydown',  e => { if (e.key === 'Enter') checkPin(); });
+
+  const saved = localStorage.getItem(SAVE_KEY);
+  if (saved) {
+    try {
+      const p = JSON.parse(saved);
+      if (p && p.playerName) {
+        document.getElementById('resumeSection').classList.remove('hidden');
+        document.getElementById('resumeInfo').textContent =
+          `"${p.playerName}" — Score: ${p.score} pts | Monsters slain: ${p.slain.length}/5`;
+      }
+    } catch(e) {}
+  }
+};
+
+function onNameSelect() {
+  const val = document.getElementById('nameSelect').value;
+  const sec = document.getElementById('idSection');
+  if (val) {
+    sec.classList.remove('hidden');
+    document.getElementById('studentIdInput').value = '';
+    document.getElementById('loginError').textContent = '';
+    setTimeout(() => document.getElementById('studentIdInput').focus(), 50);
+  } else {
+    sec.classList.add('hidden');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  SCREENS
+// ═══════════════════════════════════════════════════
+function showScreen(id) {
+  ['entry','select','battle','leaderboard'].forEach(s =>
+    document.getElementById('screen-' + s).style.display = 'none');
+  document.getElementById('screen-' + id).style.display = 'block';
+  prevScreen = currentScreen;
+  currentScreen = id;
+}
+function goBack() { showScreen(prevScreen === 'battle' ? 'select' : 'entry'); }
+
+// ═══════════════════════════════════════════════════
+//  GAME FLOW
+// ═══════════════════════════════════════════════════
+function startGame() {
+  const name = document.getElementById('nameSelect').value.trim();
+  const idVal = document.getElementById('studentIdInput').value.trim();
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+
+  if (!name) { errEl.textContent = 'Please select your name first!'; return; }
+
+  const student = ROSTER.find(s => s.name === name);
+  if (!student) { errEl.textContent = 'Name not found. Ask your teacher for help.'; return; }
+  if (idVal !== student.id) {
+    errEl.textContent = 'Wrong student number — try again!';
+    document.getElementById('studentIdInput').value = '';
+    document.getElementById('studentIdInput').focus();
+    return;
+  }
+
+  state = freshState(name);
+  missedQs = {}; onRetry = {};
+  saveState(); buildSelect(); showScreen('select');
+}
+function resumeGame() {
+  try { state = JSON.parse(localStorage.getItem(SAVE_KEY)); buildSelect(); showScreen('select'); }
+  catch(e) { alert('Could not resume. Starting fresh.'); }
+}
+function clearResume() {
+  localStorage.removeItem(SAVE_KEY);
+  document.getElementById('resumeSection').classList.add('hidden');
+}
+function saveAndExit() {
+  saveState();
+  submitScorePartial();
+  document.getElementById('nameSelect').value = state.playerName;
+  document.getElementById('idSection').classList.remove('hidden');
+  document.getElementById('resumeSection').classList.remove('hidden');
+  document.getElementById('resumeInfo').textContent =
+    `"${state.playerName}" — Score: ${state.score} pts | Monsters slain: ${state.slain.length}/5`;
+  showScreen('entry');
+}
+function saveState() { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
+function exitBattle() { saveState(); buildSelect(); showScreen('select'); }
+
+// ── SELECT ──
+function buildSelect() {
+  document.getElementById('scoreDisplay').textContent = state.score;
+  const grid = document.getElementById('monsterGrid');
+  grid.innerHTML = '';
+  MONSTERS.forEach(m => {
+    const slain = state.slain.includes(m.id);
+    const hp    = state.monsterHp[m.id] ?? m.questions.length;
+    const pct   = slain ? 0 : (hp / m.questions.length) * 100;
+    const card  = document.createElement('div');
+    card.className = 'monster-card' + (slain ? ' slain' : '');
+    card.style.borderColor = slain ? 'rgba(127,255,90,.3)' : m.color + '44';
+    card.innerHTML = `
+      <span class="monster-emoji">${m.emoji}</span>
+      <div class="monster-name" style="color:${m.color}">${m.name}</div>
+      <div class="monster-skill">${m.skill}</div>
+      <div class="mini-hp"><div class="mini-hp-fill" style="width:${pct}%;background:${m.color}"></div></div>`;
+    card.onclick = () => enterBattle(m.id);
+    grid.appendChild(card);
+  });
+}
+
+// ── BATTLE ──
+function enterBattle(mid) {
+  const m = MONSTERS.find(m => m.id === mid);
+  if (!m) return;
+  if (state.slain.includes(mid)) {
+    state.slain = state.slain.filter(id => id !== mid);
+    state.monsterHp[mid] = m.questions.length;
+    missedQs[mid] = new Set(); onRetry[mid] = false;
+  }
+
+  // Safety: if HP is somehow 0 and not in slain list, reset it
+  if (state.monsterHp[mid] <= 0) {
+    state.monsterHp[mid] = m.questions.length;
+  }
+  state.currentMonsterId = mid;
+  state.playerHp = MAX_HP;
+  state.awaitingNext = false;
+
+  // Only recalculate start index for fresh/resumed battles, not retries
+  if (!onRetry[mid]) {
+    const calculated = m.questions.length - state.monsterHp[mid];
+    state.currentQIndex = Math.min(calculated, m.questions.length - 1);
+  }
+
+  document.getElementById('monsterZone').style.background = `linear-gradient(135deg,${m.color}0d 0%,transparent 60%)`;
+  document.getElementById('mEmoji').textContent = m.emoji;
+  document.getElementById('mName').textContent  = m.name;
+  document.getElementById('mName').style.color  = m.color;
+  const tag = document.getElementById('mSkillTag');
+  tag.textContent = m.skill; tag.style.background = m.tagBg; tag.style.color = m.tagColor;
+  document.getElementById('playerNameBattle').textContent = state.playerName;
+  document.getElementById('nextBtn').classList.add('hidden');
+  setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
+  updateBars(); renderQ(); updateScores(); showScreen('battle');
+}
+
+function renderQ() {
+  const m    = MONSTERS.find(m => m.id === state.currentMonsterId);
+  // Hard clamp — index can never exceed last question
+  state.currentQIndex = Math.max(0, Math.min(state.currentQIndex, m.questions.length - 1));
+  const q    = m.questions[state.currentQIndex];
+  const mid  = state.currentMonsterId;
+  const qIdx = state.currentQIndex;
+  const retry   = onRetry[mid] === true;
+  const wasWrong = retry && missedQs[mid] && missedQs[mid].has(qIdx);
+
+  document.getElementById('qCounter').textContent = `Question ${qIdx + 1} of ${m.questions.length}`;
+
+  // Retry badge
+  document.getElementById('retryBadgeSlot').innerHTML = retry
+    ? `<div class="retry-badge">🔁 Retry — hints on missed questions &nbsp;|&nbsp; correct answers worth 5 pts</div>` : '';
+
+  document.getElementById('qText').innerHTML = q.text;
+
+  // Choices
+  const cd = document.getElementById('choicesDiv');
+  cd.innerHTML = '';
+  q.choices.forEach((choice, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-letter">${['A','B','C','D'][i]}.</span><span>${choice.substring(3)}</span>`;
+    btn.onclick = () => handleAnswer(i);
+    cd.appendChild(btn);
+  });
+
+  // Hint
+  const hintArea = document.getElementById('hintArea');
+  hintArea.innerHTML = '';
+  if (wasWrong && q.hint) {
+    const hb = document.createElement('button');
+    hb.className = 'hint-btn';
+    hb.innerHTML = '💡 Show Hint';
+    hb.onclick = () => {
+      hb.remove();
+      const box = document.createElement('div');
+      box.className = 'hint-box';
+      box.textContent = q.hint;
+      hintArea.appendChild(box);
+    };
+    hintArea.appendChild(hb);
+  }
+}
+
+function handleAnswer(idx) {
+  if (state.awaitingNext) return;
+  const m   = MONSTERS.find(m => m.id === state.currentMonsterId);
+  const q   = m.questions[state.currentQIndex];
+  const mid = state.currentMonsterId;
+  const ok  = idx === q.correct;
+  const pts = ok ? (onRetry[mid] ? 5 : 10) : 0;
+  const ptsBadge = onRetry[mid] ? `+5 pts (retry)` : `+10 pts`;
+
+  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    if (i === idx && !ok) btn.classList.add('wrong');
+  });
+  document.getElementById('hintArea').innerHTML = '';
+
+  if (ok) {
+    state.monsterHp[mid]--;
+    state.score += pts;
+    updateScores();
+    setMsg(`⚡ ZAP! ${ptsBadge} — ${q.explain}`, 'correct');
+    const emo = document.getElementById('mEmoji');
+    emo.classList.add('hit'); setTimeout(() => emo.classList.remove('hit'), 400);
+  } else {
+    if (!missedQs[mid]) missedQs[mid] = new Set();
+    missedQs[mid].add(state.currentQIndex);
+    state.playerHp = Math.max(0, state.playerHp - DMG);
+    setMsg(`💥 The monster zaps YOU! ${q.explain}`, 'wrong');
+    const av = document.getElementById('playerAvatar');
+    av.classList.add('hurt'); setTimeout(() => av.classList.remove('hurt'), 450);
+  }
+
+  updateBars(); saveState();
+
+  // Always show the Next button first so student knows what to do
+  state.awaitingNext = true;
+  const isLastQ = state.currentQIndex >= m.questions.length - 1;
+  const nextBtn = document.getElementById('nextBtn');
+
+  if (state.playerHp <= 0) {
+    nextBtn.textContent = 'See What Happened →';
+    nextBtn.onclick = () => { nextBtn.classList.add('hidden'); nextBtn.onclick = nextQuestion; showDefeat(); };
+  } else if (state.monsterHp[mid] <= 0) {
+    state.slain.push(mid);
+    missedQs[mid] = new Set(); onRetry[mid] = false;
+    saveState();
+    nextBtn.textContent = 'Claim Victory! 🎉';
+    nextBtn.onclick = () => { nextBtn.classList.add('hidden'); nextBtn.onclick = nextQuestion; showVictory(m); };
+  } else {
+    nextBtn.textContent = isLastQ ? 'See Results →' : 'Next Question →';
+    nextBtn.onclick = nextQuestion;
+  }
+  nextBtn.classList.remove('hidden');
+}
+
+function nextQuestion() {
+  state.currentQIndex++;
+  state.awaitingNext = false;
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.classList.add('hidden');
+  nextBtn.textContent = 'Next Question →';
+  nextBtn.onclick = nextQuestion;
+  setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
+  renderQ();
+}
+
+function updateBars() {
+  const m = MONSTERS.find(m => m.id === state.currentMonsterId);
+  if (!m) return;
+  const mHp = Math.max(0, state.monsterHp[state.currentMonsterId]);
+  document.getElementById('monsterHpBar').style.width = ((mHp / m.questions.length) * 100) + '%';
+  document.getElementById('monsterHpNum').textContent = `${mHp}/${m.questions.length}`;
+  document.getElementById('playerHpBar').style.width  = state.playerHp + '%';
+  document.getElementById('playerHpNum').textContent  = `${state.playerHp}/${MAX_HP}`;
+}
+function updateScores() {
+  document.getElementById('scoreDisplay').textContent = state.score;
+  document.getElementById('scoreBattle').textContent  = state.score;
+}
+function setMsg(text, type) {
+  const el = document.getElementById('battleMsg');
+  el.className = 'battle-msg msg-' + type; el.textContent = text;
+}
+
+// ═══════════════════════════════════════════════════
+//  OVERLAYS
+// ═══════════════════════════════════════════════════
+function showVictory(m) {
+  if (MONSTERS.every(mo => state.slain.includes(mo.id))) {
+    submitScoreFinal();
+    document.getElementById('winAllBody').innerHTML =
+      `<strong style="color:var(--yellow)">${state.playerName}</strong> defeated every monster and is ready for the SBAC!<br/><br/>Final Score: <strong style="color:var(--accent)">${state.score} points</strong> 🎉`;
+    document.getElementById('winAllOverlay').classList.add('show');
+  } else {
+    submitScorePartial();
+    document.getElementById('victoryIcon').textContent  = m.emoji;
+    document.getElementById('victoryTitle').textContent = `${m.name} Defeated!`;
+    document.getElementById('victoryBody').innerHTML    = `You answered all the ${m.skill} questions correctly!<br/>Keep going — more monsters are waiting! 👾`;
+    document.getElementById('victoryOverlay').classList.add('show');
+  }
+}
+function closeVictory() { document.getElementById('victoryOverlay').classList.remove('show'); buildSelect(); showScreen('select'); }
+
+function showDefeat() {
+  const m = MONSTERS.find(m => m.id === state.currentMonsterId);
+  document.getElementById('defeatBody').innerHTML =
+    `${m.name} zapped you too many times!<br/><br/>On your retry, questions you got wrong will show a <strong style="color:var(--yellow)">💡 Hint button</strong>.<br/>Correct answers on retry are worth <strong style="color:var(--yellow)">5 points</strong> instead of 10.`;
+  document.getElementById('defeatOverlay').classList.add('show');
+}
+function closeDefeat()  { document.getElementById('defeatOverlay').classList.remove('show'); buildSelect(); showScreen('select'); }
+function retryMonster() {
+  document.getElementById('defeatOverlay').classList.remove('show');
+  const mid = state.currentMonsterId;
+  onRetry[mid] = true;
+  state.monsterHp[mid] = MONSTERS.find(m => m.id === mid).questions.length;
+  state.currentQIndex = 0; // always restart from Q1
+  saveState();
+  enterBattle(mid);
+}
+function closeWinAll()  { document.getElementById('winAllOverlay').classList.remove('show'); showLeaderboard(); }
+
+// ═══════════════════════════════════════════════════
+//  SHARED LEADERBOARD — Google Sheets backend
+//  Paste your Apps Script Web App URL below after setup
+// ═══════════════════════════════════════════════════
+
+// ▼▼▼ PASTE YOUR WEB APP URL HERE AFTER SETUP ▼▼▼
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycby10TlvNfSkSUsSt6wkLXyYXrtDct_0MDVnzCbdKESwpofPlKUf6lVoRbGdLCeMAhpZAg/exec';
+// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+// Local fallback (used when SHEET_URL not yet set or network fails)
+function getLocalLB() { try { return JSON.parse(localStorage.getItem(LB_KEY)) || []; } catch(e) { return []; } }
+function saveLocalLB(lb) { localStorage.setItem(LB_KEY, JSON.stringify(lb)); }
+
+// Merge entry — best score per student name wins
+function mergeEntry(lb, entry) {
+  const i = lb.findIndex(e => e.name === entry.name);
+  if (i >= 0) { if (entry.score > lb[i].score) lb[i] = entry; }
+  else lb.push(entry);
+  lb.sort((a, b) => b.score - a.score);
+  return lb;
+}
+
+// Submit score to Google Sheet (and local fallback)
+async function submitScorePartial() {
+  const entry = { name: state.playerName, score: state.score, slain: state.slain.length };
+  // Always update local copy
+  saveLocalLB(mergeEntry(getLocalLB(), entry));
+  // Push to Sheet if configured
+  if (!SHEET_URL) return;
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script requires no-cors
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'submit', game: 'monsters', ...entry })
+    });
+  } catch(e) { /* silent fail — local copy already saved */ }
+}
+
+async function submitScoreFinal() {
+  await submitScorePartial();
+  localStorage.removeItem(SAVE_KEY);
+}
+
+// Fetch live leaderboard from Sheet; fall back to local if unavailable
+async function fetchLB() {
+  if (!SHEET_URL) return getLocalLB();
+  try {
+    const res = await fetch(`${SHEET_URL}?action=leaderboard&game=monsters`, { cache: 'no-store' });
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      saveLocalLB(data); // keep local in sync
+      return data;
+    }
+    return getLocalLB();
+  } catch(e) { return getLocalLB(); }
+}
+
+// Clear all scores on Sheet
+async function clearSheet() {
+  if (!SHEET_URL) { saveLocalLB([]); return; }
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'clear', game: 'monsters' })
+    });
+  } catch(e) {}
+  saveLocalLB([]);
+}
+
+async function showLeaderboard() {
+  prevScreen = currentScreen;
+  showScreen('leaderboard');
+  const tbody = document.getElementById('lbBody');
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">⏳ Loading scores...</td></tr>';
+  const lb = await fetchLB();
+  const medals = ['🥇','🥈','🥉'];
+  tbody.innerHTML = '';
+  if (!lb.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">No scores yet — go slay some monsters!</td></tr>';
+  } else {
+    lb.forEach((e, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td style="font-weight:800;font-size:1.1rem;">${medals[i]||(i+1)}</td><td style="font-weight:800;">${e.name}</td><td class="lb-score">⭐ ${e.score}</td><td style="color:var(--muted);font-weight:700;">${'👾'.repeat(Math.min(e.slain,5))} ${e.slain}/5</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+function promptClear() {
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').textContent = '';
+  document.getElementById('pinOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('pinInput').focus(), 120);
+}
+async function checkPin() {
+  if (document.getElementById('pinInput').value.trim() === TEACHER_PIN) {
+    document.getElementById('pinOverlay').classList.remove('show');
+    await clearSheet();
+    showLeaderboard();
+  } else {
+    document.getElementById('pinError').textContent = 'Wrong PIN — try again.';
+    document.getElementById('pinInput').value = '';
+  }
+}
+function closePin() { document.getElementById('pinOverlay').classList.remove('show'); }
+</script>
+</body>
+</html>
