@@ -178,7 +178,7 @@
         <div id="resumeInfo" style="color:var(--muted);font-size:.85rem;font-weight:600;margin-bottom:14px;"></div>
         <div style="display:flex;gap:10px;justify-content:center;">
           <button class="btn btn-green" onclick="resumeGame()">⚡ Resume</button>
-          <button class="btn btn-ghost" onclick="clearResume()">Start Fresh</button>
+          <button class="btn btn-ghost" onclick="promptStartFresh()">🔐 Start Fresh</button>
         </div>
       </div>
     </div>
@@ -565,6 +565,15 @@ function unlockStudent(name) {
   const locks = getLocks();
   delete locks[name];
   localStorage.setItem(LOCK_KEY, JSON.stringify(locks));
+}
+function promptStartFresh() {
+  pinMode = 'startfresh';
+  document.getElementById('pinTitle').textContent = 'Teacher Required';
+  document.getElementById('pinBody').textContent  = 'Starting fresh requires the teacher PIN.';
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').textContent = '';
+  document.getElementById('pinOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('pinInput').focus(), 120);
 }
 function promptUnlock() {
   pinMode = 'unlock';
@@ -1021,6 +1030,8 @@ async function checkPin() {
       document.getElementById('idSection').classList.remove('hidden');
       document.getElementById('loginError').textContent = '';
       setTimeout(() => document.getElementById('studentIdInput').focus(), 50);
+    } else if (pinMode === 'startfresh') {
+      clearResume();
     }
   } else {
     document.getElementById('pinError').textContent = 'Wrong PIN — try again.';
