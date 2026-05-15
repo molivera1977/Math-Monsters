@@ -3,220 +3,143 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>🧟 Math Monsters — SBAC Review</title>
+<title>🧟 Math Monsters — SBAC Review v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0d1b0f;
-    --panel: #152019;
-    --panel2: #1c2d22;
-    --accent: #7fff5a;
-    --accent2: #55cc33;
-    --red: #ff4f4f;
-    --red2: #cc2222;
-    --yellow: #ffe94f;
-    --blue: #4fbfff;
-    --purple: #c44fff;
-    --orange: #ff8c2a;
-    --teal: #2affd4;
-    --text: #e8f5e0;
-    --muted: #7a9e80;
-    --border: #2a3e2e;
-    --hp-bg: #0a130c;
+    --bg:#0d1b0f;--panel:#152019;--panel2:#1c2d22;
+    --accent:#7fff5a;--accent2:#55cc33;
+    --red:#ff4f4f;--red2:#cc2222;
+    --yellow:#ffe94f;--gold2:#e0b800;
+    --orange:#ff8c2a;--teal:#2affd4;
+    --text:#e8f5e0;--muted:#7a9e80;
+    --border:#2a3e2e;--hp-bg:#0a130c;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(127,255,90,.04) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 30% at 80% 70%, rgba(196,79,255,.04) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 50% at 50% 50%, rgba(255,233,79,.03) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body::after {
-    content: '👁️ 👁️ 💀 🦷 👁️ 💀 👁️';
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    font-size: .7rem;
-    color: rgba(127,255,90,.08);
-    letter-spacing: 3rem;
-    pointer-events: none;
-    z-index: 0;
-    padding: 12px;
-    line-height: 3.5;
-    overflow: hidden;
-    height: 100vh;
-  }
-
-  .wrapper { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 16px 16px 60px; }
-
-  .site-header { text-align: center; padding: 24px 0 16px; margin-bottom: 22px; border-bottom: 2px dashed var(--border); }
-  .site-header h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--accent); text-shadow: 0 0 20px rgba(127,255,90,.4), 3px 3px 0 rgba(0,0,0,.5); }
-  .site-header h1 span { color: var(--yellow); }
-  .site-header p { color: var(--muted); font-size: .9rem; margin-top: 6px; font-weight: 600; }
-
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 24px; border: none; border-radius: 50px; font-family: 'Nunito', sans-serif; font-size: .9rem; font-weight: 800; cursor: pointer; transition: all .18s; letter-spacing: .02em; }
-  .btn-green { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #0a1a0a; box-shadow: 0 4px 0 #2a7020, 0 6px 20px rgba(127,255,90,.25); }
-  .btn-green:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #2a7020, 0 8px 28px rgba(127,255,90,.35); }
-  .btn-green:active { transform: translateY(2px); box-shadow: 0 2px 0 #2a7020; }
-  .btn-ghost { background: transparent; border: 2px solid var(--border); color: var(--muted); font-size: .82rem; padding: 8px 18px; }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-yellow { background: linear-gradient(135deg, var(--yellow), #e0c000); color: #1a1000; box-shadow: 0 4px 0 #8a7000; font-weight: 800; }
-  .btn-yellow:hover { transform: translateY(-2px); }
-
-  /* HINT */
-  .hint-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 18px; background: rgba(255,233,79,.1); border: 2px solid rgba(255,233,79,.35); border-radius: 50px; color: var(--yellow); font-family: 'Nunito', sans-serif; font-size: .83rem; font-weight: 800; cursor: pointer; transition: all .2s; }
-  .hint-btn:hover { background: rgba(255,233,79,.18); border-color: var(--yellow); transform: scale(1.03); }
-  .hint-box { margin-top: 10px; padding: 12px 16px; background: rgba(255,233,79,.08); border: 2px solid rgba(255,233,79,.3); border-radius: 12px; color: var(--yellow); font-size: .88rem; font-weight: 700; line-height: 1.55; animation: fadeSlide .3s ease; }
-  @keyframes fadeSlide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-
-  .card { background: var(--panel); border: 2px solid var(--border); border-radius: 20px; padding: 28px; box-shadow: 0 8px 40px rgba(0,0,0,.5); }
-
-  /* ENTRY */
-  #screen-entry { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px 0; }
-  .entry-card { width: 100%; max-width: 420px; text-align: center; }
-  .entry-card h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--yellow); margin-bottom: 6px; }
-  .entry-card p { color: var(--muted); font-size: .88rem; margin-bottom: 20px; }
-  .field-label { font-size: .75rem; font-weight: 800; color: var(--muted); text-align: left; margin-bottom: 5px; letter-spacing: .08em; text-transform: uppercase; }
-  .text-input, select.text-input {
-    width: 100%; padding: 12px 16px;
-    background: var(--panel2); border: 2px solid var(--border); border-radius: 12px;
-    color: var(--text); font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
-    outline: none; transition: border-color .2s;
-    appearance: none; -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e80' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    cursor: pointer;
-  }
-  .text-input:focus, select.text-input:focus { border-color: var(--accent); }
-  .monster-parade { font-size: 2rem; letter-spacing: .4rem; margin-bottom: 12px; animation: parade 3s linear infinite; }
-  @keyframes parade { 0% { letter-spacing: .4rem; } 50% { letter-spacing: .6rem; } 100% { letter-spacing: .4rem; } }
-  .divider { border: none; border-top: 2px dashed var(--border); margin: 18px 0; }
-
-  /* SELECT */
-  #screen-select { display: none; }
-  .monster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 14px; margin-top: 14px; }
-  .monster-card { background: var(--panel); border: 2px solid var(--border); border-radius: 18px; padding: 18px 12px 16px; text-align: center; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
-  .monster-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.04), transparent 70%); pointer-events: none; }
-  .monster-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
-  .monster-card.slain { opacity: .65; border-style: dashed; }
-  .monster-card.slain::after { content: '💀 SLAIN'; position: absolute; top: 8px; right: 8px; font-size: .58rem; font-weight: 800; color: var(--accent); letter-spacing: .06em; background: rgba(0,0,0,.5); padding: 2px 6px; border-radius: 20px; }
-  .monster-emoji { font-size: 3rem; margin-bottom: 6px; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
-  .monster-name { font-family: 'Fredoka One', cursive; font-size: .82rem; margin-bottom: 2px; line-height: 1.2; }
-  .monster-skill { font-size: .7rem; color: var(--muted); font-weight: 700; }
-  .mini-hp { margin-top: 10px; height: 6px; background: var(--hp-bg); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
-  .mini-hp-fill { height: 100%; border-radius: 3px; transition: width .4s; }
-
-  /* NAV */
-  .nav-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-  .nav-bar h2 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent); flex: 1; }
-  .score-pill { background: var(--panel2); border: 2px solid var(--border); border-radius: 50px; padding: 6px 16px; font-weight: 800; font-size: .82rem; color: var(--yellow); }
-
-  /* BATTLE */
-  #screen-battle { display: none; }
-  .battle-wrap { background: var(--panel); border: 2px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 50px rgba(0,0,0,.6); }
-  .monster-zone { padding: 20px 24px 16px; display: flex; align-items: center; gap: 18px; border-bottom: 2px dashed var(--border); position: relative; overflow: hidden; }
-  .monster-zone::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 100% at 50% 0%, rgba(255,255,255,.03), transparent 70%); pointer-events: none; }
-  .m-emoji-big { font-size: 3.8rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); flex-shrink: 0; }
-  .m-emoji-big.hit { animation: monsterHit .35s ease; }
-  @keyframes monsterHit { 0%,100% { transform: scale(1) rotate(0deg); } 30% { transform: scale(1.25) rotate(-8deg); filter: brightness(2) drop-shadow(0 0 12px red); } 60% { transform: scale(.9) rotate(5deg); } }
-  .m-info { flex: 1; }
-  .m-name-big { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 2px; }
-  .m-skill-tag { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; }
-  .hp-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .hp-label { font-size: .68rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; min-width: 60px; }
-  .hp-track { flex: 1; height: 14px; background: var(--hp-bg); border-radius: 7px; overflow: hidden; border: 2px solid var(--border); }
-  .hp-fill { height: 100%; border-radius: 7px; transition: width .5s cubic-bezier(.4,0,.2,1); }
-  .hp-fill.monster-fill { background: linear-gradient(90deg, var(--red2), var(--red)); }
-  .hp-fill.player-fill { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
-  .hp-num { font-size: .72rem; font-weight: 800; min-width: 44px; text-align: right; }
-  .player-zone { padding: 10px 24px 12px; display: flex; align-items: center; gap: 14px; background: rgba(0,0,0,.15); border-bottom: 2px dashed var(--border); }
-  .p-avatar { font-size: 2rem; flex-shrink: 0; }
-  .p-avatar.hurt { animation: playerHurt .4s ease; }
-  @keyframes playerHurt { 0%,100% { transform: translateX(0); filter: brightness(1); } 20% { transform: translateX(-10px); filter: brightness(2) sepia(1) hue-rotate(-30deg); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
-  .p-info { flex: 1; min-width: 0; }
-  .p-name { font-weight: 800; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .p-label { font-size: .68rem; color: var(--muted); font-weight: 700; }
-
-  .question-zone { padding: 20px 24px 14px; }
-  .q-counter { font-size: .72rem; font-weight: 800; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
-
-  /* Retry badge */
-  .retry-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,140,42,.12); border: 2px solid rgba(255,140,42,.35); border-radius: 50px; padding: 4px 14px; font-size: .72rem; font-weight: 800; color: var(--orange); letter-spacing: .03em; margin-bottom: 12px; }
-
-  .q-text { font-size: 1rem; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 18px; }
-  .choices { display: flex; flex-direction: column; gap: 9px; }
-  .choice-btn { padding: 11px 16px; background: var(--panel2); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: .92rem; font-weight: 700; text-align: left; cursor: pointer; transition: all .15s; display: flex; align-items: flex-start; gap: 10px; }
-  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(127,255,90,.07); transform: translateX(3px); }
-  .choice-btn:disabled { cursor: not-allowed; }
-  .choice-btn.correct { border-color: var(--accent); background: rgba(127,255,90,.12); color: var(--accent); }
-  .choice-btn.wrong { border-color: var(--red); background: rgba(255,79,79,.1); color: var(--red); }
-  .choice-letter { font-weight: 800; color: var(--muted); min-width: 20px; font-size: .82rem; padding-top: 1px; }
-
-  .battle-msg { margin: 0 24px 14px; padding: 11px 16px; border-radius: 12px; font-size: .88rem; font-weight: 700; min-height: 42px; transition: all .25s; line-height: 1.5; }
-  .msg-neutral { background: var(--panel2); border: 2px solid var(--border); color: var(--muted); }
-  .msg-correct { background: rgba(127,255,90,.1); border: 2px solid var(--accent2); color: var(--accent); }
-  .msg-wrong { background: rgba(255,79,79,.1); border: 2px solid var(--red2); color: var(--red); }
-  .battle-footer { padding: 10px 24px 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-
-  /* LEADERBOARD */
-  #screen-leaderboard { display: none; }
-  .lb-title { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--yellow); }
-  .lb-table { width: 100%; border-collapse: collapse; }
-  .lb-table th { font-size: .7rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; padding: 8px 14px; text-align: left; border-bottom: 2px solid var(--border); }
-  .lb-table td { padding: 11px 14px; border-bottom: 1px solid rgba(42,62,46,.5); font-weight: 700; }
-  .lb-table tr:first-child td { color: var(--yellow); }
-  .lb-score { color: var(--accent); }
-
-  /* OVERLAYS */
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(6px); }
-  .overlay.show { display: flex; }
-  .overlay-card { background: var(--panel); border: 2px solid var(--border); border-radius: 24px; padding: 36px 36px 30px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.8); animation: popIn .28s cubic-bezier(.34,1.56,.64,1); }
-  @keyframes popIn { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .overlay-icon { font-size: 4.5rem; margin-bottom: 10px; }
-  .overlay-title { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 8px; }
-  .overlay-title.green { color: var(--accent); }
-  .overlay-title.red { color: var(--red); }
-  .overlay-title.yellow { color: var(--yellow); }
-  .overlay-body { color: var(--muted); font-size: .9rem; font-weight: 600; margin-bottom: 22px; line-height: 1.6; }
-  .overlay-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-  .pin-input { width: 100%; padding: 12px; background: var(--panel2); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800; text-align: center; letter-spacing: .3em; outline: none; margin: 12px 0 6px; }
-  .pin-input:focus { border-color: var(--accent); }
-
-  .hidden { display: none !important; }
-  .mt12 { margin-top: 12px; }
-
-  @media (max-width: 520px) {
-    .monster-zone { padding: 14px 16px 12px; gap: 12px; }
-    .question-zone { padding: 14px 16px 10px; }
-    .battle-msg { margin: 0 16px 12px; }
-    .battle-footer { padding: 8px 16px 16px; }
-    .player-zone { padding: 10px 16px; }
-    .card { padding: 20px 18px; }
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(127,255,90,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 30% at 80% 70%,rgba(196,79,255,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+  body::after{content:'👁️ 👁️ 💀 🦷 👁️ 💀 👁️';position:fixed;top:0;left:0;right:0;font-size:.7rem;color:rgba(127,255,90,.08);letter-spacing:3rem;pointer-events:none;z-index:0;padding:12px;line-height:3.5;overflow:hidden;height:100vh;}
+  .wrapper{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:16px 16px 60px;}
+  .site-header{text-align:center;padding:24px 0 16px;margin-bottom:22px;border-bottom:2px dashed var(--border);}
+  .site-header h1{font-family:'Fredoka One',cursive;font-size:clamp(2rem,6vw,3.2rem);color:var(--accent);text-shadow:0 0 20px rgba(127,255,90,.4),3px 3px 0 rgba(0,0,0,.5);}
+  .site-header h1 span{color:var(--yellow);}
+  .site-header p{color:var(--muted);font-size:.9rem;margin-top:6px;font-weight:600;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 24px;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .18s;}
+  .btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a1a0a;box-shadow:0 4px 0 #2a7020,0 6px 20px rgba(127,255,90,.25);}
+  .btn-green:hover{transform:translateY(-2px);box-shadow:0 6px 0 #2a7020,0 8px 28px rgba(127,255,90,.35);}
+  .btn-green:active{transform:translateY(2px);box-shadow:0 2px 0 #2a7020;}
+  .btn-ghost{background:transparent;border:2px solid var(--border);color:var(--muted);font-size:.82rem;padding:8px 18px;}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+  .btn-yellow{background:linear-gradient(135deg,var(--yellow),var(--gold2));color:#1a1000;box-shadow:0 4px 0 #8a7000;font-weight:800;}
+  .btn-yellow:hover{transform:translateY(-2px);}
+  .card{background:var(--panel);border:2px solid var(--border);border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+  #screen-entry{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px 0;}
+  .entry-card{width:100%;max-width:420px;text-align:center;}
+  .entry-card h2{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--yellow);margin-bottom:6px;}
+  .entry-card p{color:var(--muted);font-size:.88rem;margin-bottom:20px;}
+  .monster-parade{font-size:2rem;letter-spacing:.4rem;margin-bottom:12px;animation:parade 3s linear infinite;}
+  @keyframes parade{0%{letter-spacing:.4rem;}50%{letter-spacing:.6rem;}100%{letter-spacing:.4rem;}}
+  .field-label{font-size:.75rem;font-weight:800;color:var(--muted);text-align:left;margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase;}
+  .text-input,select.text-input{width:100%;padding:12px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e80' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;}
+  .text-input:focus,select.text-input:focus{border-color:var(--accent);}
+  select.text-input option{background:#1c2d22;color:#e8f5e0;}
+  input.text-input{background-image:none;cursor:text;}
+  .divider{border:none;border-top:2px dashed var(--border);margin:18px 0;}
+  .mt12{margin-top:12px;}
+  .hidden{display:none!important;}
+  .nav-bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .nav-bar h2{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--accent);flex:1;}
+  .score-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 16px;font-weight:800;font-size:.82rem;color:var(--yellow);}
+  .timer-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 14px;font-weight:800;font-size:.82rem;color:var(--teal);}
+  #screen-select{display:none;}
+  .monster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-top:14px;}
+  .monster-card{background:var(--panel);border:2px solid var(--border);border-radius:18px;padding:18px 12px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+  .monster-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.04),transparent 70%);pointer-events:none;}
+  .monster-card:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 10px 30px rgba(0,0,0,.4);}
+  .monster-card.slain{opacity:.65;border-style:dashed;}
+  .monster-card.slain::after{content:'💀 SLAIN';position:absolute;top:8px;right:8px;font-size:.58rem;font-weight:800;color:var(--accent);letter-spacing:.06em;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:20px;}
+  .monster-emoji{font-size:3rem;margin-bottom:6px;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  .monster-name{font-family:'Fredoka One',cursive;font-size:.82rem;margin-bottom:2px;line-height:1.2;}
+  .monster-skill{font-size:.7rem;color:var(--muted);font-weight:700;}
+  .mini-hp{margin-top:10px;height:6px;background:var(--hp-bg);border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+  .mini-hp-fill{height:100%;border-radius:3px;transition:width .4s;}
+  #screen-battle{display:none;}
+  .battle-wrap{background:var(--panel);border:2px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+  .monster-zone{padding:20px 24px 16px;display:flex;align-items:center;gap:18px;border-bottom:2px dashed var(--border);position:relative;overflow:hidden;}
+  .monster-zone::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(255,255,255,.03),transparent 70%);pointer-events:none;}
+  .m-emoji-big{font-size:3.8rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));flex-shrink:0;}
+  .m-emoji-big.hit{animation:monsterHit .35s ease;}
+  @keyframes monsterHit{0%,100%{transform:scale(1) rotate(0deg);}30%{transform:scale(1.25) rotate(-8deg);filter:brightness(2) drop-shadow(0 0 12px red);}60%{transform:scale(.9) rotate(5deg);}}
+  .m-info{flex:1;}
+  .m-name-big{font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:2px;}
+  .m-skill-tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 10px;border-radius:20px;margin-bottom:8px;}
+  .hp-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .hp-label{font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;min-width:60px;}
+  .hp-track{flex:1;height:14px;background:var(--hp-bg);border-radius:7px;overflow:hidden;border:2px solid var(--border);}
+  .hp-fill{height:100%;border-radius:7px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+  .hp-fill.monster-fill{background:linear-gradient(90deg,var(--red2),var(--red));}
+  .hp-fill.player-fill{background:linear-gradient(90deg,var(--accent2),var(--accent));}
+  .hp-num{font-size:.72rem;font-weight:800;min-width:44px;text-align:right;}
+  .player-zone{padding:10px 24px 12px;display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.15);border-bottom:2px dashed var(--border);}
+  .p-avatar{font-size:2rem;flex-shrink:0;}
+  .p-avatar.hurt{animation:playerHurt .4s ease;}
+  @keyframes playerHurt{0%,100%{transform:translateX(0);filter:brightness(1);}20%{transform:translateX(-10px);filter:brightness(2) sepia(1) hue-rotate(-30deg);}40%{transform:translateX(10px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
+  .p-info{flex:1;min-width:0;}
+  .p-name{font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .p-label{font-size:.68rem;color:var(--muted);font-weight:700;}
+  .question-zone{padding:20px 24px 14px;}
+  .q-counter{font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+  .retry-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,140,42,.12);border:2px solid rgba(255,140,42,.35);border-radius:50px;padding:4px 14px;font-size:.72rem;font-weight:800;color:var(--orange);letter-spacing:.03em;margin-bottom:12px;}
+  .q-text{font-size:1rem;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:18px;}
+  .choices{display:flex;flex-direction:column;gap:9px;}
+  .choice-btn{padding:11px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:700;text-align:left;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:10px;}
+  .choice-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(127,255,90,.07);transform:translateX(3px);}
+  .choice-btn:disabled{cursor:not-allowed;}
+  .choice-btn.correct{border-color:var(--accent);background:rgba(127,255,90,.12);color:var(--accent);}
+  .choice-btn.wrong{border-color:var(--red);background:rgba(255,79,79,.1);color:var(--red);}
+  .choice-letter{font-weight:800;color:var(--muted);min-width:20px;font-size:.82rem;padding-top:1px;}
+  /* Next button countdown */
+  .next-countdown{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;background:var(--panel2);border:2px solid var(--border);color:var(--muted);cursor:not-allowed;}
+  .battle-msg{margin:0 24px 14px;padding:11px 16px;border-radius:12px;font-size:.88rem;font-weight:700;min-height:42px;transition:all .25s;line-height:1.5;}
+  .msg-neutral{background:var(--panel2);border:2px solid var(--border);color:var(--muted);}
+  .msg-correct{background:rgba(127,255,90,.1);border:2px solid var(--accent2);color:var(--accent);}
+  .msg-wrong{background:rgba(255,79,79,.1);border:2px solid var(--red2);color:var(--red);}
+  .battle-footer{padding:10px 24px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  #screen-leaderboard{display:none;}
+  .lb-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--yellow);}
+  .lb-table{width:100%;border-collapse:collapse;}
+  .lb-table th{font-size:.7rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;text-align:left;border-bottom:2px solid var(--border);}
+  .lb-table td{padding:11px 14px;border-bottom:1px solid rgba(42,62,46,.5);font-weight:700;}
+  .lb-table tr:first-child td{color:var(--yellow);}
+  .lb-score{color:var(--accent);}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);}
+  .overlay.show{display:flex;}
+  .overlay-card{background:var(--panel);border:2px solid var(--border);border-radius:24px;padding:36px 36px 30px;max-width:440px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8);animation:popIn .28s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .overlay-icon{font-size:4.5rem;margin-bottom:10px;}
+  .overlay-title{font-family:'Fredoka One',cursive;font-size:1.6rem;margin-bottom:8px;}
+  .overlay-title.green{color:var(--accent);}
+  .overlay-title.red{color:var(--red);}
+  .overlay-title.yellow{color:var(--yellow);}
+  .overlay-body{color:var(--muted);font-size:.9rem;font-weight:600;margin-bottom:22px;line-height:1.6;}
+  .overlay-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .pin-input{width:100%;padding:12px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:800;text-align:center;letter-spacing:.3em;outline:none;margin:12px 0 6px;}
+  .pin-input:focus{border-color:var(--accent);}
+  .hint-btn{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:8px 18px;background:rgba(255,233,79,.1);border:2px solid rgba(255,233,79,.35);border-radius:50px;color:var(--yellow);font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:800;cursor:pointer;transition:all .2s;}
+  .hint-btn:hover{background:rgba(255,233,79,.18);border-color:var(--yellow);transform:scale(1.03);}
+  .hint-box{margin-top:10px;padding:12px 16px;background:rgba(255,233,79,.08);border:2px solid rgba(255,233,79,.3);border-radius:12px;color:var(--yellow);font-size:.88rem;font-weight:700;line-height:1.55;animation:fadeSlide .3s ease;}
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+  .locked-banner{background:rgba(255,79,79,.1);border:2px solid var(--red2);border-radius:14px;padding:20px;text-align:center;margin-top:16px;}
+  .locked-banner h3{font-family:'Fredoka One',cursive;color:var(--red);font-size:1.2rem;margin-bottom:8px;}
+  .locked-banner p{color:var(--muted);font-size:.88rem;font-weight:600;}
+  @media(max-width:520px){.monster-zone{padding:14px 16px 12px;gap:12px;}.question-zone{padding:14px 16px 10px;}.battle-msg{margin:0 16px 12px;}.battle-footer{padding:8px 16px 16px;}.player-zone{padding:10px 16px;}.card{padding:20px 18px;}}
 </style>
 </head>
 <body>
 <div class="wrapper">
-
   <div class="site-header">
     <h1>🧟 Math <span>Monsters</span>!</h1>
-    <p>SBAC Review — 4th Grade &nbsp;|&nbsp; Defeat all 5 monsters to prove your mastery!</p>
+    <p>SBAC Review v2 — 4th Grade &nbsp;|&nbsp; Defeat all 5 monsters to prove your mastery!</p>
   </div>
 
   <!-- ENTRY -->
@@ -225,28 +148,35 @@
       <div class="monster-parade">🧟 👾 🐲 🧌 👹</div>
       <h2>Enter the Monster Zone!</h2>
       <p>Answer math questions correctly to zap the monsters. Wrong answers let them zap you back!</p>
-
       <div class="field-label">Select Your Name</div>
       <select class="text-input" id="nameSelect" onchange="onNameSelect()">
         <option value="">— Choose your name —</option>
       </select>
-
       <div id="idSection" class="hidden" style="margin-top:14px;">
         <div class="field-label">Enter Your Student Number</div>
         <input type="password" class="text-input" id="studentIdInput" placeholder="••••••••" maxlength="12" autocomplete="off"/>
-        <div id="loginError" style="color:var(--red); font-size:.82rem; min-height:18px; margin-top:6px; font-weight:700;"></div>
+        <div id="loginError" style="color:var(--red);font-size:.82rem;min-height:18px;margin-top:6px;font-weight:700;"></div>
       </div>
-
       <div class="mt12"></div>
       <button class="btn btn-green" onclick="startGame()" style="width:100%;">⚡ Let's Go!</button>
       <hr class="divider"/>
       <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 View Leaderboard</button>
     </div>
+    <div id="lockedBanner" class="hidden" style="width:100%;max-width:420px;">
+      <div class="locked-banner">
+        <h3>🔒 Already Completed!</h3>
+        <p id="lockedMsg">You already finished Math Monsters. Ask Mr. O for a PIN if you need to replay.</p>
+        <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 See Leaderboard</button>
+          <button class="btn btn-ghost" onclick="promptUnlock()">🔐 Enter PIN</button>
+        </div>
+      </div>
+    </div>
     <div id="resumeSection" class="hidden">
       <div class="card entry-card" style="max-width:420px;">
-        <h2 style="font-size:1.1rem; color:var(--muted);">Resume Where You Left Off?</h2>
-        <div id="resumeInfo" style="color:var(--muted); font-size:.85rem; font-weight:600; margin-bottom:14px;"></div>
-        <div style="display:flex; gap:10px; justify-content:center;">
+        <h2 style="font-size:1.1rem;color:var(--muted);">Resume Where You Left Off?</h2>
+        <div id="resumeInfo" style="color:var(--muted);font-size:.85rem;font-weight:600;margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;justify-content:center;">
           <button class="btn btn-green" onclick="resumeGame()">⚡ Resume</button>
           <button class="btn btn-ghost" onclick="clearResume()">Start Fresh</button>
         </div>
@@ -259,6 +189,7 @@
     <div class="nav-bar">
       <h2>Choose a Monster!</h2>
       <div class="score-pill">⭐ <span id="scoreDisplay">0</span> pts</div>
+      <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
       <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 Board</button>
       <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
     </div>
@@ -270,6 +201,7 @@
     <div class="nav-bar">
       <button class="btn btn-ghost" onclick="exitBattle()">← Back</button>
       <div class="score-pill">⭐ <span id="scoreBattle">0</span> pts</div>
+      <div class="timer-pill">⏱ <span id="timerBattle">0:00</span></div>
       <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
     </div>
     <div class="battle-wrap">
@@ -291,7 +223,7 @@
           <div class="p-label">YOUR HERO</div>
           <div class="p-name" id="playerNameBattle"></div>
         </div>
-        <div style="flex:1; min-width:120px;">
+        <div style="flex:1;min-width:120px;">
           <div class="hp-row">
             <div class="hp-label">❤️ You</div>
             <div class="hp-track"><div class="hp-fill player-fill" id="playerHpBar" style="width:100%"></div></div>
@@ -309,6 +241,7 @@
       <div class="battle-msg msg-neutral" id="battleMsg">Pick the right answer to zap the monster! ⚡</div>
       <div class="battle-footer">
         <button class="btn btn-green hidden" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+        <div class="next-countdown hidden" id="countdownEl">⏳ Next in <span id="countdownNum">6</span>s</div>
       </div>
     </div>
   </div>
@@ -318,16 +251,15 @@
     <div class="nav-bar">
       <div class="lb-title">🏆 Monster Slayer Rankings</div>
       <button class="btn btn-ghost" onclick="goBack()">← Back</button>
-      <button class="btn btn-ghost" style="color:var(--red); border-color:var(--red2);" onclick="promptClear()">🗑 Clear</button>
+      <button class="btn btn-ghost" style="color:var(--red);border-color:var(--red2);" onclick="promptClear()">🗑 Clear</button>
     </div>
-    <div class="card" style="padding:0; overflow:hidden;">
+    <div class="card" style="padding:0;overflow:hidden;">
       <table class="lb-table">
-        <thead><tr><th>#</th><th>Hero</th><th>Score</th><th>Monsters Slain</th></tr></thead>
+        <thead><tr><th>#</th><th>Hero</th><th>Score</th><th>Monsters</th><th>Time</th><th>Sessions</th></tr></thead>
         <tbody id="lbBody"></tbody>
       </table>
     </div>
   </div>
-
 </div>
 
 <!-- OVERLAYS -->
@@ -339,7 +271,6 @@
     <div class="overlay-btns"><button class="btn btn-green" onclick="closeVictory()">Keep Going! →</button></div>
   </div>
 </div>
-
 <div class="overlay" id="defeatOverlay">
   <div class="overlay-card">
     <div class="overlay-icon">😵</div>
@@ -351,7 +282,6 @@
     </div>
   </div>
 </div>
-
 <div class="overlay" id="winAllOverlay">
   <div class="overlay-card">
     <div class="overlay-icon">👑</div>
@@ -360,14 +290,13 @@
     <div class="overlay-btns"><button class="btn btn-yellow" onclick="closeWinAll()">🏆 See Leaderboard!</button></div>
   </div>
 </div>
-
 <div class="overlay" id="pinOverlay">
   <div class="overlay-card">
     <div class="overlay-icon">🔐</div>
-    <div class="overlay-title green">Teacher Access</div>
-    <div class="overlay-body">Enter the teacher PIN to clear all scores.</div>
+    <div class="overlay-title green" id="pinTitle">Teacher Access</div>
+    <div class="overlay-body" id="pinBody">Enter the teacher PIN.</div>
     <input type="password" class="pin-input" id="pinInput" placeholder="• • • •" maxlength="8"/>
-    <div id="pinError" style="color:var(--red); font-size:.82rem; min-height:18px; margin-bottom:10px; font-weight:700;"></div>
+    <div id="pinError" style="color:var(--red);font-size:.82rem;min-height:18px;margin-bottom:10px;font-weight:700;"></div>
     <div class="overlay-btns">
       <button class="btn btn-green" onclick="checkPin()">Confirm</button>
       <button class="btn btn-ghost" onclick="closePin()">Cancel</button>
@@ -377,136 +306,216 @@
 
 <script>
 // ═══════════════════════════════════════════════════
-//  DATA — 6 questions + hints per monster
+//  ROSTER
+// ═══════════════════════════════════════════════════
+const ROSTER = [
+  { name: 'Mr. O (Teacher)',            id: '9377'     },
+  { name: 'Aquino-Perez, Steven',       id: '10048814' },
+  { name: 'Camas-Alvarez, Mike',        id: '10060436' },
+  { name: 'Earle, Jeremiah',            id: '10038362' },
+  { name: 'Felix, Chloe',              id: '10065242' },
+  { name: 'Flores Marcos, Cornelio',   id: '10037877' },
+  { name: "Gardner, Zy'iere",          id: '10057389' },
+  { name: 'Giraldo, Layla',            id: '10053382' },
+  { name: 'Lawrence, Lennox',          id: '10045050' },
+  { name: 'Michael, Mulan',            id: '10051762' },
+  { name: 'Millet, Zion',              id: '10053340' },
+  { name: 'Murillo Estrada, Kevin',    id: '10065967' },
+  { name: 'Romaniello, Kaylib',        id: '10041081' },
+  { name: 'Sanango-Quizhpi, Anthony',  id: '10065990' },
+  { name: 'Santos-Bautista, Scarlet',  id: '10062436' },
+  { name: 'Simpson, Jordyn',           id: '10045306' },
+  { name: 'Torres, Aryana',            id: '10053178' },
+  { name: 'Towns, Micah',              id: '10043892' },
+  { name: 'Ulerio-Jimenez, Adrian',    id: '10061117' }
+];
+
+// ═══════════════════════════════════════════════════
+//  MONSTER DATA — 10 questions each, all new
+//  All answers balanced via runtime shuffle
 // ═══════════════════════════════════════════════════
 const MONSTERS = [
   {
-    id: 'fractions', name: 'Fraction Phantom', skill: 'Fractions', emoji: '👻',
-    color: '#c44fff', tagBg: 'rgba(196,79,255,.15)', tagColor: '#c44fff',
-    questions: [
-      { text: 'Which fraction is equivalent to 2/4?', choices: ['A. 1/2','B. 2/3','C. 3/4','D. 4/6'], correct: 0, explain: '✅ 2/4 = 1/2. Divide top and bottom by 2.', hint: '💡 Try dividing both the top number and the bottom number by the same amount.' },
-      { text: 'What is 3/4 + 1/4?', choices: ['A. 4/8','B. 2/4','C. 1 whole','D. 3/8'], correct: 2, explain: '✅ 3/4 + 1/4 = 4/4 = 1 whole!', hint: '💡 When the bottom numbers match, just add the top numbers — then think about what that fraction equals.' },
-      { text: 'Which list shows fractions in order from LEAST to GREATEST?\n\n1/4 &nbsp; 3/8 &nbsp; 1/2 &nbsp; 5/8', choices: ['A. 5/8, 1/2, 3/8, 1/4','B. 1/4, 3/8, 1/2, 5/8','C. 1/2, 1/4, 5/8, 3/8','D. 3/8, 1/4, 5/8, 1/2'], correct: 1, explain: '✅ Using eighths: 2/8, 3/8, 4/8, 5/8 — so 1/4 < 3/8 < 1/2 < 5/8.', hint: '💡 Try converting all the fractions into eighths so they are easier to compare.' },
-      { text: 'Sara ate 3/8 of a pizza. Luis ate 2/8 of the same pizza. How much did they eat altogether?', choices: ['A. 5/16','B. 6/8','C. 1/2','D. 5/8'], correct: 3, explain: '✅ 3/8 + 2/8 = 5/8.', hint: '💡 The bottom numbers are already the same — just add the top numbers together.' },
-      { text: 'A ribbon is 7/8 of a yard long. Maria cuts off 3/8 of a yard. How much ribbon is left?', choices: ['A. 10/8','B. 4/16','C. 1/2','D. 3/4'], correct: 2, explain: '✅ 7/8 − 3/8 = 4/8 = 1/2.', hint: '💡 Subtract the top numbers since the bottoms already match, then check if your answer can be simplified.' },
-      { text: 'Which fraction is GREATER than 1/2?', choices: ['A. 2/6','B. 3/8','C. 4/10','D. 5/8'], correct: 3, explain: '✅ 5/8 > 1/2. All the others are less than 1/2.', hint: '💡 Think of it like a pizza — which fraction gives you MORE than half the slices?' }
+    id:'fractions', name:'Fraction Phantom', skill:'Fractions', emoji:'👻',
+    color:'#c44fff', tagBg:'rgba(196,79,255,.15)', tagColor:'#c44fff',
+    questions:[
+      { text:'Which fraction is equivalent to 3/6?', choices:['1/2','2/3','3/4','4/8'], correct:0, hint:'💡 Divide both the top and bottom number by 3.' },
+      { text:'What is 2/5 + 2/5?', choices:['4/5','4/10','1/5','2/5'], correct:0, hint:'💡 When the bottom numbers match, just add the top numbers.' },
+      { text:'Which fraction is less than 1/2?\n\n3/4 &nbsp;&nbsp; 2/6 &nbsp;&nbsp; 5/8 &nbsp;&nbsp; 4/6', choices:['2/6','3/4','5/8','4/6'], correct:0, hint:'💡 Try converting each fraction so they all have the same denominator, then compare.' },
+      { text:'A pizza was cut into 8 equal slices. Omar ate 3 slices and his sister ate 2 slices. What fraction of the pizza did they eat together?', choices:['5/8','5/16','1/2','6/8'], correct:0, hint:'💡 Add the slices eaten together, then write that number over the total number of slices.' },
+      { text:'What is 7/10 − 3/10?', choices:['4/10','4/20','3/10','1/2'], correct:0, hint:'💡 The denominators are the same — just subtract the top numbers.' },
+      { text:'Which pair of fractions is equivalent?', choices:['2/4 and 3/6','1/2 and 2/3','3/4 and 4/5','1/3 and 2/4'], correct:0, hint:'💡 Equivalent fractions name the same amount. Try simplifying or cross-multiplying to check.' },
+      { text:'Maya had 4/6 of a granola bar left. She ate 1/6 more. How much does she have left?', choices:['3/6','3/12','5/6','2/6'], correct:0, hint:'💡 Subtract: 4/6 minus 1/6. The denominators already match.' },
+      { text:'Which list shows fractions ordered from greatest to least?\n\n5/6 &nbsp;&nbsp; 1/2 &nbsp;&nbsp; 2/3 &nbsp;&nbsp; 1/6', choices:['5/6, 2/3, 1/2, 1/6','2/3, 5/6, 1/2, 1/6','1/6, 1/2, 2/3, 5/6','5/6, 1/2, 2/3, 1/6'], correct:0, hint:'💡 Convert all fractions to sixths first, then order them from largest to smallest.' },
+      { text:'A recipe needs 3/4 cup of sugar. James wants to make half the recipe. How much sugar does he need?', choices:['3/8','1/4','3/4','6/8'], correct:0, hint:'💡 Half of 3/4 means dividing 3/4 by 2 — or multiplying by 1/2.' },
+      { text:'Which fraction is greater than 3/4?', choices:['7/8','2/3','1/2','3/6'], correct:0, hint:'💡 Convert each fraction to eighths to compare them more easily.' }
     ]
   },
   {
-    id: 'multiplication', name: 'Multiplication Mutant', skill: 'Multiplication', emoji: '👾',
-    color: '#ff8c2a', tagBg: 'rgba(255,140,42,.15)', tagColor: '#ff8c2a',
-    questions: [
-      { text: 'What is 6 × 7?', choices: ['A. 36','B. 48','C. 42','D. 54'], correct: 2, explain: '✅ 6 × 7 = 42.', hint: '💡 Count by 7s six times: 7, 14, 21, 28, 35, 42.' },
-      { text: 'A box holds 8 crayons. How many crayons are in 9 boxes?', choices: ['A. 64','B. 56','C. 81','D. 72'], correct: 3, explain: '✅ 8 × 9 = 72 crayons.', hint: '💡 Multiply the number of boxes by the crayons in each one.' },
-      { text: 'What is 34 × 5?', choices: ['A. 150','B. 170','C. 165','D. 175'], correct: 1, explain: '✅ (30 × 5) + (4 × 5) = 150 + 20 = 170.', hint: '💡 Break 34 into 30 + 4, multiply each part by 5, then add the results.' },
-      { text: 'A theater has 12 rows with 15 seats each. How many seats are there in all?', choices: ['A. 165','B. 160','C. 200','D. 180'], correct: 3, explain: '✅ 12 × 15 = 180 seats.', hint: '💡 Try (10 × 15) + (2 × 15) = 150 + 30.' },
-      { text: 'Which equation shows the distributive property for 7 × 13?', choices: ['A. 7 + 13','B. 70 × 3','C. (7 × 10) + (7 × 3)','D. 7 × 1 × 3'], correct: 2, explain: '✅ 7 × (10 + 3) = (7 × 10) + (7 × 3) = 70 + 21 = 91.', hint: '💡 The distributive property means breaking the bigger number apart and multiplying each piece separately.' },
-      { text: 'There are 24 students in each of the 4 fourth-grade classes at Tisdale. How many fourth graders are there in all?', choices: ['A. 86','B. 96','C. 84','D. 100'], correct: 1, explain: '✅ 4 × 24 = 96 fourth graders.', hint: '💡 Try (4 × 20) + (4 × 4) using the distributive property.' }
+    id:'multiplication', name:'Multiplication Mutant', skill:'Multiplication', emoji:'👾',
+    color:'#ff8c2a', tagBg:'rgba(255,140,42,.15)', tagColor:'#ff8c2a',
+    questions:[
+      { text:'What is 7 × 8?', choices:['56','54','64','48'], correct:0, hint:'💡 Count by 8s seven times: 8, 16, 24, 32, 40, 48, 56.' },
+      { text:'A carton holds 12 eggs. How many eggs are in 9 cartons?', choices:['108','96','112','120'], correct:0, hint:'💡 Multiply: 12 × 9. Try (10 × 9) + (2 × 9).' },
+      { text:'What is 46 × 3?', choices:['138','126','148','136'], correct:0, hint:'💡 Break it up: (40 × 3) + (6 × 3) = 120 + 18.' },
+      { text:'A store has 8 shelves with 24 cans on each shelf. How many cans are there in all?', choices:['192','180','196','176'], correct:0, hint:'💡 Try (8 × 20) + (8 × 4) using the distributive property.' },
+      { text:'Which equation shows the distributive property for 6 × 14?', choices:['(6 × 10) + (6 × 4)','6 + 14','60 × 4','6 × 1 × 4'], correct:0, hint:'💡 The distributive property means breaking the larger number apart and multiplying each piece.' },
+      { text:'What is 5 × 300?', choices:['1,500','500','1,000','15,000'], correct:0, hint:'💡 First do 5 × 3 = 15, then add the two zeros from 300.' },
+      { text:'A farmer plants 15 rows of corn with 22 plants in each row. How many plants are there in all?', choices:['330','300','310','320'], correct:0, hint:'💡 Try (15 × 20) + (15 × 2) = 300 + 30.' },
+      { text:'What is 9 × 9?', choices:['81','72','90','79'], correct:0, hint:'💡 Think: 9 × 10 = 90, then subtract one group of 9.' },
+      { text:'There are 4 buses. Each bus holds 48 students. How many students can ride in all?', choices:['192','180','196','188'], correct:0, hint:'💡 Try (4 × 40) + (4 × 8) = 160 + 32.' },
+      { text:'A library has 6 rooms. Each room has 125 books. How many books are in the library altogether?', choices:['750','700','720','760'], correct:0, hint:'💡 Try (6 × 100) + (6 × 25) = 600 + 150.' }
     ]
   },
   {
-    id: 'division', name: 'Division Devourer', skill: 'Division', emoji: '🐲',
-    color: '#ff4f4f', tagBg: 'rgba(255,79,79,.15)', tagColor: '#ff4f4f',
-    questions: [
-      { text: 'What is 56 ÷ 8?', choices: ['A. 6','B. 8','C. 9','D. 7'], correct: 3, explain: '✅ 56 ÷ 8 = 7. Check: 7 × 8 = 56.', hint: '💡 Think: what number times 8 equals 56? Use your multiplication facts!' },
-      { text: '72 students are split equally into 9 groups. How many students are in each group?', choices: ['A. 7','B. 6','C. 8','D. 9'], correct: 2, explain: '✅ 72 ÷ 9 = 8 students per group.', hint: '💡 Ask yourself: what times 9 equals 72?' },
-      { text: 'What is 85 ÷ 5?', choices: ['A. 15','B. 18','C. 16','D. 17'], correct: 3, explain: '✅ 85 ÷ 5 = 17. Check: 17 × 5 = 85.', hint: '💡 Try 80 ÷ 5 first, then 5 ÷ 5, and add the two answers.' },
-      { text: 'A baker has 96 muffins. She puts 8 muffins in each box. How many boxes does she fill?', choices: ['A. 14','B. 11','C. 13','D. 12'], correct: 3, explain: '✅ 96 ÷ 8 = 12 boxes.', hint: '💡 8 × 10 = 80, so there are at least 10 boxes. How many more groups of 8 fit in the leftover muffins?' },
-      { text: 'Mr. O has 75 stickers to share equally with 5 students. How many stickers does each student get?', choices: ['A. 14','B. 13','C. 15','D. 16'], correct: 2, explain: '✅ 75 ÷ 5 = 15 stickers each.', hint: '💡 Try 50 ÷ 5 first, then 25 ÷ 5, and add the two answers.' },
-      { text: 'A class collected 132 canned goods to put equally into 4 boxes. How many cans go in each box?', choices: ['A. 36','B. 30','C. 32','D. 33'], correct: 3, explain: '✅ 132 ÷ 4 = 33 cans per box. Check: 33 × 4 = 132.', hint: '💡 Try 120 ÷ 4 first, then 12 ÷ 4, and add those two answers.' }
+    id:'division', name:'Division Devourer', skill:'Division', emoji:'🐲',
+    color:'#ff4f4f', tagBg:'rgba(255,79,79,.15)', tagColor:'#ff4f4f',
+    questions:[
+      { text:'What is 63 ÷ 7?', choices:['9','8','7','6'], correct:0, hint:'💡 Think: what number times 7 equals 63?' },
+      { text:'48 students are divided equally into 6 groups. How many students are in each group?', choices:['8','7','9','6'], correct:0, hint:'💡 Ask yourself: what times 6 equals 48?' },
+      { text:'What is 90 ÷ 6?', choices:['15','12','18','14'], correct:0, hint:'💡 Try 60 ÷ 6 = 10, then 30 ÷ 6 = 5. Add them together.' },
+      { text:'A baker made 144 cookies to pack equally into boxes of 12. How many boxes will she fill?', choices:['12','11','14','10'], correct:0, hint:'💡 Think: 12 × 10 = 120, 12 × 12 = 144. Check your multiplication facts.' },
+      { text:'What is 200 ÷ 5?', choices:['40','20','50','25'], correct:0, hint:'💡 Try 100 ÷ 5 = 20. Then double it since you have 200.' },
+      { text:'A class of 28 students needs to form equal teams of 4. How many teams will there be?', choices:['7','6','8','9'], correct:0, hint:'💡 Ask: how many groups of 4 fit inside 28?' },
+      { text:'What is 108 ÷ 9?', choices:['12','11','13','10'], correct:0, hint:'💡 Try 90 ÷ 9 = 10, then 18 ÷ 9 = 2. Add the results.' },
+      { text:'Mr. O has 84 stickers to share equally among 7 students. How many stickers does each student get?', choices:['12','11','13','14'], correct:0, hint:'💡 Think: 7 × 10 = 70, 7 × 12 = 84. Check your work.' },
+      { text:'A store received 156 oranges packed equally into 6 crates. How many oranges are in each crate?', choices:['26','24','28','22'], correct:0, hint:'💡 Try 120 ÷ 6 = 20, then 36 ÷ 6 = 6. Add them.' },
+      { text:'What is 225 ÷ 5?', choices:['45','40','50','55'], correct:0, hint:'💡 Try 200 ÷ 5 = 40, then 25 ÷ 5 = 5. Add the results.' }
     ]
   },
   {
-    id: 'wordproblems', name: 'Word Problem Witch', skill: 'Word Problems', emoji: '🧌',
-    color: '#2affd4', tagBg: 'rgba(42,255,212,.12)', tagColor: '#2affd4',
-    questions: [
-      { text: 'Jaylen read 127 pages on Monday and 98 pages on Tuesday. How many pages did he read in all?', choices: ['A. 215','B. 235','C. 225','D. 229'], correct: 2, explain: '✅ 127 + 98 = 225 pages.', hint: '💡 "In all" means add. Try 127 + 100, then subtract 2.' },
-      { text: 'A store had 432 apples. They sold 185 apples. How many apples are left?', choices: ['A. 257','B. 252','C. 617','D. 247'], correct: 3, explain: '✅ 432 − 185 = 247 apples.', hint: '💡 "How many are left" means subtract. Line up your digits carefully and regroup if needed.' },
-      { text: 'Mia earns $6 for each hour she babysits. She babysat for 7 hours. How much money did she earn?', choices: ['A. $48','B. $54','C. $36','D. $42'], correct: 3, explain: '✅ $6 × 7 = $42.', hint: '💡 She earns the same amount every hour — that means you multiply.' },
-      { text: 'There are 3 boxes of markers. Each box has 24 markers. The class uses 15 markers. How many markers are left?', choices: ['A. 63','B. 51','C. 57','D. 72'], correct: 2, explain: '✅ 3 × 24 = 72 total. 72 − 15 = 57 markers left.', hint: '💡 Two steps: first find the total markers, then subtract the ones that were used.' },
-      { text: 'A garden has 4 rows of flowers with 18 flowers in each row. The gardener plants 12 more. How many flowers are there now?', choices: ['A. 72','B. 78','C. 80','D. 84'], correct: 3, explain: '✅ 4 × 18 = 72. 72 + 12 = 84 flowers.', hint: '💡 First multiply to find the flowers already there, then add the new ones.' },
-      { text: 'A school orders 8 cases of juice boxes with 24 in each case. They give 36 to the kindergartners. How many juice boxes are left?', choices: ['A. 168','B. 156','C. 164','D. 180'], correct: 1, explain: '✅ 8 × 24 = 192 total. 192 − 36 = 156 left.', hint: '💡 Two steps: multiply to find the total, then subtract what was given away.' }
+    id:'wordproblems', name:'Word Problem Witch', skill:'Word Problems', emoji:'🧌',
+    color:'#2affd4', tagBg:'rgba(42,255,212,.12)', tagColor:'#2affd4',
+    questions:[
+      { text:'A school collected 348 cans of food on Monday and 275 cans on Tuesday. How many cans did they collect in all?', choices:['623','613','633','603'], correct:0, hint:'💡 "In all" means add. Line up your digits and regroup carefully.' },
+      { text:'Layla had 503 beads. She used 267 beads to make a bracelet. How many beads does she have left?', choices:['236','246','226','256'], correct:0, hint:'💡 "How many left" means subtract. Watch out for regrouping with zero.' },
+      { text:'A theater has 24 rows of seats with 18 seats in each row. How many seats are there in all?', choices:['432','412','442','422'], correct:0, hint:'💡 Multiply: try (24 × 20) − (24 × 2) = 480 − 48.' },
+      { text:'Jordan earns $9 per hour walking dogs. Last week she worked 8 hours. How much money did she earn?', choices:['$72','$62','$82','$64'], correct:0, hint:'💡 Same amount per hour means multiply: 9 × 8.' },
+      { text:'A box of 96 pencils is shared equally among 8 classrooms. How many pencils does each classroom get?', choices:['12','11','13','14'], correct:0, hint:'💡 Equal sharing = division. Ask: 8 × ? = 96.' },
+      { text:'There are 5 shelves of books. Each shelf has 32 books. The librarian added 14 more books. How many books are there now?', choices:['174','160','164','184'], correct:0, hint:'💡 Two steps: first multiply to find the total, then add the new books.' },
+      { text:'A school ordered 9 cases of juice. Each case holds 24 cartons. Students drank 48 cartons at lunch. How many cartons are left?', choices:['168','156','148','172'], correct:0, hint:'💡 Two steps: multiply to find the total cartons, then subtract what was used.' },
+      { text:'Micah read 124 pages last week and 98 pages this week. His goal is 250 pages. How many more pages does he need to reach his goal?', choices:['28','38','18','48'], correct:0, hint:'💡 Two steps: add the pages already read, then subtract from the goal.' },
+      { text:'Four friends split the cost of a gift equally. The gift costs $68. How much does each person pay?', choices:['$17','$14','$16','$18'], correct:0, hint:'💡 Equal sharing = division. Divide the total cost by the number of friends.' },
+      { text:'A garden has 7 rows of tomatoes with 16 plants per row, and 5 rows of peppers with 12 plants per row. How many plants are there in all?', choices:['172','152','162','182'], correct:0, hint:'💡 Three steps: multiply each type of plant separately, then add both products together.' }
     ]
   },
   {
-    id: 'geometry', name: 'Geometry Goblin', skill: 'Geometry & Measurement', emoji: '👹',
-    color: '#4fbfff', tagBg: 'rgba(79,191,255,.12)', tagColor: '#4fbfff',
-    questions: [
-      { text: 'A rectangle has a length of 9 cm and a width of 5 cm. What is the perimeter?', choices: ['A. 45 cm','B. 14 cm','C. 25 cm','D. 28 cm'], correct: 3, explain: '✅ Perimeter = 2 × (9 + 5) = 2 × 14 = 28 cm.', hint: '💡 Perimeter = all the way around. Add the length and width, then double it because there are two of each.' },
-      { text: 'A square has sides that are 6 inches long. What is the area?', choices: ['A. 24 sq in','B. 36 sq in','C. 12 sq in','D. 30 sq in'], correct: 1, explain: '✅ Area = 6 × 6 = 36 square inches.', hint: '💡 Area = the space inside. For a square, multiply the side length by itself.' },
-      { text: 'How many lines of symmetry does a rectangle have?', choices: ['A. 0','B. 4','C. 2','D. 1'], correct: 2, explain: '✅ A rectangle has 2 lines of symmetry — one horizontal and one vertical.', hint: '💡 A line of symmetry folds the shape into two matching halves. Can you fold a rectangle top-to-bottom? Left-to-right? What about corner-to-corner?' },
-      { text: 'A clock shows 3:00. What type of angle is formed by the clock hands?', choices: ['A. Acute angle','B. Obtuse angle','C. Straight angle','D. Right angle'], correct: 3, explain: '✅ At 3:00 the hands form a 90° right angle.', hint: '💡 A right angle looks like the corner of a square. Picture where the 12 and the 3 sit on a clock.' },
-      { text: 'A garden is 8 meters long and 4 meters wide. What is the area?', choices: ['A. 12 sq m','B. 24 sq m','C. 40 sq m','D. 32 sq m'], correct: 3, explain: '✅ Area = 8 × 4 = 32 square meters.', hint: '💡 To find area of a rectangle, multiply length times width.' },
-      { text: 'Which shape has exactly 4 right angles AND 4 equal sides?', choices: ['A. Rectangle','B. Rhombus','C. Square','D. Trapezoid'], correct: 2, explain: '✅ A square has 4 equal sides AND 4 right angles. A rhombus has equal sides but not always right angles.', hint: '💡 You need BOTH: all 4 sides equal AND all 4 corners are right angles. Which shape fits both rules?' }
+    id:'geometry', name:'Geometry Goblin', skill:'Geometry & Measurement', emoji:'👹',
+    color:'#4fbfff', tagBg:'rgba(79,191,255,.12)', tagColor:'#4fbfff',
+    questions:[
+      { text:'A rectangle has a length of 12 cm and a width of 7 cm. What is the perimeter?', choices:['38 cm','34 cm','42 cm','40 cm'], correct:0, hint:'💡 Perimeter = 2 × (length + width). Add length and width first, then double it.' },
+      { text:'A square has a side length of 9 inches. What is the area?', choices:['81 sq in','36 sq in','45 sq in','72 sq in'], correct:0, hint:'💡 Area of a square = side × side.' },
+      { text:'A rectangle is 11 m long and 4 m wide. What is the area?', choices:['44 sq m','30 sq m','48 sq m','40 sq m'], correct:0, hint:'💡 Area of a rectangle = length × width.' },
+      { text:'Which type of angle measures exactly 90 degrees?', choices:['Right angle','Acute angle','Obtuse angle','Straight angle'], correct:0, hint:'💡 A right angle looks like the corner of a square or the letter L.' },
+      { text:'How many lines of symmetry does a square have?', choices:['4','2','1','0'], correct:0, hint:'💡 A line of symmetry divides a shape into two mirror-image halves. A square can be folded in more ways than a rectangle.' },
+      { text:'A shape has 3 sides and 3 angles. What is it called?', choices:['Triangle','Rectangle','Pentagon','Hexagon'], correct:0, hint:'💡 Count the sides: tri means three.' },
+      { text:'A park is shaped like a rectangle. It is 25 meters long and 14 meters wide. What is the perimeter of the park?', choices:['78 m','70 m','80 m','88 m'], correct:0, hint:'💡 Add length + width = 39, then double it for all 4 sides.' },
+      { text:'An angle that is greater than 90 degrees but less than 180 degrees is called a(n) __________.', choices:['Obtuse angle','Acute angle','Right angle','Straight angle'], correct:0, hint:'💡 Think of it as an angle that is "blunt" or wide — wider than a right angle but not flat.' },
+      { text:'A classroom floor is 9 meters long and 8 meters wide. What is the area of the floor?', choices:['72 sq m','64 sq m','80 sq m','68 sq m'], correct:0, hint:'💡 Area = length × width. Multiply the two dimensions.' },
+      { text:'Which of the following shapes has exactly one pair of parallel sides?', choices:['Trapezoid','Rectangle','Square','Rhombus'], correct:0, hint:'💡 Parallel sides never meet. Which shape has only one set of sides that run in the same direction?' }
     ]
   }
 ];
 
 // ═══════════════════════════════════════════════════
-//  CLASS ROSTER — name → student number
+//  CONSTANTS
 // ═══════════════════════════════════════════════════
-const ROSTER = [
-  { name: 'Aquino-Perez, Steven',    id: '10048814' },
-  { name: 'Camas-Alvarez, Mike',     id: '10060436' },
-  { name: 'Earle, Jeremiah',         id: '10038362' },
-  { name: 'Felix, Chloe',            id: '10065242' },
-  { name: 'Flores Marcos, Cornelio', id: '10037877' },
-  { name: 'Gardner, Zy\'iere',       id: '10057389' },
-  { name: 'Giraldo, Layla',          id: '10053382' },
-  { name: 'Lawrence, Lennox',        id: '10045050' },
-  { name: 'Michael, Mulan',          id: '10051762' },
-  { name: 'Millet, Zion',            id: '10053340' },
-  { name: 'Murillo Estrada, Kevin',  id: '10065967' },
-  { name: 'Romaniello, Kaylib',      id: '10041081' },
-  { name: 'Sanango-Quizhpi, Anthony',id: '10065990' },
-  { name: 'Santos-Bautista, Scarlet',id: '10062436' },
-  { name: 'Simpson, Jordyn',         id: '10045306' },
-  { name: 'Torres, Aryana',          id: '10053178' },
-  { name: 'Towns, Micah',            id: '10043892' },
-  { name: 'Ulerio-Jimenez, Adrian',  id: '10061117' }
-];
-const SAVE_KEY    = 'mathMonsters_save_v3';
-const LB_KEY      = 'mathMonsters_lb_v2';
-const TEACHER_PIN = '9377';
-const MAX_HP      = 100;
-const DMG         = Math.floor(MAX_HP / 3); // 3 wrong = defeated
+const SAVE_KEY     = 'mathMonsters_v3_save';
+const LB_KEY       = 'mathMonsters_v3_lb';
+const LOCK_KEY     = 'mathMonsters_v3_lock';
+const TEACHER_PIN  = '9377';
+const MAX_HP       = 100;
+const DMG          = Math.floor(MAX_HP / 3);
+const PTS_FIRST    = 10;
+const PTS_RETRY    = 5;
+const MAX_SCORE    = MONSTERS.length * MONSTERS[0].questions.length * PTS_FIRST; // 500
+const NEXT_DELAY   = 6000; // ms
+const SHEET_URL    = 'https://script.google.com/macros/s/AKfycby10TlvNfSkSUsSt6wkLXyYXrtDct_0MDVnzCbdKESwpofPlKUf6lVoRbGdLCeMAhpZAg/exec';
 
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
+function genSessionId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Shuffle questions and remap correct answer index
+function shuffleQuestions(questions) {
+  return shuffle(questions).map(q => {
+    const correctText = q.choices[q.correct];
+    const shuffledChoices = shuffle(q.choices);
+    return { ...q, choices: shuffledChoices, correct: shuffledChoices.indexOf(correctText) };
+  });
+}
+
+function formatTime(s) {
+  if (s == null) return '—';
+  const m = Math.floor(s / 60), sec = s % 60;
+  return `${m}:${String(sec).padStart(2, '0')}`;
+}
+
+function capScore(s) { return Math.min(s, MAX_SCORE); }
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
 let state = {};
 let currentScreen = 'entry';
-let prevScreen    = 'entry';
-// missedQs[monsterId] = Set of question indices missed on the LAST attempt
+let prevScreen = 'entry';
 let missedQs = {};
-// onRetry[monsterId] = true after a defeat + retry
-let onRetry  = {};
+let onRetry = {};
+// shuffledQuestions[monsterId] = shuffled question array for this session
+let shuffledQuestions = {};
+let timerInterval = null;
+let elapsedSeconds = 0;
+let pinMode = ''; // 'clear' or 'unlock'
 
 function freshState(name) {
   const hp = {};
   MONSTERS.forEach(m => hp[m.id] = m.questions.length);
-  return { playerName: name, score: 0, slain: [], monsterHp: hp,
-           playerHp: MAX_HP, currentMonsterId: null, currentQIndex: 0, awaitingNext: false };
+  return {
+    playerName: name,
+    sessionId: genSessionId(),
+    sessionStart: Date.now(),
+    score: 0,
+    slain: [],
+    monsterHp: hp,
+    playerHp: MAX_HP,
+    currentMonsterId: null,
+    currentQIndex: 0,
+    awaitingNext: false,
+    done: false
+  };
 }
 
 // ═══════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════
 window.onload = () => {
-  // Populate name dropdown from roster
   const sel = document.getElementById('nameSelect');
   ROSTER.forEach(s => {
     const opt = document.createElement('option');
-    opt.value = s.name;
-    opt.textContent = s.name;
+    opt.value = s.name; opt.textContent = s.name;
     sel.appendChild(opt);
   });
-
   document.getElementById('studentIdInput').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
-  document.getElementById('pinInput').addEventListener('keydown',  e => { if (e.key === 'Enter') checkPin(); });
+  document.getElementById('pinInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPin(); });
 
+  // Check for saved session
   const saved = localStorage.getItem(SAVE_KEY);
   if (saved) {
     try {
       const p = JSON.parse(saved);
-      if (p && p.playerName) {
+      if (p && p.playerName && !p.done) {
         document.getElementById('resumeSection').classList.remove('hidden');
         document.getElementById('resumeInfo').textContent =
           `"${p.playerName}" — Score: ${p.score} pts | Monsters slain: ${p.slain.length}/5`;
@@ -518,7 +527,20 @@ window.onload = () => {
 function onNameSelect() {
   const val = document.getElementById('nameSelect').value;
   const sec = document.getElementById('idSection');
+  const lockBanner = document.getElementById('lockedBanner');
+  const resumeSec = document.getElementById('resumeSection');
+  lockBanner.classList.add('hidden');
   if (val) {
+    // Check if this student is locked out
+    const locks = getLocks();
+    if (locks[val]) {
+      sec.classList.add('hidden');
+      resumeSec.classList.add('hidden');
+      document.getElementById('lockedMsg').textContent =
+        `${val} already completed Math Monsters. Ask Mr. O for a PIN if you need to replay.`;
+      lockBanner.classList.remove('hidden');
+      return;
+    }
     sec.classList.remove('hidden');
     document.getElementById('studentIdInput').value = '';
     document.getElementById('loginError').textContent = '';
@@ -529,7 +551,33 @@ function onNameSelect() {
 }
 
 // ═══════════════════════════════════════════════════
-//  SCREENS
+//  LOCK MANAGEMENT
+// ═══════════════════════════════════════════════════
+function getLocks() {
+  try { return JSON.parse(localStorage.getItem(LOCK_KEY)) || {}; } catch(e) { return {}; }
+}
+function lockStudent(name) {
+  const locks = getLocks();
+  locks[name] = true;
+  localStorage.setItem(LOCK_KEY, JSON.stringify(locks));
+}
+function unlockStudent(name) {
+  const locks = getLocks();
+  delete locks[name];
+  localStorage.setItem(LOCK_KEY, JSON.stringify(locks));
+}
+function promptUnlock() {
+  pinMode = 'unlock';
+  document.getElementById('pinTitle').textContent = 'Unlock for Replay';
+  document.getElementById('pinBody').textContent = 'Enter the teacher PIN to allow this student to replay.';
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').textContent = '';
+  document.getElementById('pinOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('pinInput').focus(), 120);
+}
+
+// ═══════════════════════════════════════════════════
+//  SCREEN NAV
 // ═══════════════════════════════════════════════════
 function showScreen(id) {
   ['entry','select','battle','leaderboard'].forEach(s =>
@@ -538,50 +586,84 @@ function showScreen(id) {
   prevScreen = currentScreen;
   currentScreen = id;
 }
-function goBack() { showScreen(prevScreen === 'battle' ? 'select' : 'entry'); }
+function goBack() { showScreen('entry'); }
+
+// ═══════════════════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════════════════
+function startTimer() {
+  if (timerInterval) return;
+  const base = state.sessionStart;
+  timerInterval = setInterval(() => {
+    elapsedSeconds = Math.floor((Date.now() - base) / 1000);
+    const fmt = formatTime(elapsedSeconds);
+    const td = document.getElementById('timerDisplay');
+    const tb = document.getElementById('timerBattle');
+    if (td) td.textContent = fmt;
+    if (tb) tb.textContent = fmt;
+  }, 1000);
+}
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
 
 // ═══════════════════════════════════════════════════
 //  GAME FLOW
 // ═══════════════════════════════════════════════════
 function startGame() {
-  const name = document.getElementById('nameSelect').value.trim();
+  const name  = document.getElementById('nameSelect').value.trim();
   const idVal = document.getElementById('studentIdInput').value.trim();
   const errEl = document.getElementById('loginError');
   errEl.textContent = '';
-
   if (!name) { errEl.textContent = 'Please select your name first!'; return; }
-
   const student = ROSTER.find(s => s.name === name);
-  if (!student) { errEl.textContent = 'Name not found. Ask your teacher for help.'; return; }
+  if (!student) { errEl.textContent = 'Name not found. Ask Mr. O for help.'; return; }
   if (idVal !== student.id) {
     errEl.textContent = 'Wrong student number — try again!';
     document.getElementById('studentIdInput').value = '';
     document.getElementById('studentIdInput').focus();
     return;
   }
-
-  state = freshState(name);
+  // Shuffle questions for each monster at session start
+  MONSTERS.forEach(m => { shuffledQuestions[m.id] = shuffleQuestions(m.questions); });
   missedQs = {}; onRetry = {};
-  saveState(); buildSelect(); showScreen('select');
+  state = freshState(name);
+  saveState();
+  startTimer();
+  buildSelect();
+  showScreen('select');
 }
+
 function resumeGame() {
-  try { state = JSON.parse(localStorage.getItem(SAVE_KEY)); buildSelect(); showScreen('select'); }
-  catch(e) { alert('Could not resume. Starting fresh.'); }
+  try {
+    state = JSON.parse(localStorage.getItem(SAVE_KEY));
+    // Reshuffle questions (we don't persist shuffled order)
+    MONSTERS.forEach(m => { shuffledQuestions[m.id] = shuffleQuestions(m.questions); });
+    missedQs = {}; onRetry = {};
+    startTimer();
+    buildSelect();
+    showScreen('select');
+  } catch(e) { alert('Could not resume. Starting fresh.'); }
 }
+
 function clearResume() {
   localStorage.removeItem(SAVE_KEY);
   document.getElementById('resumeSection').classList.add('hidden');
 }
+
 function saveAndExit() {
+  stopTimer();
   saveState();
   submitScorePartial();
   document.getElementById('nameSelect').value = state.playerName;
-  document.getElementById('idSection').classList.remove('hidden');
+  document.getElementById('idSection').classList.add('hidden');
   document.getElementById('resumeSection').classList.remove('hidden');
   document.getElementById('resumeInfo').textContent =
     `"${state.playerName}" — Score: ${state.score} pts | Monsters slain: ${state.slain.length}/5`;
   showScreen('entry');
 }
+
 function saveState() { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
 function exitBattle() { saveState(); buildSelect(); showScreen('select'); }
 
@@ -615,20 +697,17 @@ function enterBattle(mid) {
     state.slain = state.slain.filter(id => id !== mid);
     state.monsterHp[mid] = m.questions.length;
     missedQs[mid] = new Set(); onRetry[mid] = false;
+    shuffledQuestions[mid] = shuffleQuestions(m.questions);
   }
+  if (state.monsterHp[mid] <= 0) state.monsterHp[mid] = m.questions.length;
 
-  // Safety: if HP is somehow 0 and not in slain list, reset it
-  if (state.monsterHp[mid] <= 0) {
-    state.monsterHp[mid] = m.questions.length;
-  }
   state.currentMonsterId = mid;
   state.playerHp = MAX_HP;
   state.awaitingNext = false;
 
-  // Only recalculate start index for fresh/resumed battles, not retries
   if (!onRetry[mid]) {
-    const calculated = m.questions.length - state.monsterHp[mid];
-    state.currentQIndex = Math.min(calculated, m.questions.length - 1);
+    state.currentQIndex = Math.max(0, Math.min(
+      m.questions.length - state.monsterHp[mid], m.questions.length - 1));
   }
 
   document.getElementById('monsterZone').style.background = `linear-gradient(135deg,${m.color}0d 0%,transparent 60%)`;
@@ -639,65 +718,55 @@ function enterBattle(mid) {
   tag.textContent = m.skill; tag.style.background = m.tagBg; tag.style.color = m.tagColor;
   document.getElementById('playerNameBattle').textContent = state.playerName;
   document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('countdownEl').classList.add('hidden');
   setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
   updateBars(); renderQ(); updateScores(); showScreen('battle');
 }
 
+// ── RENDER QUESTION ──
 function renderQ() {
-  const m    = MONSTERS.find(m => m.id === state.currentMonsterId);
-  // Hard clamp — index can never exceed last question
-  state.currentQIndex = Math.max(0, Math.min(state.currentQIndex, m.questions.length - 1));
-  const q    = m.questions[state.currentQIndex];
   const mid  = state.currentMonsterId;
+  const m    = MONSTERS.find(m => m.id === mid);
+  state.currentQIndex = Math.max(0, Math.min(state.currentQIndex, m.questions.length - 1));
+  const q    = shuffledQuestions[mid][state.currentQIndex];
   const qIdx = state.currentQIndex;
-  const retry   = onRetry[mid] === true;
+  const retry    = onRetry[mid] === true;
   const wasWrong = retry && missedQs[mid] && missedQs[mid].has(qIdx);
 
   document.getElementById('qCounter').textContent = `Question ${qIdx + 1} of ${m.questions.length}`;
-
-  // Retry badge
   document.getElementById('retryBadgeSlot').innerHTML = retry
-    ? `<div class="retry-badge">🔁 Retry — hints on missed questions &nbsp;|&nbsp; correct answers worth 5 pts</div>` : '';
-
+    ? `<div class="retry-badge">🔁 Retry — hints on missed questions &nbsp;|&nbsp; correct answers worth ${PTS_RETRY} pts</div>` : '';
   document.getElementById('qText').innerHTML = q.text;
 
-  // Choices
   const cd = document.getElementById('choicesDiv');
   cd.innerHTML = '';
   q.choices.forEach((choice, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.innerHTML = `<span class="choice-letter">${['A','B','C','D'][i]}.</span><span>${choice.substring(3)}</span>`;
+    btn.innerHTML = `<span class="choice-letter">${['A','B','C','D'][i]}.</span><span>${choice}</span>`;
     btn.onclick = () => handleAnswer(i);
     cd.appendChild(btn);
   });
 
-  // Hint
   const hintArea = document.getElementById('hintArea');
   hintArea.innerHTML = '';
   if (wasWrong && q.hint) {
     const hb = document.createElement('button');
-    hb.className = 'hint-btn';
-    hb.innerHTML = '💡 Show Hint';
-    hb.onclick = () => {
-      hb.remove();
-      const box = document.createElement('div');
-      box.className = 'hint-box';
-      box.textContent = q.hint;
-      hintArea.appendChild(box);
-    };
+    hb.className = 'hint-btn'; hb.innerHTML = '💡 Show Hint';
+    hb.onclick = () => { hb.remove(); const box = document.createElement('div'); box.className = 'hint-box'; box.textContent = q.hint; hintArea.appendChild(box); };
     hintArea.appendChild(hb);
   }
 }
 
+// ── HANDLE ANSWER ──
 function handleAnswer(idx) {
   if (state.awaitingNext) return;
-  const m   = MONSTERS.find(m => m.id === state.currentMonsterId);
-  const q   = m.questions[state.currentQIndex];
   const mid = state.currentMonsterId;
+  const m   = MONSTERS.find(m => m.id === mid);
+  const q   = shuffledQuestions[mid][state.currentQIndex];
   const ok  = idx === q.correct;
-  const pts = ok ? (onRetry[mid] ? 5 : 10) : 0;
-  const ptsBadge = onRetry[mid] ? `+5 pts (retry)` : `+10 pts`;
+  const pts = ok ? (onRetry[mid] ? PTS_RETRY : PTS_FIRST) : 0;
+  const ptsBadge = onRetry[mid] ? `+${PTS_RETRY} pts (retry)` : `+${PTS_FIRST} pts`;
 
   document.querySelectorAll('.choice-btn').forEach((btn, i) => {
     btn.disabled = true;
@@ -708,50 +777,55 @@ function handleAnswer(idx) {
 
   if (ok) {
     state.monsterHp[mid]--;
-    state.score += pts;
+    state.score = capScore(state.score + pts);
     updateScores();
-    setMsg(`⚡ ZAP! ${ptsBadge} — ${q.explain}`, 'correct');
+    setMsg(`⚡ ZAP! ${ptsBadge} — ${q.hint ? '' : ''}Correct!`, 'correct');
     const emo = document.getElementById('mEmoji');
     emo.classList.add('hit'); setTimeout(() => emo.classList.remove('hit'), 400);
   } else {
     if (!missedQs[mid]) missedQs[mid] = new Set();
     missedQs[mid].add(state.currentQIndex);
     state.playerHp = Math.max(0, state.playerHp - DMG);
-    setMsg(`💥 The monster zaps YOU! ${q.explain}`, 'wrong');
+    setMsg(`💥 The monster zaps YOU! The correct answer was: ${q.choices[q.correct]}`, 'wrong');
     const av = document.getElementById('playerAvatar');
     av.classList.add('hurt'); setTimeout(() => av.classList.remove('hurt'), 450);
   }
 
   updateBars(); saveState();
-
-  // Always show the Next button first so student knows what to do
   state.awaitingNext = true;
-  const isLastQ = state.currentQIndex >= m.questions.length - 1;
-  const nextBtn = document.getElementById('nextBtn');
 
-  if (state.playerHp <= 0) {
-    nextBtn.textContent = 'See What Happened →';
-    nextBtn.onclick = () => { nextBtn.classList.add('hidden'); nextBtn.onclick = nextQuestion; showDefeat(); };
-  } else if (state.monsterHp[mid] <= 0) {
-    state.slain.push(mid);
-    missedQs[mid] = new Set(); onRetry[mid] = false;
-    saveState();
-    nextBtn.textContent = 'Claim Victory! 🎉';
-    nextBtn.onclick = () => { nextBtn.classList.add('hidden'); nextBtn.onclick = nextQuestion; showVictory(m); };
-  } else {
-    nextBtn.textContent = isLastQ ? 'See Results →' : 'Next Question →';
-    nextBtn.onclick = nextQuestion;
-  }
-  nextBtn.classList.remove('hidden');
+  // 6-second countdown before Next button appears
+  const nextBtn     = document.getElementById('nextBtn');
+  const countdownEl = document.getElementById('countdownEl');
+  const countdownNum = document.getElementById('countdownNum');
+  countdownEl.classList.remove('hidden');
+  nextBtn.classList.add('hidden');
+  let secs = 6;
+  countdownNum.textContent = secs;
+  const ticker = setInterval(() => {
+    secs--;
+    countdownNum.textContent = secs;
+    if (secs <= 0) {
+      clearInterval(ticker);
+      countdownEl.classList.add('hidden');
+      // Check end conditions
+      if (state.playerHp <= 0) { showDefeat(); return; }
+      if (state.monsterHp[mid] <= 0) {
+        state.slain.push(mid);
+        missedQs[mid] = new Set(); onRetry[mid] = false;
+        saveState(); showVictory(m); return;
+      }
+      nextBtn.textContent = (state.currentQIndex >= m.questions.length - 1) ? 'See Results →' : 'Next Question →';
+      nextBtn.onclick = nextQuestion;
+      nextBtn.classList.remove('hidden');
+    }
+  }, 1000);
 }
 
 function nextQuestion() {
   state.currentQIndex++;
   state.awaitingNext = false;
-  const nextBtn = document.getElementById('nextBtn');
-  nextBtn.classList.add('hidden');
-  nextBtn.textContent = 'Next Question →';
-  nextBtn.onclick = nextQuestion;
+  document.getElementById('nextBtn').classList.add('hidden');
   setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
   renderQ();
 }
@@ -779,9 +853,13 @@ function setMsg(text, type) {
 // ═══════════════════════════════════════════════════
 function showVictory(m) {
   if (MONSTERS.every(mo => state.slain.includes(mo.id))) {
+    state.done = true;
+    saveState();
+    stopTimer();
     submitScoreFinal();
+    lockStudent(state.playerName);
     document.getElementById('winAllBody').innerHTML =
-      `<strong style="color:var(--yellow)">${state.playerName}</strong> defeated every monster and is ready for the SBAC!<br/><br/>Final Score: <strong style="color:var(--accent)">${state.score} points</strong> 🎉`;
+      `<strong style="color:var(--yellow)">${state.playerName}</strong> defeated every monster and is ready for the SBAC!<br/><br/>Final Score: <strong style="color:var(--accent)">${state.score} / ${MAX_SCORE} points</strong><br/>Time: <strong style="color:var(--teal)">${formatTime(elapsedSeconds)}</strong> 🎉`;
     document.getElementById('winAllOverlay').classList.add('show');
   } else {
     submitScorePartial();
@@ -796,7 +874,7 @@ function closeVictory() { document.getElementById('victoryOverlay').classList.re
 function showDefeat() {
   const m = MONSTERS.find(m => m.id === state.currentMonsterId);
   document.getElementById('defeatBody').innerHTML =
-    `${m.name} zapped you too many times!<br/><br/>On your retry, questions you got wrong will show a <strong style="color:var(--yellow)">💡 Hint button</strong>.<br/>Correct answers on retry are worth <strong style="color:var(--yellow)">5 points</strong> instead of 10.`;
+    `${m.name} zapped you too many times!<br/><br/>On your retry, questions you got wrong will show a <strong style="color:var(--yellow)">💡 Hint button</strong>.<br/>Correct answers on retry are worth <strong style="color:var(--yellow)">${PTS_RETRY} points</strong> instead of ${PTS_FIRST}.`;
   document.getElementById('defeatOverlay').classList.add('show');
 }
 function closeDefeat()  { document.getElementById('defeatOverlay').classList.remove('show'); buildSelect(); showScreen('select'); }
@@ -805,115 +883,145 @@ function retryMonster() {
   const mid = state.currentMonsterId;
   onRetry[mid] = true;
   state.monsterHp[mid] = MONSTERS.find(m => m.id === mid).questions.length;
-  state.currentQIndex = 0; // always restart from Q1
+  state.currentQIndex = 0;
   saveState();
   enterBattle(mid);
 }
 function closeWinAll()  { document.getElementById('winAllOverlay').classList.remove('show'); showLeaderboard(); }
 
 // ═══════════════════════════════════════════════════
-//  SHARED LEADERBOARD — Google Sheets backend
-//  Paste your Apps Script Web App URL below after setup
+//  LEADERBOARD — Google Sheets
 // ═══════════════════════════════════════════════════
-
-// ▼▼▼ PASTE YOUR WEB APP URL HERE AFTER SETUP ▼▼▼
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycby10TlvNfSkSUsSt6wkLXyYXrtDct_0MDVnzCbdKESwpofPlKUf6lVoRbGdLCeMAhpZAg/exec';
-// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-
-// Local fallback (used when SHEET_URL not yet set or network fails)
 function getLocalLB() { try { return JSON.parse(localStorage.getItem(LB_KEY)) || []; } catch(e) { return []; } }
 function saveLocalLB(lb) { localStorage.setItem(LB_KEY, JSON.stringify(lb)); }
 
-// Merge entry — best score per student name wins
 function mergeEntry(lb, entry) {
   const i = lb.findIndex(e => e.name === entry.name);
-  if (i >= 0) { if (entry.score > lb[i].score) lb[i] = entry; }
-  else lb.push(entry);
-  lb.sort((a, b) => b.score - a.score);
+  if (i >= 0) {
+    const ex = lb[i];
+    const better = entry.score > ex.score ||
+      (entry.score === ex.score && entry.elapsedSeconds != null &&
+       (ex.elapsedSeconds == null || entry.elapsedSeconds < ex.elapsedSeconds));
+    if (better) lb[i] = entry;
+    // Always increment session count
+    lb[i].sessions = (lb[i].sessions || 1) + (entry.name === ex.name && entry.sessionId !== ex.sessionId ? 1 : 0);
+  } else {
+    lb.push({ ...entry, sessions: 1 });
+  }
+  lb.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    const tA = a.elapsedSeconds ?? Infinity;
+    const tB = b.elapsedSeconds ?? Infinity;
+    return tA - tB;
+  });
   return lb;
 }
 
-// Submit score to Google Sheet (and local fallback)
 async function submitScorePartial() {
-  const entry = { name: state.playerName, score: state.score, slain: state.slain.length };
-  // Always update local copy
+  const entry = {
+    name: state.playerName,
+    sessionId: state.sessionId,
+    score: capScore(state.score),
+    slain: state.slain.length,
+    elapsedSeconds: elapsedSeconds,
+    done: false
+  };
   saveLocalLB(mergeEntry(getLocalLB(), entry));
-  // Push to Sheet if configured
   if (!SHEET_URL) return;
   try {
     await fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors', // Apps Script requires no-cors
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'submit', game: 'monsters', ...entry })
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'submit', game:'monsters', ...entry })
     });
-  } catch(e) { /* silent fail — local copy already saved */ }
+  } catch(e) {}
 }
 
 async function submitScoreFinal() {
-  await submitScorePartial();
+  const entry = {
+    name: state.playerName,
+    sessionId: state.sessionId,
+    score: capScore(state.score),
+    slain: state.slain.length,
+    elapsedSeconds: elapsedSeconds,
+    done: true
+  };
+  saveLocalLB(mergeEntry(getLocalLB(), entry));
   localStorage.removeItem(SAVE_KEY);
+  if (!SHEET_URL) return;
+  try {
+    await fetch(SHEET_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'submit', game:'monsters', ...entry })
+    });
+  } catch(e) {}
 }
 
-// Fetch live leaderboard from Sheet; fall back to local if unavailable
 async function fetchLB() {
   if (!SHEET_URL) return getLocalLB();
   try {
-    const res = await fetch(`${SHEET_URL}?action=leaderboard&game=monsters`, { cache: 'no-store' });
+    const res = await fetch(`${SHEET_URL}?action=leaderboard&game=monsters`, { cache:'no-store' });
     if (!res.ok) throw new Error();
     const data = await res.json();
-    if (Array.isArray(data)) {
-      saveLocalLB(data); // keep local in sync
-      return data;
-    }
+    if (Array.isArray(data)) { saveLocalLB(data); return data; }
     return getLocalLB();
   } catch(e) { return getLocalLB(); }
-}
-
-// Clear all scores on Sheet
-async function clearSheet() {
-  if (!SHEET_URL) { saveLocalLB([]); return; }
-  try {
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'clear', game: 'monsters' })
-    });
-  } catch(e) {}
-  saveLocalLB([]);
 }
 
 async function showLeaderboard() {
   prevScreen = currentScreen;
   showScreen('leaderboard');
   const tbody = document.getElementById('lbBody');
-  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">⏳ Loading scores...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">⏳ Loading scores...</td></tr>';
   const lb = await fetchLB();
   const medals = ['🥇','🥈','🥉'];
   tbody.innerHTML = '';
   if (!lb.length) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">No scores yet — go slay some monsters!</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">No scores yet — go slay some monsters!</td></tr>';
   } else {
     lb.forEach((e, i) => {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td style="font-weight:800;font-size:1.1rem;">${medals[i]||(i+1)}</td><td style="font-weight:800;">${e.name}</td><td class="lb-score">⭐ ${e.score}</td><td style="color:var(--muted);font-weight:700;">${'👾'.repeat(Math.min(e.slain,5))} ${e.slain}/5</td>`;
+      tr.innerHTML = `
+        <td style="font-weight:800;font-size:1.1rem;">${medals[i]||(i+1)}</td>
+        <td style="font-weight:800;">${e.name}</td>
+        <td class="lb-score">⭐ ${e.score}</td>
+        <td style="color:var(--muted);font-weight:700;">${'👾'.repeat(Math.min(e.slain||0,5))} ${e.slain||0}/5</td>
+        <td style="color:var(--teal);font-weight:700;">⏱ ${formatTime(e.elapsedSeconds)}</td>
+        <td style="color:var(--muted);font-weight:700;font-size:.78rem;">${e.sessions||1} run${(e.sessions||1)>1?'s':''}</td>`;
       tbody.appendChild(tr);
     });
   }
 }
 
+// ── PIN / CLEAR ──
 function promptClear() {
+  pinMode = 'clear';
+  document.getElementById('pinTitle').textContent = 'Teacher Access';
+  document.getElementById('pinBody').textContent  = 'Enter the teacher PIN to clear all scores.';
   document.getElementById('pinInput').value = '';
   document.getElementById('pinError').textContent = '';
   document.getElementById('pinOverlay').classList.add('show');
   setTimeout(() => document.getElementById('pinInput').focus(), 120);
 }
 async function checkPin() {
-  if (document.getElementById('pinInput').value.trim() === TEACHER_PIN) {
+  const val = document.getElementById('pinInput').value.trim();
+  if (val === TEACHER_PIN) {
     document.getElementById('pinOverlay').classList.remove('show');
-    await clearSheet();
-    showLeaderboard();
+    if (pinMode === 'clear') {
+      saveLocalLB([]);
+      if (SHEET_URL) {
+        try { await fetch(SHEET_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'clear', game:'monsters' }) }); } catch(e) {}
+      }
+      showLeaderboard();
+    } else if (pinMode === 'unlock') {
+      const name = document.getElementById('nameSelect').value;
+      unlockStudent(name);
+      document.getElementById('lockedBanner').classList.add('hidden');
+      document.getElementById('idSection').classList.remove('hidden');
+      document.getElementById('loginError').textContent = '';
+      setTimeout(() => document.getElementById('studentIdInput').focus(), 50);
+    }
   } else {
     document.getElementById('pinError').textContent = 'Wrong PIN — try again.';
     document.getElementById('pinInput').value = '';
