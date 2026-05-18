@@ -6,17 +6,9 @@
 <title>🧟 Math Monsters — SBAC Review v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg:#0d1b0f;--panel:#152019;--panel2:#1c2d22;
-    --accent:#7fff5a;--accent2:#55cc33;
-    --red:#ff4f4f;--red2:#cc2222;
-    --yellow:#ffe94f;--gold2:#e0b800;
-    --orange:#ff8c2a;--teal:#2affd4;
-    --text:#e8f5e0;--muted:#7a9e80;
-    --border:#2a3e2e;--hp-bg:#0a130c;
-  }
+  :root{--bg:#0d1b0f;--panel:#152019;--panel2:#1c2d22;--accent:#7fff5a;--accent2:#55cc33;--red:#ff4f4f;--red2:#cc2222;--yellow:#ffe94f;--gold2:#e0b800;--orange:#ff8c2a;--teal:#2affd4;--text:#e8f5e0;--muted:#7a9e80;--border:#2a3e2e;--hp-bg:#0a130c;--fs:1rem;}
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;font-size:var(--fs);}
   body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(127,255,90,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 30% at 80% 70%,rgba(196,79,255,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
   body::after{content:'👁️ 👁️ 💀 🦷 👁️ 💀 👁️';position:fixed;top:0;left:0;right:0;font-size:.7rem;color:rgba(127,255,90,.08);letter-spacing:3rem;pointer-events:none;z-index:0;padding:12px;line-height:3.5;overflow:hidden;height:100vh;}
   .wrapper{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:16px 16px 60px;}
@@ -24,33 +16,80 @@
   .site-header h1{font-family:'Fredoka One',cursive;font-size:clamp(2rem,6vw,3.2rem);color:var(--accent);text-shadow:0 0 20px rgba(127,255,90,.4),3px 3px 0 rgba(0,0,0,.5);}
   .site-header h1 span{color:var(--yellow);}
   .site-header p{color:var(--muted);font-size:.9rem;margin-top:6px;font-weight:600;}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 24px;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .18s;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 24px;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:calc(var(--fs)*.9);font-weight:800;cursor:pointer;transition:all .18s;}
   .btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a1a0a;box-shadow:0 4px 0 #2a7020,0 6px 20px rgba(127,255,90,.25);}
   .btn-green:hover{transform:translateY(-2px);box-shadow:0 6px 0 #2a7020,0 8px 28px rgba(127,255,90,.35);}
   .btn-green:active{transform:translateY(2px);box-shadow:0 2px 0 #2a7020;}
-  .btn-ghost{background:transparent;border:2px solid var(--border);color:var(--muted);font-size:.82rem;padding:8px 18px;}
+  .btn-green:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;}
+  .btn-ghost{background:transparent;border:2px solid var(--border);color:var(--muted);font-size:calc(var(--fs)*.82);padding:8px 18px;}
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
   .btn-yellow{background:linear-gradient(135deg,var(--yellow),var(--gold2));color:#1a1000;box-shadow:0 4px 0 #8a7000;font-weight:800;}
   .btn-yellow:hover{transform:translateY(-2px);}
+  .btn-confirm{background:linear-gradient(135deg,var(--teal),#1ab88a);color:#051008;box-shadow:0 4px 0 #0a7a5a;font-weight:800;}
+  .btn-confirm:hover{transform:translateY(-2px);}
+  .btn-read{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border:2px solid rgba(127,255,90,.35);border-radius:50px;background:rgba(127,255,90,.08);color:var(--accent);font-family:'Nunito',sans-serif;font-size:calc(var(--fs)*.8);font-weight:800;cursor:pointer;transition:all .2s;}
+  .btn-read:hover{background:rgba(127,255,90,.15);border-color:var(--accent);}
+  .btn-read.active{background:rgba(255,79,79,.12);border-color:var(--red2);color:var(--red);}
   .card{background:var(--panel);border:2px solid var(--border);border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+  /* ── Word highlight ── */
+  .word-span{display:inline;transition:background .1s;}
+  .word-span.hl{background:rgba(255,233,79,.45);border-radius:3px;padding:0 2px;}
+  /* ── Entry ── */
   #screen-entry{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px 0;}
   .entry-card{width:100%;max-width:420px;text-align:center;}
   .entry-card h2{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--yellow);margin-bottom:6px;}
-  .entry-card p{color:var(--muted);font-size:.88rem;margin-bottom:20px;}
+  .entry-card p{color:var(--muted);font-size:calc(var(--fs)*.88);margin-bottom:20px;}
   .monster-parade{font-size:2rem;letter-spacing:.4rem;margin-bottom:12px;animation:parade 3s linear infinite;}
   @keyframes parade{0%{letter-spacing:.4rem;}50%{letter-spacing:.6rem;}100%{letter-spacing:.4rem;}}
   .field-label{font-size:.75rem;font-weight:800;color:var(--muted);text-align:left;margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase;}
-  .text-input,select.text-input{width:100%;padding:12px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e80' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;}
+  .text-input,select.text-input{width:100%;padding:12px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:var(--fs);font-weight:700;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e80' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;}
   .text-input:focus,select.text-input:focus{border-color:var(--accent);}
   select.text-input option{background:#1c2d22;color:#e8f5e0;}
   input.text-input{background-image:none;cursor:text;}
   .divider{border:none;border-top:2px dashed var(--border);margin:18px 0;}
   .mt12{margin-top:12px;}
   .hidden{display:none!important;}
+  /* ── Nav bar ── */
   .nav-bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
   .nav-bar h2{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--accent);flex:1;}
-  .score-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 16px;font-weight:800;font-size:.82rem;color:var(--yellow);}
-  .timer-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 14px;font-weight:800;font-size:.82rem;color:var(--teal);}
+  .score-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 16px;font-weight:800;font-size:calc(var(--fs)*.82);color:var(--yellow);}
+  .timer-pill{background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:6px 14px;font-weight:800;font-size:calc(var(--fs)*.82);color:var(--teal);}
+  /* ── Font size toggle ── */
+  .fs-toggle{display:flex;align-items:center;gap:6px;background:var(--panel2);border:2px solid var(--border);border-radius:50px;padding:4px 10px;}
+  .fs-btn{background:none;border:none;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;padding:2px 6px;border-radius:20px;transition:all .15s;}
+  .fs-btn:hover,.fs-btn.active{color:var(--accent);background:rgba(127,255,90,.1);}
+  /* ── Locked banner ── */
+  .locked-banner{background:rgba(255,79,79,.1);border:2px solid var(--red2);border-radius:14px;padding:20px;text-align:center;width:100%;max-width:420px;}
+  .locked-banner h3{font-family:'Fredoka One',cursive;color:var(--red);font-size:1.2rem;margin-bottom:8px;}
+  .locked-banner p{color:var(--muted);font-size:calc(var(--fs)*.88);font-weight:600;}
+  /* ── Tab switch warning ── */
+  .tab-warning{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(255,79,79,.95);color:#fff;padding:10px 24px;border-radius:50px;font-weight:800;font-size:calc(var(--fs)*.88);z-index:200;animation:slideDown .3s ease;box-shadow:0 4px 20px rgba(255,79,79,.4);}
+  @keyframes slideDown{from{transform:translateX(-50%) translateY(-20px);opacity:0;}to{transform:translateX(-50%) translateY(0);opacity:1;}}
+
+  /* ══════════════════════════════════════
+     INSTRUCTIONS SCREEN
+  ══════════════════════════════════════ */
+  #screen-instructions{display:none;}
+  .instr-wrap{background:var(--panel);border:2px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+  .instr-header{padding:20px 24px 16px;border-bottom:2px dashed var(--border);background:rgba(127,255,90,.04);}
+  .instr-header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .instr-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--accent);}
+  .instr-body{padding:20px 24px;}
+  .instr-list{display:flex;flex-direction:column;gap:12px;}
+  .instr-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;}
+  .instr-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px;}
+  .instr-text{font-size:calc(var(--fs)*.92);font-weight:700;color:var(--text);line-height:1.6;}
+  /* Timer bar */
+  .instr-timer-wrap{padding:16px 24px;border-top:2px dashed var(--border);}
+  .instr-timer-label{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
+  .instr-timer-track{height:14px;background:var(--hp-bg);border-radius:7px;overflow:hidden;border:2px solid var(--border);margin-bottom:12px;}
+  .instr-timer-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:7px;transition:width .5s linear;}
+  .instr-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .instr-unlock-note{font-size:calc(var(--fs)*.8);font-weight:700;color:var(--muted);}
+
+  /* ══════════════════════════════════════
+     SELECT
+  ══════════════════════════════════════ */
   #screen-select{display:none;}
   .monster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-top:14px;}
   .monster-card{background:var(--panel);border:2px solid var(--border);border-radius:18px;padding:18px 12px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
@@ -59,10 +98,14 @@
   .monster-card.slain{opacity:.65;border-style:dashed;}
   .monster-card.slain::after{content:'💀 SLAIN';position:absolute;top:8px;right:8px;font-size:.58rem;font-weight:800;color:var(--accent);letter-spacing:.06em;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:20px;}
   .monster-emoji{font-size:3rem;margin-bottom:6px;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
-  .monster-name{font-family:'Fredoka One',cursive;font-size:.82rem;margin-bottom:2px;line-height:1.2;}
+  .monster-name{font-family:'Fredoka One',cursive;font-size:.82rem;margin-bottom:2px;}
   .monster-skill{font-size:.7rem;color:var(--muted);font-weight:700;}
   .mini-hp{margin-top:10px;height:6px;background:var(--hp-bg);border-radius:3px;overflow:hidden;border:1px solid var(--border);}
   .mini-hp-fill{height:100%;border-radius:3px;transition:width .4s;}
+
+  /* ══════════════════════════════════════
+     BATTLE
+  ══════════════════════════════════════ */
   #screen-battle{display:none;}
   .battle-wrap{background:var(--panel);border:2px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 10px 50px rgba(0,0,0,.6);}
   .monster-zone{padding:20px 24px 16px;display:flex;align-items:center;gap:18px;border-bottom:2px dashed var(--border);position:relative;overflow:hidden;}
@@ -85,26 +128,41 @@
   .p-avatar.hurt{animation:playerHurt .4s ease;}
   @keyframes playerHurt{0%,100%{transform:translateX(0);filter:brightness(1);}20%{transform:translateX(-10px);filter:brightness(2) sepia(1) hue-rotate(-30deg);}40%{transform:translateX(10px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
   .p-info{flex:1;min-width:0;}
-  .p-name{font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .p-name{font-weight:800;font-size:calc(var(--fs)*.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .p-label{font-size:.68rem;color:var(--muted);font-weight:700;}
   .question-zone{padding:20px 24px 14px;}
   .q-counter{font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
   .retry-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,140,42,.12);border:2px solid rgba(255,140,42,.35);border-radius:50px;padding:4px 14px;font-size:.72rem;font-weight:800;color:var(--orange);letter-spacing:.03em;margin-bottom:12px;}
-  .q-text{font-size:1rem;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:18px;}
+  .q-text{font-size:var(--fs);font-weight:700;line-height:2;color:var(--text);margin-bottom:14px;}
+  .q-read-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
   .choices{display:flex;flex-direction:column;gap:9px;}
-  .choice-btn{padding:11px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:700;text-align:left;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:10px;}
-  .choice-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(127,255,90,.07);transform:translateX(3px);}
+  .choice-btn{padding:11px 16px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:var(--fs);font-weight:700;text-align:left;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;}
+  .choice-btn:hover:not(:disabled):not(.locked){border-color:var(--accent);background:rgba(127,255,90,.07);transform:translateX(3px);}
   .choice-btn:disabled{cursor:not-allowed;}
+  .choice-btn.selected{border-color:var(--teal);background:rgba(42,255,212,.1);color:var(--teal);transform:translateX(3px);}
   .choice-btn.correct{border-color:var(--accent);background:rgba(127,255,90,.12);color:var(--accent);}
   .choice-btn.wrong{border-color:var(--red);background:rgba(255,79,79,.1);color:var(--red);}
-  .choice-letter{font-weight:800;color:var(--muted);min-width:20px;font-size:.82rem;padding-top:1px;}
-  /* Next button countdown */
-  .next-countdown{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;background:var(--panel2);border:2px solid var(--border);color:var(--muted);cursor:not-allowed;}
-  .battle-msg{margin:0 24px 14px;padding:11px 16px;border-radius:12px;font-size:.88rem;font-weight:700;min-height:42px;transition:all .25s;line-height:1.5;}
+  .choice-btn.locked{opacity:.45;cursor:not-allowed;pointer-events:none;}
+  .choice-letter{font-weight:800;color:var(--muted);min-width:20px;font-size:calc(var(--fs)*.82);padding-top:1px;}
+  /* Reading countdown */
+  .read-countdown{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:50px;font-family:'Nunito',sans-serif;font-size:calc(var(--fs)*.82);font-weight:800;background:rgba(255,216,79,.08);border:2px solid rgba(255,216,79,.3);color:var(--yellow);}
+  .next-countdown{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:50px;font-family:'Nunito',sans-serif;font-size:calc(var(--fs)*.9);font-weight:800;background:var(--panel2);border:2px solid var(--border);color:var(--muted);}
+  .battle-msg{margin:0 24px 14px;padding:11px 16px;border-radius:12px;font-size:calc(var(--fs)*.88);font-weight:700;min-height:42px;transition:all .25s;line-height:1.5;}
   .msg-neutral{background:var(--panel2);border:2px solid var(--border);color:var(--muted);}
   .msg-correct{background:rgba(127,255,90,.1);border:2px solid var(--accent2);color:var(--accent);}
   .msg-wrong{background:rgba(255,79,79,.1);border:2px solid var(--red2);color:var(--red);}
   .battle-footer{padding:10px 24px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  /* Missed Q review */
+  .missed-review{padding:16px 24px 20px;border-top:2px dashed var(--border);}
+  .missed-review h3{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--yellow);margin-bottom:12px;}
+  .missed-item{background:var(--panel2);border:2px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+  .missed-item-q{font-size:calc(var(--fs)*.88);font-weight:700;color:var(--text);margin-bottom:6px;}
+  .missed-item-a{font-size:calc(var(--fs)*.82);font-weight:800;color:var(--accent);}
+  .missed-item-wrong{font-size:calc(var(--fs)*.78);font-weight:700;color:var(--red);margin-bottom:2px;}
+
+  /* ══════════════════════════════════════
+     LEADERBOARD
+  ══════════════════════════════════════ */
   #screen-leaderboard{display:none;}
   .lb-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--yellow);}
   .lb-table{width:100%;border-collapse:collapse;}
@@ -112,6 +170,9 @@
   .lb-table td{padding:11px 14px;border-bottom:1px solid rgba(42,62,46,.5);font-weight:700;}
   .lb-table tr:first-child td{color:var(--yellow);}
   .lb-score{color:var(--accent);}
+  /* ══════════════════════════════════════
+     OVERLAYS
+  ══════════════════════════════════════ */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);}
   .overlay.show{display:flex;}
   .overlay-card{background:var(--panel);border:2px solid var(--border);border-radius:24px;padding:36px 36px 30px;max-width:440px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8);animation:popIn .28s cubic-bezier(.34,1.56,.64,1);}
@@ -121,18 +182,40 @@
   .overlay-title.green{color:var(--accent);}
   .overlay-title.red{color:var(--red);}
   .overlay-title.yellow{color:var(--yellow);}
-  .overlay-body{color:var(--muted);font-size:.9rem;font-weight:600;margin-bottom:22px;line-height:1.6;}
+  .overlay-body{color:var(--muted);font-size:calc(var(--fs)*.9);font-weight:600;margin-bottom:22px;line-height:1.6;}
   .overlay-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
   .pin-input{width:100%;padding:12px;background:var(--panel2);border:2px solid var(--border);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:800;text-align:center;letter-spacing:.3em;outline:none;margin:12px 0 6px;}
   .pin-input:focus{border-color:var(--accent);}
-  .hint-btn{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:8px 18px;background:rgba(255,233,79,.1);border:2px solid rgba(255,233,79,.35);border-radius:50px;color:var(--yellow);font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:800;cursor:pointer;transition:all .2s;}
-  .hint-btn:hover{background:rgba(255,233,79,.18);border-color:var(--yellow);transform:scale(1.03);}
-  .hint-box{margin-top:10px;padding:12px 16px;background:rgba(255,233,79,.08);border:2px solid rgba(255,233,79,.3);border-radius:12px;color:var(--yellow);font-size:.88rem;font-weight:700;line-height:1.55;animation:fadeSlide .3s ease;}
-  @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
-  .locked-banner{background:rgba(255,79,79,.1);border:2px solid var(--red2);border-radius:14px;padding:20px;text-align:center;margin-top:16px;}
-  .locked-banner h3{font-family:'Fredoka One',cursive;color:var(--red);font-size:1.2rem;margin-bottom:8px;}
-  .locked-banner p{color:var(--muted);font-size:.88rem;font-weight:600;}
-  @media(max-width:520px){.monster-zone{padding:14px 16px 12px;gap:12px;}.question-zone{padding:14px 16px 10px;}.battle-msg{margin:0 16px 12px;}.battle-footer{padding:8px 16px 16px;}.player-zone{padding:10px 16px;}.card{padding:20px 18px;}}
+  @media(max-width:520px){.monster-zone{padding:14px 16px 12px;gap:12px;}.question-zone{padding:14px 16px 10px;}.battle-msg{margin:0 16px 12px;}.battle-footer{padding:8px 16px 16px;}.player-zone{padding:10px 16px;}.card{padding:20px 18px;}.instr-body{padding:14px 16px;}.instr-timer-wrap{padding:12px 16px;}}
+
+/* ── VERTICAL FRACTIONS ── */
+.frac {
+  display: inline-grid;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  vertical-align: middle;
+  margin: 0 4px;
+  font-size: 1em;
+  line-height: 1.15;
+  position: relative;
+  top: 0;
+}
+.frac .frac-num {
+  border-bottom: 2.5px solid currentColor;
+  padding: 0 5px 2px;
+  font-weight: 800;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.frac .frac-den {
+  padding: 2px 5px 0;
+  font-weight: 800;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -142,16 +225,14 @@
     <p>SBAC Review v2 — 4th Grade &nbsp;|&nbsp; Defeat all 5 monsters to prove your mastery!</p>
   </div>
 
-  <!-- ENTRY -->
+  <!-- ═══════════════ ENTRY ═══════════════ -->
   <div id="screen-entry">
     <div class="card entry-card">
       <div class="monster-parade">🧟 👾 🐲 🧌 👹</div>
       <h2>Enter the Monster Zone!</h2>
       <p>Answer math questions correctly to zap the monsters. Wrong answers let them zap you back!</p>
       <div class="field-label">Select Your Name</div>
-      <select class="text-input" id="nameSelect" onchange="onNameSelect()">
-        <option value="">— Choose your name —</option>
-      </select>
+      <select class="text-input" id="nameSelect" onchange="onNameSelect()"><option value="">— Choose your name —</option></select>
       <div id="idSection" class="hidden" style="margin-top:14px;">
         <div class="field-label">Enter Your Student Number</div>
         <input type="password" class="text-input" id="studentIdInput" placeholder="••••••••" maxlength="12" autocomplete="off"/>
@@ -162,47 +243,81 @@
       <hr class="divider"/>
       <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 View Leaderboard</button>
     </div>
-    <div id="lockedBanner" class="hidden" style="width:100%;max-width:420px;">
-      <div class="locked-banner">
-        <h3>🔒 Already Completed!</h3>
-        <p id="lockedMsg">You already finished Math Monsters. Ask Mr. O for a PIN if you need to replay.</p>
-        <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 See Leaderboard</button>
-          <button class="btn btn-ghost" onclick="promptUnlock()">🔐 Enter PIN</button>
+    <div id="lockedBanner" class="hidden"><div class="locked-banner">
+      <h3>🔒 Already Completed!</h3>
+      <p id="lockedMsg">You already finished Math Monsters. Ask Mr. O for a PIN to replay.</p>
+      <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 See Leaderboard</button>
+        <button class="btn btn-ghost" onclick="promptPin('unlock')">🔐 Enter PIN</button>
+      </div>
+    </div></div>
+    <div id="resumeSection" class="hidden"><div class="card entry-card" style="max-width:420px;">
+      <h2 style="font-size:1.1rem;color:var(--muted);">Resume Where You Left Off?</h2>
+      <div id="resumeInfo" style="color:var(--muted);font-size:calc(var(--fs)*.85);font-weight:600;margin-bottom:14px;"></div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn btn-green" onclick="resumeGame()">⚡ Resume</button>
+        <button class="btn btn-ghost" onclick="promptPin('startfresh')">🔐 Start Fresh</button>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ═══════════════ INSTRUCTIONS ═══════════════ -->
+  <div id="screen-instructions">
+    <div class="nav-bar">
+      <h2>📋 Before You Begin</h2>
+      <div class="fs-toggle"><button class="fs-btn" onclick="setFontSize('normal')">A</button><button class="fs-btn" onclick="setFontSize('large')">A+</button></div>
+    </div>
+    <div class="instr-wrap">
+      <div class="instr-header">
+        <div class="instr-header-row">
+          <div class="instr-title">How This Game Works</div>
+          <button class="btn-read" id="readInstructionsBtn" onclick="readInstructions()">🔊 Read Aloud</button>
+        </div>
+        <p style="color:var(--muted);font-size:calc(var(--fs)*.85);font-weight:700;">Read carefully — the Start button unlocks after 1 minute and 30 seconds!</p>
+      </div>
+      <div class="instr-body">
+        <div class="instr-list" id="instrTextEl">
+          <div class="instr-item"><div class="instr-icon">👾</div><div class="instr-text">Choose a <strong>monster</strong> from the grid. Each one has 10 math questions. Answer them all correctly to <strong>slay it!</strong></div></div>
+          <div class="instr-item"><div class="instr-icon">⚡</div><div class="instr-text">Pick your answer, then tap <strong>✅ That's My Answer!</strong> to lock it in. You can change your mind before you tap that button.</div></div>
+          <div class="instr-item"><div class="instr-icon">📖</div><div class="instr-text">Every question has a <strong>15-second reading timer</strong>. The answer choices stay locked until time is up — read carefully!</div></div>
+          <div class="instr-item"><div class="instr-icon">💥</div><div class="instr-text">Wrong answers let the monster <strong>zap you back!</strong> Lose too many HP and you'll be defeated. You can retry — but retry answers are only worth <strong>5 points</strong> instead of 10.</div></div>
+          <div class="instr-item"><div class="instr-icon">🔊</div><div class="instr-text">Every question has a <strong>🔊 Read Aloud</strong> button. Tap it to hear the question read out loud with each word highlighted as it's spoken.</div></div>
+          <div class="instr-item"><div class="instr-icon">💡</div><div class="instr-text">If you missed a question on a retry, a <strong>💡 Show Hint</strong> button appears to help you out.</div></div>
+          <div class="instr-item"><div class="instr-icon">🏆</div><div class="instr-text">Defeat all 5 monsters to top the <strong>leaderboard!</strong> Your score is saved — the top scores win bonus points!</div></div>
         </div>
       </div>
-    </div>
-    <div id="resumeSection" class="hidden">
-      <div class="card entry-card" style="max-width:420px;">
-        <h2 style="font-size:1.1rem;color:var(--muted);">Resume Where You Left Off?</h2>
-        <div id="resumeInfo" style="color:var(--muted);font-size:.85rem;font-weight:600;margin-bottom:14px;"></div>
-        <div style="display:flex;gap:10px;justify-content:center;">
-          <button class="btn btn-green" onclick="resumeGame()">⚡ Resume</button>
-          <button class="btn btn-ghost" onclick="promptStartFresh()">🔐 Start Fresh</button>
+      <div class="instr-timer-wrap">
+        <div class="instr-timer-label" id="instrTimerLabel">⏳ Read carefully — button unlocks in <span id="instrCountdown">1:30</span></div>
+        <div class="instr-timer-track"><div class="instr-timer-fill" id="instrTimerFill"></div></div>
+        <div class="instr-footer">
+          <div class="instr-unlock-note" id="instrUnlockNote">⏳ Button unlocks after 1 minute and 30 seconds</div>
+          <button class="btn btn-green" id="instrReadyBtn" disabled onclick="goToSelect()">⚡ I'm Ready — Let's Fight!</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SELECT -->
+  <!-- ═══════════════ SELECT ═══════════════ -->
   <div id="screen-select">
     <div class="nav-bar">
       <h2>Choose a Monster!</h2>
       <div class="score-pill">⭐ <span id="scoreDisplay">0</span> pts</div>
       <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+      <div class="fs-toggle"><button class="fs-btn" onclick="setFontSize('normal')">A</button><button class="fs-btn" onclick="setFontSize('large')">A+</button></div>
       <button class="btn btn-ghost" onclick="showLeaderboard()">🏆 Board</button>
-      <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
+      <button class="btn btn-ghost" onclick="saveAndExit()">⏸ Pause</button>
     </div>
     <div class="monster-grid" id="monsterGrid"></div>
   </div>
 
-  <!-- BATTLE -->
+  <!-- ═══════════════ BATTLE ═══════════════ -->
   <div id="screen-battle">
     <div class="nav-bar">
       <button class="btn btn-ghost" onclick="exitBattle()">← Back</button>
       <div class="score-pill">⭐ <span id="scoreBattle">0</span> pts</div>
       <div class="timer-pill">⏱ <span id="timerBattle">0:00</span></div>
-      <button class="btn btn-ghost" onclick="saveAndExit()">💾 Save</button>
+      <div class="fs-toggle"><button class="fs-btn" onclick="setFontSize('normal')">A</button><button class="fs-btn" onclick="setFontSize('large')">A+</button></div>
+      <button class="btn btn-ghost" onclick="saveAndExit()">⏸ Pause</button>
     </div>
     <div class="battle-wrap">
       <div class="monster-zone" id="monsterZone">
@@ -210,48 +325,47 @@
         <div class="m-info">
           <div class="m-name-big" id="mName"></div>
           <div class="m-skill-tag" id="mSkillTag"></div>
-          <div class="hp-row">
-            <div class="hp-label">👾 Monster</div>
-            <div class="hp-track"><div class="hp-fill monster-fill" id="monsterHpBar" style="width:100%"></div></div>
-            <div class="hp-num" id="monsterHpNum"></div>
-          </div>
+          <div class="hp-row"><div class="hp-label">👾 Monster</div><div class="hp-track"><div class="hp-fill monster-fill" id="monsterHpBar" style="width:100%"></div></div><div class="hp-num" id="monsterHpNum"></div></div>
         </div>
       </div>
       <div class="player-zone">
         <div class="p-avatar" id="playerAvatar">🧑‍🎓</div>
-        <div class="p-info">
-          <div class="p-label">YOUR HERO</div>
-          <div class="p-name" id="playerNameBattle"></div>
-        </div>
+        <div class="p-info"><div class="p-label">YOUR HERO</div><div class="p-name" id="playerNameBattle"></div></div>
         <div style="flex:1;min-width:120px;">
-          <div class="hp-row">
-            <div class="hp-label">❤️ You</div>
-            <div class="hp-track"><div class="hp-fill player-fill" id="playerHpBar" style="width:100%"></div></div>
-            <div class="hp-num" id="playerHpNum"></div>
-          </div>
+          <div class="hp-row"><div class="hp-label">❤️ You</div><div class="hp-track"><div class="hp-fill player-fill" id="playerHpBar" style="width:100%"></div></div><div class="hp-num" id="playerHpNum"></div></div>
         </div>
       </div>
       <div class="question-zone">
         <div class="q-counter" id="qCounter"></div>
         <div id="retryBadgeSlot"></div>
         <div class="q-text" id="qText"></div>
+        <div class="q-read-row">
+          <button class="btn-read" id="qReadBtn" onclick="readQuestion()">🔊 Read Question</button>
+        </div>
         <div class="choices" id="choicesDiv"></div>
         <div id="hintArea"></div>
       </div>
       <div class="battle-msg msg-neutral" id="battleMsg">Pick the right answer to zap the monster! ⚡</div>
       <div class="battle-footer">
+        <div class="read-countdown hidden" id="readCountdownEl">📖 Read carefully — answers unlock in <span id="readCountdownNum">15</span>s</div>
+        <button class="btn btn-confirm hidden" id="confirmBtn" onclick="confirmAnswer()">✅ That's My Answer!</button>
         <button class="btn btn-green hidden" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
-        <div class="next-countdown hidden" id="countdownEl">⏳ Next in <span id="countdownNum">6</span>s</div>
+        <div class="next-countdown hidden" id="countdownEl">⏳ Next in <span id="countdownNum">10</span>s</div>
+      </div>
+      <!-- Missed Q review -->
+      <div class="missed-review hidden" id="missedReview">
+        <h3>📚 Questions You Missed — Study Before Retry!</h3>
+        <div id="missedReviewList"></div>
       </div>
     </div>
   </div>
 
-  <!-- LEADERBOARD -->
+  <!-- ═══════════════ LEADERBOARD ═══════════════ -->
   <div id="screen-leaderboard">
     <div class="nav-bar">
       <div class="lb-title">🏆 Monster Slayer Rankings</div>
       <button class="btn btn-ghost" onclick="goBack()">← Back</button>
-      <button class="btn btn-ghost" style="color:var(--red);border-color:var(--red2);" onclick="promptClear()">🗑 Clear</button>
+      <button class="btn btn-ghost" style="color:var(--red);border-color:var(--red2);" onclick="promptPin('clear')">🗑 Clear</button>
     </div>
     <div class="card" style="padding:0;overflow:hidden;">
       <table class="lb-table">
@@ -262,783 +376,1165 @@
   </div>
 </div>
 
-<!-- OVERLAYS -->
-<div class="overlay" id="victoryOverlay">
-  <div class="overlay-card">
-    <div class="overlay-icon" id="victoryIcon">🎉</div>
-    <div class="overlay-title green" id="victoryTitle">Monster Slain!</div>
-    <div class="overlay-body" id="victoryBody"></div>
-    <div class="overlay-btns"><button class="btn btn-green" onclick="closeVictory()">Keep Going! →</button></div>
+<!-- ═══════════════ OVERLAYS ═══════════════ -->
+<div class="overlay" id="victoryOverlay"><div class="overlay-card">
+  <div class="overlay-icon" id="victoryIcon">🎉</div>
+  <div class="overlay-title green" id="victoryTitle">Monster Slain!</div>
+  <div class="overlay-body" id="victoryBody"></div>
+  <div class="overlay-btns"><button class="btn btn-green" onclick="closeVictory()">Keep Going! →</button></div>
+</div></div>
+
+<div class="overlay" id="defeatOverlay"><div class="overlay-card">
+  <div class="overlay-icon">😵</div>
+  <div class="overlay-title red">The Monster Got You!</div>
+  <div class="overlay-body" id="defeatBody"></div>
+  <div class="overlay-btns">
+    <button class="btn btn-green" onclick="retryMonster()">⚡ Try Again!</button>
+    <button class="btn btn-ghost" onclick="closeDefeat()">Pick Different Monster</button>
   </div>
-</div>
-<div class="overlay" id="defeatOverlay">
-  <div class="overlay-card">
-    <div class="overlay-icon">😵</div>
-    <div class="overlay-title red">The Monster Got You!</div>
-    <div class="overlay-body" id="defeatBody"></div>
-    <div class="overlay-btns">
-      <button class="btn btn-green" onclick="retryMonster()">⚡ Try Again!</button>
-      <button class="btn btn-ghost" onclick="closeDefeat()">Pick Different Monster</button>
-    </div>
+</div></div>
+
+<div class="overlay" id="winAllOverlay"><div class="overlay-card">
+  <div class="overlay-icon">👑</div>
+  <div class="overlay-title yellow">ALL MONSTERS SLAIN!</div>
+  <div class="overlay-body" id="winAllBody"></div>
+  <div class="overlay-btns"><button class="btn btn-yellow" onclick="closeWinAll()">🏆 See Leaderboard!</button></div>
+</div></div>
+
+<div class="overlay" id="pinOverlay"><div class="overlay-card">
+  <div class="overlay-icon">🔐</div>
+  <div class="overlay-title green" id="pinTitle">Teacher Access</div>
+  <div class="overlay-body" id="pinBody">Enter the teacher PIN.</div>
+  <input type="password" class="pin-input" id="pinInput" placeholder="• • • •" maxlength="8"/>
+  <div id="pinError" style="color:var(--red);font-size:.82rem;min-height:18px;margin-bottom:10px;font-weight:700;"></div>
+  <div class="overlay-btns">
+    <button class="btn btn-green" onclick="checkPin()">Confirm</button>
+    <button class="btn btn-ghost" onclick="closePin()">Cancel</button>
   </div>
-</div>
-<div class="overlay" id="winAllOverlay">
-  <div class="overlay-card">
-    <div class="overlay-icon">👑</div>
-    <div class="overlay-title yellow">ALL MONSTERS SLAIN!</div>
-    <div class="overlay-body" id="winAllBody"></div>
-    <div class="overlay-btns"><button class="btn btn-yellow" onclick="closeWinAll()">🏆 See Leaderboard!</button></div>
-  </div>
-</div>
-<div class="overlay" id="pinOverlay">
-  <div class="overlay-card">
-    <div class="overlay-icon">🔐</div>
-    <div class="overlay-title green" id="pinTitle">Teacher Access</div>
-    <div class="overlay-body" id="pinBody">Enter the teacher PIN.</div>
-    <input type="password" class="pin-input" id="pinInput" placeholder="• • • •" maxlength="8"/>
-    <div id="pinError" style="color:var(--red);font-size:.82rem;min-height:18px;margin-bottom:10px;font-weight:700;"></div>
-    <div class="overlay-btns">
-      <button class="btn btn-green" onclick="checkPin()">Confirm</button>
-      <button class="btn btn-ghost" onclick="closePin()">Cancel</button>
-    </div>
-  </div>
-</div>
+</div></div>
 
 <script>
 // ═══════════════════════════════════════════════════
 //  ROSTER
 // ═══════════════════════════════════════════════════
-const ROSTER = [
-  { name: 'Mr. O (Teacher)',            id: '9377'     },
-  { name: 'Aquino-Perez, Steven',       id: '10048814' },
-  { name: 'Camas-Alvarez, Mike',        id: '10060436' },
-  { name: 'Earle, Jeremiah',            id: '10038362' },
-  { name: 'Felix, Chloe',              id: '10065242' },
-  { name: 'Flores Marcos, Cornelio',   id: '10037877' },
-  { name: "Gardner, Zy'iere",          id: '10057389' },
-  { name: 'Giraldo, Layla',            id: '10053382' },
-  { name: 'Lawrence, Lennox',          id: '10045050' },
-  { name: 'Michael, Mulan',            id: '10051762' },
-  { name: 'Millet, Zion',              id: '10053340' },
-  { name: 'Murillo Estrada, Kevin',    id: '10065967' },
-  { name: 'Romaniello, Kaylib',        id: '10041081' },
-  { name: 'Sanango-Quizhpi, Anthony',  id: '10065990' },
-  { name: 'Santos-Bautista, Scarlet',  id: '10062436' },
-  { name: 'Simpson, Jordyn',           id: '10045306' },
-  { name: 'Torres, Aryana',            id: '10053178' },
-  { name: 'Towns, Micah',              id: '10043892' },
-  { name: 'Ulerio-Jimenez, Adrian',    id: '10061117' }
+const ROSTER=[
+  {name:'Mr. O (Teacher)',id:'9377'},
+  {name:'Aquino-Perez, Steven',id:'10048814'},
+  {name:'Camas-Alvarez, Mike',id:'10060436'},
+  {name:'Earle, Jeremiah',id:'10038362'},
+  {name:'Felix, Chloe',id:'10065242'},
+  {name:'Flores Marcos, Cornelio',id:'10037877'},
+  {name:"Gardner, Zy'iere",id:'10057389'},
+  {name:'Giraldo, Layla',id:'10053382'},
+  {name:'Lawrence, Lennox',id:'10045050'},
+  {name:'Michael, Mulan',id:'10051762'},
+  {name:'Millet, Zion',id:'10053340'},
+  {name:'Murillo Estrada, Kevin',id:'10065967'},
+  {name:'Romaniello, Kaylib',id:'10041081'},
+  {name:'Sanango-Quizhpi, Anthony',id:'10065990'},
+  {name:'Santos-Bautista, Scarlet',id:'10062436'},
+  {name:'Simpson, Jordyn',id:'10045306'},
+  {name:'Torres, Aryana',id:'10053178'},
+  {name:'Towns, Micah',id:'10043892'},
+  {name:'Ulerio-Jimenez, Adrian',id:'10061117'}
 ];
 
 // ═══════════════════════════════════════════════════
-//  MONSTER DATA — 10 questions each, all new
-//  All answers balanced via runtime shuffle
+//  MONSTER DATA — 10 questions each
 // ═══════════════════════════════════════════════════
-const MONSTERS = [
-  {
-    id:'fractions', name:'Fraction Phantom', skill:'Fractions', emoji:'👻',
-    color:'#c44fff', tagBg:'rgba(196,79,255,.15)', tagColor:'#c44fff',
-    questions:[
-      { text:'Which fraction is equivalent to 3/6?', choices:['1/2','2/3','3/4','4/8'], correct:0, hint:'💡 Divide both the top and bottom number by 3.' },
-      { text:'What is 2/5 + 2/5?', choices:['4/5','4/10','1/5','2/5'], correct:0, hint:'💡 When the bottom numbers match, just add the top numbers.' },
-      { text:'Which fraction is less than 1/2?\n\n3/4 &nbsp;&nbsp; 2/6 &nbsp;&nbsp; 5/8 &nbsp;&nbsp; 4/6', choices:['2/6','3/4','5/8','4/6'], correct:0, hint:'💡 Try converting each fraction so they all have the same denominator, then compare.' },
-      { text:'A pizza was cut into 8 equal slices. Omar ate 3 slices and his sister ate 2 slices. What fraction of the pizza did they eat together?', choices:['5/8','5/16','1/2','6/8'], correct:0, hint:'💡 Add the slices eaten together, then write that number over the total number of slices.' },
-      { text:'What is 7/10 − 3/10?', choices:['4/10','4/20','3/10','1/2'], correct:0, hint:'💡 The denominators are the same — just subtract the top numbers.' },
-      { text:'Which pair of fractions is equivalent?', choices:['2/4 and 3/6','1/2 and 2/3','3/4 and 4/5','1/3 and 2/4'], correct:0, hint:'💡 Equivalent fractions name the same amount. Try simplifying or cross-multiplying to check.' },
-      { text:'Maya had 4/6 of a granola bar left. She ate 1/6 more. How much does she have left?', choices:['3/6','3/12','5/6','2/6'], correct:0, hint:'💡 Subtract: 4/6 minus 1/6. The denominators already match.' },
-      { text:'Which list shows fractions ordered from greatest to least?\n\n5/6 &nbsp;&nbsp; 1/2 &nbsp;&nbsp; 2/3 &nbsp;&nbsp; 1/6', choices:['5/6, 2/3, 1/2, 1/6','2/3, 5/6, 1/2, 1/6','1/6, 1/2, 2/3, 5/6','5/6, 1/2, 2/3, 1/6'], correct:0, hint:'💡 Convert all fractions to sixths first, then order them from largest to smallest.' },
-      { text:'A recipe needs 3/4 cup of sugar. James wants to make half the recipe. How much sugar does he need?', choices:['3/8','1/4','3/4','6/8'], correct:0, hint:'💡 Half of 3/4 means dividing 3/4 by 2 — or multiplying by 1/2.' },
-      { text:'Which fraction is greater than 3/4?', choices:['7/8','2/3','1/2','3/6'], correct:0, hint:'💡 Convert each fraction to eighths to compare them more easily.' }
-    ]
-  },
-  {
-    id:'multiplication', name:'Multiplication Mutant', skill:'Multiplication', emoji:'👾',
-    color:'#ff8c2a', tagBg:'rgba(255,140,42,.15)', tagColor:'#ff8c2a',
-    questions:[
-      { text:'What is 7 × 8?', choices:['56','54','64','48'], correct:0, hint:'💡 Count by 8s seven times: 8, 16, 24, 32, 40, 48, 56.' },
-      { text:'A carton holds 12 eggs. How many eggs are in 9 cartons?', choices:['108','96','112','120'], correct:0, hint:'💡 Multiply: 12 × 9. Try (10 × 9) + (2 × 9).' },
-      { text:'What is 46 × 3?', choices:['138','126','148','136'], correct:0, hint:'💡 Break it up: (40 × 3) + (6 × 3) = 120 + 18.' },
-      { text:'A store has 8 shelves with 24 cans on each shelf. How many cans are there in all?', choices:['192','180','196','176'], correct:0, hint:'💡 Try (8 × 20) + (8 × 4) using the distributive property.' },
-      { text:'Which equation shows the distributive property for 6 × 14?', choices:['(6 × 10) + (6 × 4)','6 + 14','60 × 4','6 × 1 × 4'], correct:0, hint:'💡 The distributive property means breaking the larger number apart and multiplying each piece.' },
-      { text:'What is 5 × 300?', choices:['1,500','500','1,000','15,000'], correct:0, hint:'💡 First do 5 × 3 = 15, then add the two zeros from 300.' },
-      { text:'A farmer plants 15 rows of corn with 22 plants in each row. How many plants are there in all?', choices:['330','300','310','320'], correct:0, hint:'💡 Try (15 × 20) + (15 × 2) = 300 + 30.' },
-      { text:'What is 9 × 9?', choices:['81','72','90','79'], correct:0, hint:'💡 Think: 9 × 10 = 90, then subtract one group of 9.' },
-      { text:'There are 4 buses. Each bus holds 48 students. How many students can ride in all?', choices:['192','180','196','188'], correct:0, hint:'💡 Try (4 × 40) + (4 × 8) = 160 + 32.' },
-      { text:'A library has 6 rooms. Each room has 125 books. How many books are in the library altogether?', choices:['750','700','720','760'], correct:0, hint:'💡 Try (6 × 100) + (6 × 25) = 600 + 150.' }
-    ]
-  },
-  {
-    id:'division', name:'Division Devourer', skill:'Division', emoji:'🐲',
-    color:'#ff4f4f', tagBg:'rgba(255,79,79,.15)', tagColor:'#ff4f4f',
-    questions:[
-      { text:'What is 63 ÷ 7?', choices:['9','8','7','6'], correct:0, hint:'💡 Think: what number times 7 equals 63?' },
-      { text:'48 students are divided equally into 6 groups. How many students are in each group?', choices:['8','7','9','6'], correct:0, hint:'💡 Ask yourself: what times 6 equals 48?' },
-      { text:'What is 90 ÷ 6?', choices:['15','12','18','14'], correct:0, hint:'💡 Try 60 ÷ 6 = 10, then 30 ÷ 6 = 5. Add them together.' },
-      { text:'A baker made 144 cookies to pack equally into boxes of 12. How many boxes will she fill?', choices:['12','11','14','10'], correct:0, hint:'💡 Think: 12 × 10 = 120, 12 × 12 = 144. Check your multiplication facts.' },
-      { text:'What is 200 ÷ 5?', choices:['40','20','50','25'], correct:0, hint:'💡 Try 100 ÷ 5 = 20. Then double it since you have 200.' },
-      { text:'A class of 28 students needs to form equal teams of 4. How many teams will there be?', choices:['7','6','8','9'], correct:0, hint:'💡 Ask: how many groups of 4 fit inside 28?' },
-      { text:'What is 108 ÷ 9?', choices:['12','11','13','10'], correct:0, hint:'💡 Try 90 ÷ 9 = 10, then 18 ÷ 9 = 2. Add the results.' },
-      { text:'Mr. O has 84 stickers to share equally among 7 students. How many stickers does each student get?', choices:['12','11','13','14'], correct:0, hint:'💡 Think: 7 × 10 = 70, 7 × 12 = 84. Check your work.' },
-      { text:'A store received 156 oranges packed equally into 6 crates. How many oranges are in each crate?', choices:['26','24','28','22'], correct:0, hint:'💡 Try 120 ÷ 6 = 20, then 36 ÷ 6 = 6. Add them.' },
-      { text:'What is 225 ÷ 5?', choices:['45','40','50','55'], correct:0, hint:'💡 Try 200 ÷ 5 = 40, then 25 ÷ 5 = 5. Add the results.' }
-    ]
-  },
-  {
-    id:'wordproblems', name:'Word Problem Witch', skill:'Word Problems', emoji:'🧌',
-    color:'#2affd4', tagBg:'rgba(42,255,212,.12)', tagColor:'#2affd4',
-    questions:[
-      { text:'A school collected 348 cans of food on Monday and 275 cans on Tuesday. How many cans did they collect in all?', choices:['623','613','633','603'], correct:0, hint:'💡 "In all" means add. Line up your digits and regroup carefully.' },
-      { text:'Layla had 503 beads. She used 267 beads to make a bracelet. How many beads does she have left?', choices:['236','246','226','256'], correct:0, hint:'💡 "How many left" means subtract. Watch out for regrouping with zero.' },
-      { text:'A theater has 24 rows of seats with 18 seats in each row. How many seats are there in all?', choices:['432','412','442','422'], correct:0, hint:'💡 Multiply: try (24 × 20) − (24 × 2) = 480 − 48.' },
-      { text:'Jordan earns $9 per hour walking dogs. Last week she worked 8 hours. How much money did she earn?', choices:['$72','$62','$82','$64'], correct:0, hint:'💡 Same amount per hour means multiply: 9 × 8.' },
-      { text:'A box of 96 pencils is shared equally among 8 classrooms. How many pencils does each classroom get?', choices:['12','11','13','14'], correct:0, hint:'💡 Equal sharing = division. Ask: 8 × ? = 96.' },
-      { text:'There are 5 shelves of books. Each shelf has 32 books. The librarian added 14 more books. How many books are there now?', choices:['174','160','164','184'], correct:0, hint:'💡 Two steps: first multiply to find the total, then add the new books.' },
-      { text:'A school ordered 9 cases of juice. Each case holds 24 cartons. Students drank 48 cartons at lunch. How many cartons are left?', choices:['168','156','148','172'], correct:0, hint:'💡 Two steps: multiply to find the total cartons, then subtract what was used.' },
-      { text:'Micah read 124 pages last week and 98 pages this week. His goal is 250 pages. How many more pages does he need to reach his goal?', choices:['28','38','18','48'], correct:0, hint:'💡 Two steps: add the pages already read, then subtract from the goal.' },
-      { text:'Four friends split the cost of a gift equally. The gift costs $68. How much does each person pay?', choices:['$17','$14','$16','$18'], correct:0, hint:'💡 Equal sharing = division. Divide the total cost by the number of friends.' },
-      { text:'A garden has 7 rows of tomatoes with 16 plants per row, and 5 rows of peppers with 12 plants per row. How many plants are there in all?', choices:['172','152','162','182'], correct:0, hint:'💡 Three steps: multiply each type of plant separately, then add both products together.' }
-    ]
-  },
-  {
-    id:'geometry', name:'Geometry Goblin', skill:'Geometry & Measurement', emoji:'👹',
-    color:'#4fbfff', tagBg:'rgba(79,191,255,.12)', tagColor:'#4fbfff',
-    questions:[
-      { text:'A rectangle has a length of 12 cm and a width of 7 cm. What is the perimeter?', choices:['38 cm','34 cm','42 cm','40 cm'], correct:0, hint:'💡 Perimeter = 2 × (length + width). Add length and width first, then double it.' },
-      { text:'A square has a side length of 9 inches. What is the area?', choices:['81 sq in','36 sq in','45 sq in','72 sq in'], correct:0, hint:'💡 Area of a square = side × side.' },
-      { text:'A rectangle is 11 m long and 4 m wide. What is the area?', choices:['44 sq m','30 sq m','48 sq m','40 sq m'], correct:0, hint:'💡 Area of a rectangle = length × width.' },
-      { text:'Which type of angle measures exactly 90 degrees?', choices:['Right angle','Acute angle','Obtuse angle','Straight angle'], correct:0, hint:'💡 A right angle looks like the corner of a square or the letter L.' },
-      { text:'How many lines of symmetry does a square have?', choices:['4','2','1','0'], correct:0, hint:'💡 A line of symmetry divides a shape into two mirror-image halves. A square can be folded in more ways than a rectangle.' },
-      { text:'A shape has 3 sides and 3 angles. What is it called?', choices:['Triangle','Rectangle','Pentagon','Hexagon'], correct:0, hint:'💡 Count the sides: tri means three.' },
-      { text:'A park is shaped like a rectangle. It is 25 meters long and 14 meters wide. What is the perimeter of the park?', choices:['78 m','70 m','80 m','88 m'], correct:0, hint:'💡 Add length + width = 39, then double it for all 4 sides.' },
-      { text:'An angle that is greater than 90 degrees but less than 180 degrees is called a(n) __________.', choices:['Obtuse angle','Acute angle','Right angle','Straight angle'], correct:0, hint:'💡 Think of it as an angle that is "blunt" or wide — wider than a right angle but not flat.' },
-      { text:'A classroom floor is 9 meters long and 8 meters wide. What is the area of the floor?', choices:['72 sq m','64 sq m','80 sq m','68 sq m'], correct:0, hint:'💡 Area = length × width. Multiply the two dimensions.' },
-      { text:'Which of the following shapes has exactly one pair of parallel sides?', choices:['Trapezoid','Rectangle','Square','Rhombus'], correct:0, hint:'💡 Parallel sides never meet. Which shape has only one set of sides that run in the same direction?' }
-    ]
-  }
+const MONSTERS=[
+  {id:'fractions',name:'Fraction Phantom',skill:'Fractions',emoji:'👻',color:'#c44fff',tagBg:'rgba(196,79,255,.15)',tagColor:'#c44fff',questions:[
+    {text:'Which fraction is equivalent to 3/6?',choices:['1/2','2/3','3/4','4/8'],correct:0,hint:'💡 Divide both the top and bottom number by 3.'},
+    {text:'What is 2/5 + 2/5?',choices:['4/5','4/10','1/5','2/5'],correct:0,hint:'💡 When the bottom numbers match, just add the top numbers.'},
+    {text:'Which fraction is less than 1/2?\n\n3/4 &nbsp;&nbsp; 2/6 &nbsp;&nbsp; 5/8 &nbsp;&nbsp; 4/6',choices:['2/6','3/4','5/8','4/6'],correct:0,hint:'💡 Try converting each fraction to the same denominator, then compare.'},
+    {text:'A pizza was cut into 8 equal slices. Omar ate 3 slices and his sister ate 2 slices. What fraction of the pizza did they eat together?',choices:['5/8','5/16','1/2','6/8'],correct:0,hint:'💡 Add the slices eaten, then write that number over the total slices.'},
+    {text:'What is 7/10 − 3/10?',choices:['4/10','4/20','3/10','1/2'],correct:0,hint:'💡 The denominators are the same — just subtract the top numbers.'},
+    {text:'Which pair of fractions is equivalent?',choices:['2/4 and 3/6','1/2 and 2/3','3/4 and 4/5','1/3 and 2/4'],correct:0,hint:'💡 Equivalent fractions name the same amount. Try simplifying each one.'},
+    {text:'Maya had 4/6 of a granola bar left. She ate 1/6 more. How much does she have left?',choices:['3/6','3/12','5/6','2/6'],correct:0,hint:'💡 Subtract: 4/6 minus 1/6. The denominators already match.'},
+    {text:'Which list shows fractions ordered from greatest to least?\n\n5/6 &nbsp;&nbsp; 1/2 &nbsp;&nbsp; 2/3 &nbsp;&nbsp; 1/6',choices:['5/6, 2/3, 1/2, 1/6','2/3, 5/6, 1/2, 1/6','1/6, 1/2, 2/3, 5/6','5/6, 1/2, 2/3, 1/6'],correct:0,hint:'💡 Convert all fractions to sixths first, then order from largest to smallest.'},
+    {text:'A recipe needs 3/4 cup of sugar. James wants to make half the recipe. How much sugar does he need?',choices:['3/8','1/4','3/4','6/8'],correct:0,hint:'💡 Half of 3/4 means dividing 3/4 by 2 — or multiplying by 1/2.'},
+    {text:'Which fraction is greater than 3/4?',choices:['7/8','2/3','1/2','3/6'],correct:0,hint:'💡 Convert each fraction to eighths to compare them more easily.'}
+  ]},
+  {id:'multiplication',name:'Multiplication Mutant',skill:'Multiplication',emoji:'👾',color:'#ff8c2a',tagBg:'rgba(255,140,42,.15)',tagColor:'#ff8c2a',questions:[
+    {text:'What is 7 × 8?',choices:['56','54','64','48'],correct:0,hint:'💡 Count by 8s seven times: 8, 16, 24, 32, 40, 48, 56.'},
+    {text:'A carton holds 12 eggs. How many eggs are in 9 cartons?',choices:['108','96','112','120'],correct:0,hint:'💡 Try (10 × 9) + (2 × 9) = 90 + 18.'},
+    {text:'What is 46 × 3?',choices:['138','126','148','136'],correct:0,hint:'💡 Break it up: (40 × 3) + (6 × 3) = 120 + 18.'},
+    {text:'A store has 8 shelves with 24 cans on each shelf. How many cans are there in all?',choices:['192','180','196','176'],correct:0,hint:'💡 Try (8 × 20) + (8 × 4) using the distributive property.'},
+    {text:'Which equation shows the distributive property for 6 × 14?',choices:['(6 × 10) + (6 × 4)','6 + 14','60 × 4','6 × 1 × 4'],correct:0,hint:'💡 Break the larger number apart and multiply each piece separately.'},
+    {text:'What is 5 × 300?',choices:['1,500','500','1,000','15,000'],correct:0,hint:'💡 First do 5 × 3 = 15, then add the two zeros from 300.'},
+    {text:'A farmer plants 15 rows of corn with 22 plants in each row. How many plants are there in all?',choices:['330','300','310','320'],correct:0,hint:'💡 Try (15 × 20) + (15 × 2) = 300 + 30.'},
+    {text:'What is 9 × 9?',choices:['81','72','90','79'],correct:0,hint:'💡 Think: 9 × 10 = 90, then subtract one group of 9.'},
+    {text:'There are 4 buses. Each bus holds 48 students. How many students can ride in all?',choices:['192','180','196','188'],correct:0,hint:'💡 Try (4 × 40) + (4 × 8) = 160 + 32.'},
+    {text:'A library has 6 rooms. Each room has 125 books. How many books are in the library altogether?',choices:['750','700','720','760'],correct:0,hint:'💡 Try (6 × 100) + (6 × 25) = 600 + 150.'}
+  ]},
+  {id:'division',name:'Division Devourer',skill:'Division',emoji:'🐲',color:'#ff4f4f',tagBg:'rgba(255,79,79,.15)',tagColor:'#ff4f4f',questions:[
+    {text:'What is 63 ÷ 7?',choices:['9','8','7','6'],correct:0,hint:'💡 Think: what number times 7 equals 63?'},
+    {text:'48 students are divided equally into 6 groups. How many students are in each group?',choices:['8','7','9','6'],correct:0,hint:'💡 Ask: what times 6 equals 48?'},
+    {text:'What is 90 ÷ 6?',choices:['15','12','18','14'],correct:0,hint:'💡 Try 60 ÷ 6 = 10, then 30 ÷ 6 = 5. Add them together.'},
+    {text:'A baker made 144 cookies to pack equally into boxes of 12. How many boxes will she fill?',choices:['12','11','14','10'],correct:0,hint:'💡 Think: 12 × 10 = 120, 12 × 12 = 144.'},
+    {text:'What is 200 ÷ 5?',choices:['40','20','50','25'],correct:0,hint:'💡 Try 100 ÷ 5 = 20, then double it since you have 200.'},
+    {text:'A class of 28 students needs to form equal teams of 4. How many teams will there be?',choices:['7','6','8','9'],correct:0,hint:'💡 Ask: how many groups of 4 fit inside 28?'},
+    {text:'What is 108 ÷ 9?',choices:['12','11','13','10'],correct:0,hint:'💡 Try 90 ÷ 9 = 10, then 18 ÷ 9 = 2. Add the results.'},
+    {text:'Mr. O has 84 stickers to share equally among 7 students. How many stickers does each student get?',choices:['12','11','13','14'],correct:0,hint:'💡 Think: 7 × 12 = 84. Check your work.'},
+    {text:'A store received 156 oranges packed equally into 6 crates. How many oranges are in each crate?',choices:['26','24','28','22'],correct:0,hint:'💡 Try 120 ÷ 6 = 20, then 36 ÷ 6 = 6. Add them.'},
+    {text:'What is 225 ÷ 5?',choices:['45','40','50','55'],correct:0,hint:'💡 Try 200 ÷ 5 = 40, then 25 ÷ 5 = 5. Add the results.'}
+  ]},
+  {id:'wordproblems',name:'Word Problem Witch',skill:'Word Problems',emoji:'🧌',color:'#2affd4',tagBg:'rgba(42,255,212,.12)',tagColor:'#2affd4',questions:[
+    {text:'A school collected 348 cans of food on Monday and 275 cans on Tuesday. How many cans did they collect in all?',choices:['623','613','633','603'],correct:0,hint:'💡 "In all" means add. Line up your digits carefully and regroup.'},
+    {text:'Layla had 503 beads. She used 267 beads to make a bracelet. How many beads does she have left?',choices:['236','246','226','256'],correct:0,hint:'💡 "How many left" means subtract. Watch out for regrouping with zero.'},
+    {text:'A theater has 24 rows of seats with 18 seats in each row. How many seats are there in all?',choices:['432','412','442','422'],correct:0,hint:'💡 Try (24 × 20) − (24 × 2) = 480 − 48.'},
+    {text:'Jordan earns $9 per hour walking dogs. Last week she worked 8 hours. How much money did she earn?',choices:['$72','$62','$82','$64'],correct:0,hint:'💡 Same amount per hour means multiply: 9 × 8.'},
+    {text:'A box of 96 pencils is shared equally among 8 classrooms. How many pencils does each classroom get?',choices:['12','11','13','14'],correct:0,hint:'💡 Equal sharing = division. Ask: 8 × ? = 96.'},
+    {text:'There are 5 shelves of books. Each shelf has 32 books. The librarian added 14 more books. How many books are there now?',choices:['174','160','164','184'],correct:0,hint:'💡 Two steps: first multiply to find the total, then add the new books.'},
+    {text:'A school ordered 9 cases of juice. Each case holds 24 cartons. Students drank 48 cartons at lunch. How many cartons are left?',choices:['168','156','148','172'],correct:0,hint:'💡 Two steps: multiply to find total cartons, then subtract what was used.'},
+    {text:'Micah read 124 pages last week and 98 pages this week. His goal is 250 pages. How many more pages does he need?',choices:['28','38','18','48'],correct:0,hint:'💡 Two steps: add the pages already read, then subtract from the goal.'},
+    {text:'Four friends split the cost of a gift equally. The gift costs $68. How much does each person pay?',choices:['$17','$14','$16','$18'],correct:0,hint:'💡 Equal sharing = division. Divide the total cost by the number of friends.'},
+    {text:'A garden has 7 rows of tomatoes with 16 plants per row, and 5 rows of peppers with 12 plants per row. How many plants are there in all?',choices:['172','152','162','182'],correct:0,hint:'💡 Three steps: multiply each type separately, then add both products together.'}
+  ]},
+  {id:'geometry',name:'Geometry Goblin',skill:'Geometry & Measurement',emoji:'👹',color:'#4fbfff',tagBg:'rgba(79,191,255,.12)',tagColor:'#4fbfff',questions:[
+    {text:'A rectangle has a length of 12 cm and a width of 7 cm. What is the perimeter?',choices:['38 cm','34 cm','42 cm','40 cm'],correct:0,hint:'💡 Perimeter = 2 × (length + width). Add length and width first, then double it.'},
+    {text:'A square has a side length of 9 inches. What is the area?',choices:['81 sq in','36 sq in','45 sq in','72 sq in'],correct:0,hint:'💡 Area of a square = side × side.'},
+    {text:'A rectangle is 11 m long and 4 m wide. What is the area?',choices:['44 sq m','30 sq m','48 sq m','40 sq m'],correct:0,hint:'💡 Area of a rectangle = length × width.'},
+    {text:'Which type of angle measures exactly 90 degrees?',choices:['Right angle','Acute angle','Obtuse angle','Straight angle'],correct:0,hint:'💡 A right angle looks like the corner of a square or the letter L.'},
+    {text:'How many lines of symmetry does a square have?',choices:['4','2','1','0'],correct:0,hint:'💡 A square can be folded in more ways than a rectangle — try all directions.'},
+    {text:'A shape has 3 sides and 3 angles. What is it called?',choices:['Triangle','Rectangle','Pentagon','Hexagon'],correct:0,hint:'💡 Tri means three.'},
+    {text:'A park is shaped like a rectangle. It is 25 meters long and 14 meters wide. What is the perimeter of the park?',choices:['78 m','70 m','80 m','88 m'],correct:0,hint:'💡 Add length + width = 39, then double it for all 4 sides.'},
+    {text:'An angle that is greater than 90 degrees but less than 180 degrees is called a(n) __________.', choices:['Obtuse angle','Acute angle','Right angle','Straight angle'],correct:0,hint:'💡 Think of it as wide — wider than a right angle but not flat.'},
+    {text:'A classroom floor is 9 meters long and 8 meters wide. What is the area of the floor?',choices:['72 sq m','64 sq m','80 sq m','68 sq m'],correct:0,hint:'💡 Area = length × width. Multiply the two dimensions.'},
+    {text:'Which of the following shapes has exactly one pair of parallel sides?',choices:['Trapezoid','Rectangle','Square','Rhombus'],correct:0,hint:'💡 Parallel sides never meet. Which shape has only one set running in the same direction?'}
+  ]}
 ];
 
 // ═══════════════════════════════════════════════════
 //  CONSTANTS
 // ═══════════════════════════════════════════════════
-const SAVE_KEY     = 'mathMonsters_v3_save';
-const LB_KEY       = 'mathMonsters_v3_lb';
-const LOCK_KEY     = 'mathMonsters_v3_lock';
-const TEACHER_PIN  = '9377';
-const MAX_HP       = 100;
-const DMG          = Math.floor(MAX_HP / 3);
-const PTS_FIRST    = 10;
-const PTS_RETRY    = 5;
-const MAX_SCORE    = MONSTERS.length * MONSTERS[0].questions.length * PTS_FIRST; // 500
-const NEXT_DELAY   = 6000; // ms
-const SHEET_URL    = 'https://script.google.com/macros/s/AKfycby10TlvNfSkSUsSt6wkLXyYXrtDct_0MDVnzCbdKESwpofPlKUf6lVoRbGdLCeMAhpZAg/exec';
+const SAVE_KEY    ='mathMonsters_v3_save';
+const LB_KEY      ='mathMonsters_v3_lb';
+const LOCK_KEY    ='mathMonsters_v3_lock';
+const TEACHER_PIN ='9377';
+const MAX_HP      =100;
+const DMG         =Math.floor(MAX_HP/3);
+const PTS_FIRST   =10;
+const PTS_RETRY   =5;
+const MAX_SCORE   =MONSTERS.length*MONSTERS[0].questions.length*PTS_FIRST; // 500
+const SHEET_URL   ='https://script.google.com/macros/s/AKfycby10TlvNfSkSUsSt6wkLXyYXrtDct_0MDVnzCbdKESwpofPlKUf6lVoRbGdLCeMAhpZAg/exec';
+const INSTR_SECS  =90; // 1:30 instructions lock
 
 // ═══════════════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════════════
-function genSessionId() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function genSessionId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function shuffleQuestions(questions){return shuffle(questions).map(q=>{const ct=q.choices[q.correct];const sc=shuffle(q.choices);return{...q,choices:sc,correct:sc.indexOf(ct)};});}
+function formatTime(s){if(s==null)return'—';const m=Math.floor(s/60),sec=s%60;return`${m}:${String(sec).padStart(2,'0')}`;}
+function capScore(s){return Math.min(s,MAX_SCORE);}
+
+// ═══════════════════════════════════════════════════
+//  FONT SIZE
+// ═══════════════════════════════════════════════════
+function setFontSize(size){
+  const val=size==='large'?'1.18rem':'1rem';
+  document.documentElement.style.setProperty('--fs',val);
+  document.querySelectorAll('.fs-btn').forEach(b=>{b.classList.toggle('active',(size==='large'&&b.textContent==='A+')||(size==='normal'&&b.textContent==='A'));});
+  localStorage.setItem('mathMonsters_fs',size);
 }
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+// ═══════════════════════════════════════════════════
+//  READ ALOUD — charIndex-matched highlighting engine
+//  charOffset recorded per span at wrap time;
+//  boundary event finds closest span by position.
+// ═══════════════════════════════════════════════════
+let currentWordSpans=[];   // top-level — never inside functions
+let currentHighlightIdx=0; // top-level — never inside functions
+
+/**
+ * Wraps every word in el's text nodes with <span class="word-span">.
+ * Also builds a flat speechText string and stores charOffset on each span
+ * so boundary events can find the right span by charIndex lookup.
+ * Returns { spans, speechText }.
+ */
+function wrapWordsInEl(el){
+  // 1. Walk text nodes and replace each word with a span
+  function wrapTextNode(node){
+    const parts=node.textContent.split(/(\s+)/);
+    const frag=document.createDocumentFragment();
+    parts.forEach(p=>{
+      if(/^\s+$/.test(p)||p===''){
+        frag.appendChild(document.createTextNode(p));
+      } else {
+        const span=document.createElement('span');
+        span.className='word-span';
+        span.textContent=p;
+        frag.appendChild(span);
+      }
+    });
+    node.parentNode.replaceChild(frag,node);
   }
-  return a;
-}
+  function walkNodes(node){
+    if(node.nodeType===3){wrapTextNode(node);return;}
+    [...node.childNodes].forEach(walkNodes);
+  }
+  walkNodes(el);
 
-// Shuffle questions and remap correct answer index
-function shuffleQuestions(questions) {
-  return shuffle(questions).map(q => {
-    const correctText = q.choices[q.correct];
-    const shuffledChoices = shuffle(q.choices);
-    return { ...q, choices: shuffledChoices, correct: shuffledChoices.indexOf(correctText) };
+  // 2. Build speechText stripped of emojis; stamp each span's _charOffset
+  //    against the emoji-free string so charIndex lookup stays aligned.
+  const EMOJI_RE=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
+  const spans=Array.from(el.querySelectorAll('.word-span'));
+  let speechText='';
+  const spokenSpans=[];
+  spans.forEach((span,i)=>{
+    const spoken=span.textContent.replace(EMOJI_RE,'').trim();
+    if(!spoken){span._charOffset=-1;return;} // emoji-only token — skip
+    span._charOffset=speechText.length;
+    speechText+=spoken;
+    if(i<spans.length-1) speechText+=' ';
+    spokenSpans.push(span);
   });
+  return {spans:spokenSpans, speechText};
 }
 
-function formatTime(s) {
-  if (s == null) return '—';
-  const m = Math.floor(s / 60), sec = s % 60;
-  return `${m}:${String(sec).padStart(2, '0')}`;
+function clearHighlights(){
+  currentWordSpans.forEach(s=>{if(s)s.classList.remove('hl');});
+  currentHighlightIdx=0;
 }
 
-function capScore(s) { return Math.min(s, MAX_SCORE); }
+let _keepAliveTimer=null;
+function stopReading(){
+  window.speechSynthesis&&window.speechSynthesis.cancel();
+  if(_keepAliveTimer){clearInterval(_keepAliveTimer);_keepAliveTimer=null;}
+  clearHighlights();
+  const instrBtn=document.getElementById('readInstructionsBtn');
+  if(instrBtn){instrBtn.textContent='🔊 Read Aloud';instrBtn.classList.remove('active');}
+  const qBtn=document.getElementById('qReadBtn');
+  if(qBtn){qBtn.textContent='🔊 Read Question';qBtn.classList.remove('active');}
+}
+
+/**
+ * Core highlight handler — finds the span whose _charOffset is
+ * closest to e.charIndex without going over (lower-bound binary search).
+ */
+function highlightAtChar(charIndex){
+  let lo=0,hi=currentWordSpans.length-1,best=0;
+  while(lo<=hi){
+    const mid=(lo+hi)>>1;
+    if(currentWordSpans[mid]._charOffset<=charIndex){best=mid;lo=mid+1;}
+    else{hi=mid-1;}
+  }
+  // Remove previous highlight
+  if(currentHighlightIdx!==best&&currentWordSpans[currentHighlightIdx])
+    currentWordSpans[currentHighlightIdx].classList.remove('hl');
+  currentHighlightIdx=best;
+  if(currentWordSpans[best])currentWordSpans[best].classList.add('hl');
+}
+
+
+// ── VERTICAL FRACTION RENDERER ──
+// Converts "3/4" in text to stacked vertical fraction HTML
+function renderFractions(text) {
+  // Convert literal newlines to HTML line breaks first
+  text = text.replace(/\\n\\n/g, '<br><br>');
+  text = text.replace(/\n\n/g, '<br><br>');
+  text = text.replace(/\\n/g, '<br>');
+  text = text.replace(/\n/g, '<br>');
+  return text.replace(/\b(\d+)\/(\d+)\b/g, (match, num, den) =>
+    `<span class="frac"><span class="frac-num">${num}</span><span class="frac-den">${den}</span></span>`
+  );
+}
+
+// ── FRACTION SPEECH CONVERSION ──
+// Converts "3/4" → "three fourths", "1/2" → "one half", etc. for natural read-aloud
+function convertFractionsForSpeech(text) {
+  const map = {
+    '1/2': 'one half',
+    '1/3': 'one third',
+    '1/4': 'one fourth',
+    '1/5': 'one fifth',
+    '1/6': 'one sixth',
+    '2/3': 'two thirds',
+    '2/4': 'two fourths',
+    '2/5': 'two fifths',
+    '2/6': 'two sixths',
+    '3/10': 'three tenths',
+    '3/12': 'three twelfths',
+    '3/4': 'three fourths',
+    '3/6': 'three sixths',
+    '3/8': 'three eighths',
+    '4/10': 'four tenths',
+    '4/20': 'four twentieths',
+    '4/5': 'four fifths',
+    '4/6': 'four sixths',
+    '4/8': 'four eighths',
+    '5/16': 'five sixteenths',
+    '5/6': 'five sixths',
+    '5/8': 'five eighths',
+    '6/8': 'six eighths',
+    '7/10': 'seven tenths',
+    '7/8': 'seven eighths'
+  };
+  // Clean up inline display formatting before speaking
+  text = text.replace(/\\n\\n/g, '. ');        // literal \n\n from data
+  text = text.replace(/\n\n/g, '. ');             // actual newlines
+  text = text.replace(/(&nbsp;\s*){2,}/g, ', ');  // multiple &nbsp; → comma pause
+  text = text.replace(/&nbsp;/g, ' ');              // single &nbsp; → space
+  // Math operators
+  text = text.replace(/\s*×\s*/g, ' times ');
+  text = text.replace(/\s*✕\s*/g, ' times ');
+  text = text.replace(/(?<=\d)\s*x\s*(?=\d)/gi, ' times ');
+  text = text.replace(/\s*\+\s*/g, ' plus ');
+  text = text.replace(/\s*−\s*/g, ' minus ');
+  text = text.replace(/\s*–\s*/g, ' minus ');
+  text = text.replace(/\s*÷\s*/g, ' divided by ');
+  // Fractions
+  return text.replace(/\b(\d+)\/(\d+)\b/g, (match) => map[match] || match);
+}
+
+
+/**
+ * Shared utterance builder used by both readInstructions and readQuestion.
+ * onDone: callback when speech ends or errors.
+ */
+function speakWithHighlight(speechText,spans,onDone){
+  currentWordSpans=spans;
+  currentHighlightIdx=0;
+  const utt=new SpeechSynthesisUtterance(speechText);
+  utt.rate=0.88;utt.pitch=1.0;utt.lang='en-US';
+  utt.onboundary=(e)=>{
+    if(e.name!=='word')return;
+    highlightAtChar(e.charIndex);
+  };
+  // Chrome bug fix: speech pauses after ~15s — resume() keepalive
+  let resumeTimer=null;
+  function startKeepAlive(){
+    resumeTimer=setInterval(()=>{
+      if(window.speechSynthesis.speaking&&window.speechSynthesis.paused){
+        window.speechSynthesis.resume();
+      }
+    },5000);
+  }
+  function stopKeepAlive(){if(resumeTimer){clearInterval(resumeTimer);resumeTimer=null;}}
+  utt.onstart=()=>startKeepAlive();
+  utt.onend=()=>{stopKeepAlive();clearHighlights();onDone();};
+  utt.onerror=()=>{stopKeepAlive();clearHighlights();onDone();};
+  window.speechSynthesis.cancel();
+  setTimeout(()=>window.speechSynthesis.speak(utt),50);
+}
+
+// ── Instructions Read Aloud ──
+function readInstructions(){
+  const btn=document.getElementById('readInstructionsBtn');
+  if(!window.speechSynthesis){alert('Read aloud is only supported in Chrome.');return;}
+  if(btn.classList.contains('active')){stopReading();return;}
+  stopReading();
+  btn.classList.add('active');btn.textContent='⏹ Stop';
+  const instrEl=document.getElementById('instrTextEl');
+  if(!instrEl.querySelector('.word-span')){wrapWordsInEl(instrEl);}
+  const EMOJI_RE=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
+  const spokenSpans=[];
+  let speechText='';
+  Array.from(instrEl.querySelectorAll('.word-span')).forEach((span,i,arr)=>{
+    const spoken=span.textContent.replace(EMOJI_RE,'').trim();
+    if(!spoken)return;
+    span._charOffset=speechText.length;
+    speechText+=spoken;
+    if(i<arr.length-1) speechText+=' ';
+    spokenSpans.push(span);
+  });
+  setTimeout(()=>{
+    speakWithHighlight(convertFractionsForSpeech(speechText),spokenSpans,()=>{
+      btn.classList.remove('active');btn.textContent='🔊 Read Aloud';
+    });
+  },150);
+}
+
+// ── Question Read Aloud ──
+function readQuestion(){
+  const btn=document.getElementById('qReadBtn');
+  if(!window.speechSynthesis){alert('Read aloud is only supported in Chrome.');return;}
+  if(btn.classList.contains('active')){stopReading();return;}
+  stopReading();
+  btn.classList.add('active');btn.textContent='⏹ Stop';
+  const EMOJI_RE=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
+  const spokenSpans=[];
+  let speechText='';
+
+  // ── 1. Wrap and collect question text spans ──
+  const qTextEl=document.getElementById('qText');
+  if(!qTextEl.querySelector('.word-span')){wrapWordsInEl(qTextEl);}
+  // Use raw text for correct fraction speech (DOM already has rendered HTML)
+  const rawQuestion=qTextEl.dataset.rawText||qTextEl.textContent;
+  const questionSpeech=convertFractionsForSpeech(rawQuestion);
+  // Stamp charOffsets on question spans against questionSpeech
+  Array.from(qTextEl.querySelectorAll('.word-span')).forEach((span,i,arr)=>{
+    const spoken=span.textContent.replace(EMOJI_RE,'').trim();
+    if(!spoken)return;
+    span._charOffset=speechText.length;
+    speechText+=spoken;
+    if(i<arr.length-1) speechText+=' ';
+    spokenSpans.push(span);
+  });
+
+  // ── 2. Build full speech string: question + "Your answer choices are:" + choices ──
+  // Use questionSpeech (fraction-converted) as the spoken version but
+  // spokenSpans charOffsets are based on the raw DOM walk above — they'll align
+  // because convertFractionsForSpeech only changes fraction tokens, not word count structure.
+  // We rebuild speechText fully using the converted version for accurate charOffset mapping.
+  spokenSpans.length=0;
+  speechText='';
+
+  // Re-stamp spans against the fraction-converted question text
+  const qWords=questionSpeech.split(/\s+/);
+  const qDomSpans=Array.from(qTextEl.querySelectorAll('.word-span'));
+  let qWordIdx=0;
+  qDomSpans.forEach(span=>{
+    const spoken=span.textContent.replace(EMOJI_RE,'').trim();
+    if(!spoken)return;
+    // Advance qWordIdx to find matching word in converted speech
+    while(qWordIdx<qWords.length&&!qWords[qWordIdx].replace(/[^a-z0-9]/gi,'').length)qWordIdx++;
+    span._charOffset=speechText.length;
+    const word=qWords[qWordIdx]||spoken;
+    speechText+=word+' ';
+    qWordIdx++;
+    spokenSpans.push(span);
+  });
+  speechText=speechText.trimEnd();
+
+  // ── 3. Append "Your answer choices are:" + wrap each choice button ──
+  if(state.currentMonsterId&&shuffledQuestions[state.currentMonsterId]){
+    const q=shuffledQuestions[state.currentMonsterId][state.currentQIndex];
+    if(q&&q.choices){
+      const labels=['A','B','C','D'];
+      const choiceDivs=document.querySelectorAll('#choicesDiv .choice-btn');
+      // Intro phrase — no DOM element, just add to speechText (no highlight span)
+      speechText+=' Your answer choices are.';
+      labels.forEach((label,i)=>{
+        const rawChoice=q.choices[i]||'';
+        const choiceSpeech=convertFractionsForSpeech(rawChoice);
+        const choiceBtn=choiceDivs[i];
+        // Intro label token (A, B, C, D) — attach to the button element as a pseudo span
+        const labelToken=label+'.';
+        speechText+=' '+labelToken;
+        if(choiceBtn){
+          // Wrap choice button words if not already wrapped
+          const choiceTextEl=choiceBtn.querySelector('span:last-child');
+          if(choiceTextEl&&!choiceTextEl.querySelector('.word-span')){wrapWordsInEl(choiceTextEl);}
+          if(choiceTextEl){
+            const choiceWords=choiceSpeech.split(/\s+/);
+            const choiceDomSpans=Array.from(choiceTextEl.querySelectorAll('.word-span'));
+            let cWordIdx=0;
+            choiceDomSpans.forEach(span=>{
+              const spoken=span.textContent.replace(EMOJI_RE,'').trim();
+              if(!spoken)return;
+              while(cWordIdx<choiceWords.length&&!choiceWords[cWordIdx].replace(/[^a-z0-9]/gi,'').length)cWordIdx++;
+              span._charOffset=speechText.length;
+              const word=choiceWords[cWordIdx]||spoken;
+              speechText+=' '+word;
+              cWordIdx++;
+              spokenSpans.push(span);
+            });
+          }
+        } else {
+          speechText+=' '+choiceSpeech;
+        }
+        speechText+='.';
+      });
+    }
+  }
+
+  setTimeout(()=>{
+    speakWithHighlight(speechText,spokenSpans,()=>{
+      btn.classList.remove('active');btn.textContent='🔊 Read Question';
+    });
+  },150);
+}
 
 // ═══════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════
-let state = {};
-let currentScreen = 'entry';
-let prevScreen = 'entry';
-let missedQs = {};
-let onRetry = {};
-// shuffledQuestions[monsterId] = shuffled question array for this session
-let shuffledQuestions = {};
-let timerInterval = null;
-let elapsedSeconds = 0;
-let pinMode = ''; // 'clear' or 'unlock'
+let state={};
+let currentScreen='entry',prevScreen='entry';
+let missedQs={},onRetry={},shuffledQuestions={};
+let timerInterval=null,elapsedSeconds=0;
+let instrTimerInterval=null,instrUnlocked=false;
+let readTimerInterval=null,isReadLocked=false,currentReadSecs=15;
+let nextTickerInterval=null,nextSecsRemaining=10;
+let pinMode='';
+let tabSwitches=0;
+let timePerQuestion={};
+let qStartTime=null;
+let allWrongQuestions=[];
+let selectedIdx=-1;
 
-function freshState(name) {
-  const hp = {};
-  MONSTERS.forEach(m => hp[m.id] = m.questions.length);
-  return {
-    playerName: name,
-    sessionId: genSessionId(),
-    sessionStart: Date.now(),
-    score: 0,
-    slain: [],
-    monsterHp: hp,
-    playerHp: MAX_HP,
-    currentMonsterId: null,
-    currentQIndex: 0,
-    awaitingNext: false,
-    done: false
+function freshState(name){
+  const hp={};
+  MONSTERS.forEach(m=>hp[m.id]=m.questions.length);
+  return{
+    playerName:name,sessionId:genSessionId(),sessionStart:Date.now(),
+    score:0,slain:[],monsterHp:hp,playerHp:MAX_HP,
+    currentMonsterId:null,currentQIndex:0,awaitingNext:false,done:false,
+    instrDone:false,
+    instrStart:null,instrPausedAt:null,
+    elapsedSaved:0,
+    readLockPausedAt:null,readLockSecsLeft:null,
+    nextCDPausedAt:null,nextCDSecsLeft:null
   };
+}
+
+// ═══════════════════════════════════════════════════
+//  TAB SWITCH DETECTION
+// ═══════════════════════════════════════════════════
+function initTabDetection(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      // Tab hidden — stop all intervals and stamp pause timestamps
+      if(state){
+        // Game timer
+        if(timerInterval){
+          state.elapsedSaved=Math.floor((Date.now()-state.sessionStart)/1000);
+          clearInterval(timerInterval);timerInterval=null;
+        }
+        // Instructions timer — STOP the interval and stamp when we paused
+        if(instrTimerInterval&&!instrUnlocked&&state.instrStart){
+          state.instrPausedAt=Date.now();
+          clearInterval(instrTimerInterval);instrTimerInterval=null;
+        }
+        // Read lock timer
+        if(readTimerInterval&&isReadLocked){
+          state.readLockPausedAt=Date.now();
+          state.readLockSecsLeft=currentReadSecs;
+          clearInterval(readTimerInterval);readTimerInterval=null;
+        }
+        // Next-question countdown
+        if(nextTickerInterval){
+          state.nextCDPausedAt=Date.now();
+          state.nextCDSecsLeft=nextSecsRemaining;
+          clearInterval(nextTickerInterval);nextTickerInterval=null;
+        }
+        saveState();
+      }
+      if(currentScreen==='battle'){tabSwitches++;showTabWarning();}
+    }else{
+      // Tab visible — restart intervals from where they paused
+      if(state){
+        // Game timer: shift sessionStart forward and restart
+        if(!timerInterval&&state.elapsedSaved!=null&&(currentScreen==='select'||currentScreen==='battle')){
+          state.sessionStart=Date.now()-state.elapsedSaved*1000;
+          startTimer();
+        }
+        // Instructions timer: restart (startInstructionsTimer handles instrPausedAt shift)
+        if(!instrTimerInterval&&!instrUnlocked&&state.instrStart&&currentScreen==='instructions'){
+          startInstructionsTimer();
+        }
+        // Read lock timer: restart from remaining seconds
+        if(!readTimerInterval&&state.readLockPausedAt!=null&&state.readLockSecsLeft!=null&&currentScreen==='battle'){
+          const hiddenSecs=Math.floor((Date.now()-state.readLockPausedAt)/1000);
+          let readSecs=Math.max(1,state.readLockSecsLeft-hiddenSecs);
+          state.readLockPausedAt=null;state.readLockSecsLeft=null;saveState();
+          currentReadSecs=readSecs;isReadLocked=true;
+          const rcEl=document.getElementById('readCountdownEl');
+          const rcNum=document.getElementById('readCountdownNum');
+          if(rcEl)rcEl.classList.remove('hidden');
+          if(rcNum)rcNum.textContent=readSecs;
+          readTimerInterval=setInterval(()=>{
+            readSecs--;currentReadSecs=readSecs;
+            if(rcNum)rcNum.textContent=readSecs<=0?'GO!':readSecs;
+            if(readSecs<=0){
+              isReadLocked=false;
+              clearInterval(readTimerInterval);readTimerInterval=null;
+              setTimeout(()=>{
+                if(rcEl)rcEl.classList.add('hidden');
+                document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('locked'));
+                setMsg('Pick the right answer to zap the monster! ⚡','neutral');
+              },400);
+            }
+          },1000);
+        }
+        // Next-question countdown: restart from remaining seconds
+        if(!nextTickerInterval&&state.nextCDPausedAt!=null&&state.nextCDSecsLeft!=null&&currentScreen==='battle'){
+          const hiddenSecs=Math.floor((Date.now()-state.nextCDPausedAt)/1000);
+          let secs=Math.max(0,state.nextCDSecsLeft-hiddenSecs);
+          state.nextCDPausedAt=null;state.nextCDSecsLeft=null;saveState();
+          nextSecsRemaining=secs;
+          const countdownEl=document.getElementById('countdownEl');
+          const countdownNum=document.getElementById('countdownNum');
+          if(countdownNum)countdownNum.textContent=secs;
+          if(secs<=0){
+            if(countdownEl)countdownEl.classList.add('hidden');
+          }else{
+            nextTickerInterval=setInterval(()=>{
+              secs--;nextSecsRemaining=secs;
+              if(countdownNum)countdownNum.textContent=secs;
+              if(secs<=0){
+                clearInterval(nextTickerInterval);nextTickerInterval=null;
+                if(countdownEl)countdownEl.classList.add('hidden');
+              }
+            },1000);
+          }
+        }
+      }
+    }
+  });
+}
+function showTabWarning(){
+  const w=document.createElement('div');w.className='tab-warning';
+  w.textContent=`⚠️ Tab switch detected! (${tabSwitches}) — Stay on this page!`;
+  document.body.appendChild(w);setTimeout(()=>w.remove(),3000);
+}
+
+// ═══════════════════════════════════════════════════
+//  LOCKS
+// ═══════════════════════════════════════════════════
+function getLocks(){try{return JSON.parse(localStorage.getItem(LOCK_KEY))||{};}catch(e){return{};}}
+function lockStudent(name){const l=getLocks();l[name]=true;localStorage.setItem(LOCK_KEY,JSON.stringify(l));}
+function unlockStudent(name){const l=getLocks();delete l[name];localStorage.setItem(LOCK_KEY,JSON.stringify(l));}
+
+// ═══════════════════════════════════════════════════
+//  SCREEN NAV
+// ═══════════════════════════════════════════════════
+function showScreen(id){
+  ['entry','instructions','select','battle','leaderboard'].forEach(s=>{
+    document.getElementById('screen-'+s).style.display='none';
+  });
+  document.getElementById('screen-'+id).style.display='block';
+  prevScreen=currentScreen;currentScreen=id;
+}
+function goBack(){showScreen('entry');}
+function goToSelect(){
+  stopReading();
+  state.instrDone=true;
+  saveState();
+  if(!timerInterval)startTimer();
+  buildSelect();
+  showScreen('select');
+}
+
+// ═══════════════════════════════════════════════════
+//  GAME TIMER
+// ═══════════════════════════════════════════════════
+function startTimer(){
+  if(timerInterval)return;
+  // Restore saved elapsed — shift sessionStart so wall-clock math is correct
+  if(state.elapsedSaved){
+    state.sessionStart=Date.now()-state.elapsedSaved*1000;
+  }
+  const base=state.sessionStart;
+  timerInterval=setInterval(()=>{
+    elapsedSeconds=Math.floor((Date.now()-base)/1000);
+    state.elapsedSaved=elapsedSeconds;
+    const fmt=formatTime(elapsedSeconds);
+    ['timerDisplay','timerBattle'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmt;});
+  },1000);
+}
+function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
+
+// ═══════════════════════════════════════════════════
+//  INSTRUCTIONS TIMER
+// ═══════════════════════════════════════════════════
+function startInstructionsTimer(){
+  if(instrTimerInterval){clearInterval(instrTimerInterval);instrTimerInterval=null;}
+  instrUnlocked=false;
+  const fill=document.getElementById('instrTimerFill');
+  const label=document.getElementById('instrTimerLabel');
+  const note=document.getElementById('instrUnlockNote');
+  const btn=document.getElementById('instrReadyBtn');
+  const countdown=document.getElementById('instrCountdown');
+  if(btn)btn.disabled=true;
+  if(note)note.textContent='⏳ Button unlocks after 1 minute and 30 seconds';
+
+  // Wall-clock approach (CLOZE standard):
+  // If resuming after a pause, shift instrStart forward by the paused duration
+  if(state.instrPausedAt&&state.instrStart){
+    state.instrStart+=(Date.now()-state.instrPausedAt);
+    state.instrPausedAt=null;
+    saveState();
+  }
+  // First time on instructions screen
+  if(!state.instrStart){
+    state.instrStart=Date.now();
+    saveState();
+  }
+  const startMs=state.instrStart;
+
+  instrTimerInterval=setInterval(()=>{
+    const elapsed=Math.floor((Date.now()-startMs)/1000);
+    const pct=Math.min((elapsed/INSTR_SECS)*100,100);
+    if(fill)fill.style.width=pct+'%';
+    const remaining=Math.max(0,INSTR_SECS-elapsed);
+    const m=Math.floor(remaining/60),s=remaining%60;
+    if(countdown)countdown.textContent=`${m}:${String(s).padStart(2,'0')}`;
+    if(label)label.textContent=`⏳ Read carefully — button unlocks in ${m}:${String(s).padStart(2,'0')}`;
+    if(elapsed>=INSTR_SECS&&!instrUnlocked){
+      instrUnlocked=true;
+      clearInterval(instrTimerInterval);instrTimerInterval=null;
+      if(btn)btn.disabled=false;
+      if(note)note.textContent='✅ You\'ve read the instructions — click when ready!';
+      if(label)label.textContent='✅ Unlocked! Click the button to start.';
+      if(fill)fill.style.background='linear-gradient(90deg,#2a9020,var(--accent))';
+    }
+  },500);
+}
+function stopInstructionsTimer(){
+  if(instrTimerInterval){clearInterval(instrTimerInterval);instrTimerInterval=null;}
 }
 
 // ═══════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════
-window.onload = () => {
-  const sel = document.getElementById('nameSelect');
-  ROSTER.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.name; opt.textContent = s.name;
-    sel.appendChild(opt);
-  });
-  document.getElementById('studentIdInput').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
-  document.getElementById('pinInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPin(); });
-
-  // Check for saved session
-  const saved = localStorage.getItem(SAVE_KEY);
-  if (saved) {
-    try {
-      const p = JSON.parse(saved);
-      if (p && p.playerName && !p.done) {
-        document.getElementById('resumeSection').classList.remove('hidden');
-        document.getElementById('resumeInfo').textContent =
-          `"${p.playerName}" — Score: ${p.score} pts | Monsters slain: ${p.slain.length}/5`;
-      }
-    } catch(e) {}
+window.addEventListener('beforeunload',()=>{
+  if(!state)return;
+  if(timerInterval)state.elapsedSaved=Math.floor((Date.now()-state.sessionStart)/1000);
+  if(instrTimerInterval&&!instrUnlocked&&state.instrStart)state.instrPausedAt=Date.now();
+  if(readTimerInterval&&isReadLocked){
+    state.readLockPausedAt=Date.now();
+    state.readLockSecsLeft=currentReadSecs;
   }
+  if(nextTickerInterval){
+    state.nextCDPausedAt=Date.now();
+    state.nextCDSecsLeft=nextSecsRemaining;
+  }
+  saveState();
+});
+
+window.onload=()=>{
+  const fs=localStorage.getItem('mathMonsters_fs')||'normal';
+  setFontSize(fs);
+  const sel=document.getElementById('nameSelect');
+  ROSTER.forEach(s=>{const o=document.createElement('option');o.value=s.name;o.textContent=s.name;sel.appendChild(o);});
+  document.getElementById('studentIdInput').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+  document.getElementById('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPin();});
+  initTabDetection();
+  const saved=localStorage.getItem(SAVE_KEY);
+  if(saved){try{const p=JSON.parse(saved);if(p&&p.playerName&&!p.done){document.getElementById('resumeSection').classList.remove('hidden');document.getElementById('resumeInfo').textContent=`"${p.playerName}" — Score: ${p.score} pts | Monsters slain: ${p.slain.length}/5`;}}catch(e){}}
 };
 
-function onNameSelect() {
-  const val = document.getElementById('nameSelect').value;
-  const sec = document.getElementById('idSection');
-  const lockBanner = document.getElementById('lockedBanner');
-  const resumeSec = document.getElementById('resumeSection');
-  lockBanner.classList.add('hidden');
-  if (val) {
-    // Check if this student is locked out
-    const locks = getLocks();
-    if (locks[val]) {
-      sec.classList.add('hidden');
-      resumeSec.classList.add('hidden');
-      document.getElementById('lockedMsg').textContent =
-        `${val} already completed Math Monsters. Ask Mr. O for a PIN if you need to replay.`;
-      lockBanner.classList.remove('hidden');
-      return;
-    }
+function onNameSelect(){
+  const val=document.getElementById('nameSelect').value;
+  const sec=document.getElementById('idSection');
+  const lb=document.getElementById('lockedBanner');
+  const rs=document.getElementById('resumeSection');
+  lb.classList.add('hidden');
+  if(val){
+    const locks=getLocks();
+    if(locks[val]){sec.classList.add('hidden');rs.classList.add('hidden');document.getElementById('lockedMsg').textContent=`${val} already completed Math Monsters. Ask Mr. O for a PIN to replay.`;lb.classList.remove('hidden');return;}
     sec.classList.remove('hidden');
-    document.getElementById('studentIdInput').value = '';
-    document.getElementById('loginError').textContent = '';
-    setTimeout(() => document.getElementById('studentIdInput').focus(), 50);
-  } else {
-    sec.classList.add('hidden');
-  }
-}
-
-// ═══════════════════════════════════════════════════
-//  LOCK MANAGEMENT
-// ═══════════════════════════════════════════════════
-function getLocks() {
-  try { return JSON.parse(localStorage.getItem(LOCK_KEY)) || {}; } catch(e) { return {}; }
-}
-function lockStudent(name) {
-  const locks = getLocks();
-  locks[name] = true;
-  localStorage.setItem(LOCK_KEY, JSON.stringify(locks));
-}
-function unlockStudent(name) {
-  const locks = getLocks();
-  delete locks[name];
-  localStorage.setItem(LOCK_KEY, JSON.stringify(locks));
-}
-function promptStartFresh() {
-  pinMode = 'startfresh';
-  document.getElementById('pinTitle').textContent = 'Teacher Required';
-  document.getElementById('pinBody').textContent  = 'Starting fresh requires the teacher PIN.';
-  document.getElementById('pinInput').value = '';
-  document.getElementById('pinError').textContent = '';
-  document.getElementById('pinOverlay').classList.add('show');
-  setTimeout(() => document.getElementById('pinInput').focus(), 120);
-}
-function promptUnlock() {
-  pinMode = 'unlock';
-  document.getElementById('pinTitle').textContent = 'Unlock for Replay';
-  document.getElementById('pinBody').textContent = 'Enter the teacher PIN to allow this student to replay.';
-  document.getElementById('pinInput').value = '';
-  document.getElementById('pinError').textContent = '';
-  document.getElementById('pinOverlay').classList.add('show');
-  setTimeout(() => document.getElementById('pinInput').focus(), 120);
-}
-
-// ═══════════════════════════════════════════════════
-//  SCREEN NAV
-// ═══════════════════════════════════════════════════
-function showScreen(id) {
-  ['entry','select','battle','leaderboard'].forEach(s =>
-    document.getElementById('screen-' + s).style.display = 'none');
-  document.getElementById('screen-' + id).style.display = 'block';
-  prevScreen = currentScreen;
-  currentScreen = id;
-}
-function goBack() { showScreen('entry'); }
-
-// ═══════════════════════════════════════════════════
-//  TIMER
-// ═══════════════════════════════════════════════════
-function startTimer() {
-  if (timerInterval) return;
-  const base = state.sessionStart;
-  timerInterval = setInterval(() => {
-    elapsedSeconds = Math.floor((Date.now() - base) / 1000);
-    const fmt = formatTime(elapsedSeconds);
-    const td = document.getElementById('timerDisplay');
-    const tb = document.getElementById('timerBattle');
-    if (td) td.textContent = fmt;
-    if (tb) tb.textContent = fmt;
-  }, 1000);
-}
-function stopTimer() {
-  clearInterval(timerInterval);
-  timerInterval = null;
+    document.getElementById('studentIdInput').value='';
+    document.getElementById('loginError').textContent='';
+    setTimeout(()=>document.getElementById('studentIdInput').focus(),50);
+  }else{sec.classList.add('hidden');}
 }
 
 // ═══════════════════════════════════════════════════
 //  GAME FLOW
 // ═══════════════════════════════════════════════════
-function startGame() {
-  const name  = document.getElementById('nameSelect').value.trim();
-  const idVal = document.getElementById('studentIdInput').value.trim();
-  const errEl = document.getElementById('loginError');
-  errEl.textContent = '';
-  if (!name) { errEl.textContent = 'Please select your name first!'; return; }
-  const student = ROSTER.find(s => s.name === name);
-  if (!student) { errEl.textContent = 'Name not found. Ask Mr. O for help.'; return; }
-  if (idVal !== student.id) {
-    errEl.textContent = 'Wrong student number — try again!';
-    document.getElementById('studentIdInput').value = '';
-    document.getElementById('studentIdInput').focus();
-    return;
+function startGame(){
+  const name=document.getElementById('nameSelect').value.trim();
+  const idVal=document.getElementById('studentIdInput').value.trim();
+  const errEl=document.getElementById('loginError');
+  errEl.textContent='';
+  if(!name){errEl.textContent='Please select your name first!';return;}
+  const student=ROSTER.find(s=>s.name===name);
+  if(!student){errEl.textContent='Name not found. Ask Mr. O for help.';return;}
+  if(idVal!==student.id){errEl.textContent='Wrong student number — try again!';document.getElementById('studentIdInput').value='';document.getElementById('studentIdInput').focus();return;}
+  MONSTERS.forEach(m=>{shuffledQuestions[m.id]=shuffleQuestions(m.questions);});
+  missedQs={};onRetry={};tabSwitches=0;timePerQuestion={};allWrongQuestions=[];selectedIdx=-1;
+  state=freshState(name);
+  saveState();
+  // Show instructions first
+  showScreen('instructions');
+  startInstructionsTimer();
+}
+
+function resumeGame(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(SAVE_KEY));
+    if(!saved||!saved.playerName){throw new Error('Invalid save');}
+    state=saved;
+    MONSTERS.forEach(m=>{shuffledQuestions[m.id]=shuffleQuestions(m.questions);});
+    missedQs={};onRetry={};tabSwitches=0;timePerQuestion={};allWrongQuestions=[];selectedIdx=-1;
+
+    if(!state.instrDone){
+      // Resume instructions screen — startInstructionsTimer handles instrPausedAt shift
+      showScreen('instructions');
+      startInstructionsTimer();
+    }else{
+      // Resume game — startTimer handles elapsedSaved shift
+      startTimer();
+      buildSelect();
+      showScreen('select');
+    }
+  }catch(e){
+    localStorage.removeItem(SAVE_KEY);
+    document.getElementById('resumeSection').classList.add('hidden');
+    alert('Save data was corrupted — starting fresh. Sorry about that!');
   }
-  // Shuffle questions for each monster at session start
-  MONSTERS.forEach(m => { shuffledQuestions[m.id] = shuffleQuestions(m.questions); });
-  missedQs = {}; onRetry = {};
-  state = freshState(name);
-  saveState();
-  startTimer();
-  buildSelect();
-  showScreen('select');
 }
 
-function resumeGame() {
-  try {
-    state = JSON.parse(localStorage.getItem(SAVE_KEY));
-    // Reshuffle questions (we don't persist shuffled order)
-    MONSTERS.forEach(m => { shuffledQuestions[m.id] = shuffleQuestions(m.questions); });
-    missedQs = {}; onRetry = {};
-    startTimer();
-    buildSelect();
-    showScreen('select');
-  } catch(e) { alert('Could not resume. Starting fresh.'); }
-}
+function clearResume(){localStorage.removeItem(SAVE_KEY);document.getElementById('resumeSection').classList.add('hidden');}
 
-function clearResume() {
-  localStorage.removeItem(SAVE_KEY);
-  document.getElementById('resumeSection').classList.add('hidden');
-}
-
-function saveAndExit() {
+function saveAndExit(){
   stopTimer();
-  saveState();
-  submitScorePartial();
-  document.getElementById('nameSelect').value = state.playerName;
+  stopInstructionsTimer();
+  stopReading();
+  if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}
+  if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}
+  saveState();submitScorePartial();
+  document.getElementById('nameSelect').value=state.playerName;
+  document.getElementById('studentIdInput').value='';
   document.getElementById('idSection').classList.add('hidden');
   document.getElementById('resumeSection').classList.remove('hidden');
-  document.getElementById('resumeInfo').textContent =
-    `"${state.playerName}" — Score: ${state.score} pts | Monsters slain: ${state.slain.length}/5`;
+  document.getElementById('resumeInfo').textContent=`"${state.playerName}" — Score: ${state.score} pts | Monsters slain: ${state.slain.length}/5`;
   showScreen('entry');
 }
 
-function saveState() { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
-function exitBattle() { saveState(); buildSelect(); showScreen('select'); }
+function saveState(){localStorage.setItem(SAVE_KEY,JSON.stringify(state));}
+function exitBattle(){stopReading();if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}saveState();buildSelect();showScreen('select');}
 
 // ── SELECT ──
-function buildSelect() {
-  document.getElementById('scoreDisplay').textContent = state.score;
-  const grid = document.getElementById('monsterGrid');
-  grid.innerHTML = '';
-  MONSTERS.forEach(m => {
-    const slain = state.slain.includes(m.id);
-    const hp    = state.monsterHp[m.id] ?? m.questions.length;
-    const pct   = slain ? 0 : (hp / m.questions.length) * 100;
-    const card  = document.createElement('div');
-    card.className = 'monster-card' + (slain ? ' slain' : '');
-    card.style.borderColor = slain ? 'rgba(127,255,90,.3)' : m.color + '44';
-    card.innerHTML = `
-      <span class="monster-emoji">${m.emoji}</span>
-      <div class="monster-name" style="color:${m.color}">${m.name}</div>
-      <div class="monster-skill">${m.skill}</div>
-      <div class="mini-hp"><div class="mini-hp-fill" style="width:${pct}%;background:${m.color}"></div></div>`;
-    card.onclick = () => enterBattle(m.id);
+function buildSelect(){
+  document.getElementById('scoreDisplay').textContent=state.score;
+  const grid=document.getElementById('monsterGrid');
+  grid.innerHTML='';
+  MONSTERS.forEach(m=>{
+    const slain=state.slain.includes(m.id);
+    const hp=state.monsterHp[m.id]??m.questions.length;
+    const pct=slain?0:(hp/m.questions.length)*100;
+    const card=document.createElement('div');
+    card.className='monster-card'+(slain?' slain':'');
+    card.style.borderColor=slain?'rgba(127,255,90,.3)':m.color+'44';
+    card.innerHTML=`<span class="monster-emoji">${m.emoji}</span><div class="monster-name" style="color:${m.color}">${m.name}</div><div class="monster-skill">${m.skill}</div><div class="mini-hp"><div class="mini-hp-fill" style="width:${pct}%;background:${m.color}"></div></div>`;
+    card.onclick=()=>enterBattle(m.id);
     grid.appendChild(card);
   });
+  // Start game timer from select screen
+  if(!timerInterval)startTimer();
 }
 
 // ── BATTLE ──
-function enterBattle(mid) {
-  const m = MONSTERS.find(m => m.id === mid);
-  if (!m) return;
-  if (state.slain.includes(mid)) {
-    state.slain = state.slain.filter(id => id !== mid);
-    state.monsterHp[mid] = m.questions.length;
-    missedQs[mid] = new Set(); onRetry[mid] = false;
-    shuffledQuestions[mid] = shuffleQuestions(m.questions);
-  }
-  if (state.monsterHp[mid] <= 0) state.monsterHp[mid] = m.questions.length;
-
-  state.currentMonsterId = mid;
-  state.playerHp = MAX_HP;
-  state.awaitingNext = false;
-
-  if (!onRetry[mid]) {
-    state.currentQIndex = Math.max(0, Math.min(
-      m.questions.length - state.monsterHp[mid], m.questions.length - 1));
-  }
-
-  document.getElementById('monsterZone').style.background = `linear-gradient(135deg,${m.color}0d 0%,transparent 60%)`;
-  document.getElementById('mEmoji').textContent = m.emoji;
-  document.getElementById('mName').textContent  = m.name;
-  document.getElementById('mName').style.color  = m.color;
-  const tag = document.getElementById('mSkillTag');
-  tag.textContent = m.skill; tag.style.background = m.tagBg; tag.style.color = m.tagColor;
-  document.getElementById('playerNameBattle').textContent = state.playerName;
+function enterBattle(mid){
+  const m=MONSTERS.find(m=>m.id===mid);
+  if(!m)return;
+  stopReading();
+  if(state.slain.includes(mid)){state.slain=state.slain.filter(id=>id!==mid);state.monsterHp[mid]=m.questions.length;missedQs[mid]=new Set();onRetry[mid]=false;shuffledQuestions[mid]=shuffleQuestions(m.questions);}
+  if(state.monsterHp[mid]<=0)state.monsterHp[mid]=m.questions.length;
+  state.currentMonsterId=mid;state.playerHp=MAX_HP;state.awaitingNext=false;selectedIdx=-1;
+  if(!onRetry[mid])state.currentQIndex=Math.max(0,Math.min(m.questions.length-state.monsterHp[mid],m.questions.length-1));
+  document.getElementById('monsterZone').style.background=`linear-gradient(135deg,${m.color}0d 0%,transparent 60%)`;
+  document.getElementById('mEmoji').textContent=m.emoji;
+  document.getElementById('mName').textContent=m.name;document.getElementById('mName').style.color=m.color;
+  const tag=document.getElementById('mSkillTag');tag.textContent=m.skill;tag.style.background=m.tagBg;tag.style.color=m.tagColor;
+  document.getElementById('playerNameBattle').textContent=state.playerName;
   document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('confirmBtn').classList.add('hidden');
   document.getElementById('countdownEl').classList.add('hidden');
-  setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
-  updateBars(); renderQ(); updateScores(); showScreen('battle');
+  document.getElementById('missedReview').classList.add('hidden');
+  setMsg('Pick the right answer to zap the monster! ⚡','neutral');
+  updateBars();renderQ();updateScores();showScreen('battle');
 }
 
 // ── RENDER QUESTION ──
-function renderQ() {
-  const mid  = state.currentMonsterId;
-  const m    = MONSTERS.find(m => m.id === mid);
-  state.currentQIndex = Math.max(0, Math.min(state.currentQIndex, m.questions.length - 1));
-  const q    = shuffledQuestions[mid][state.currentQIndex];
-  const qIdx = state.currentQIndex;
-  const retry    = onRetry[mid] === true;
-  const wasWrong = retry && missedQs[mid] && missedQs[mid].has(qIdx);
+function renderQ(){
+  stopReading();
+  if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}
+  if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}
+  const mid=state.currentMonsterId;
+  const m=MONSTERS.find(m=>m.id===mid);
+  state.currentQIndex=Math.max(0,Math.min(state.currentQIndex,m.questions.length-1));
+  const q=shuffledQuestions[mid][state.currentQIndex];
+  const qIdx=state.currentQIndex;
+  const retry=onRetry[mid]===true;
+  const wasWrong=retry&&missedQs[mid]&&missedQs[mid].has(qIdx);
 
-  document.getElementById('qCounter').textContent = `Question ${qIdx + 1} of ${m.questions.length}`;
-  document.getElementById('retryBadgeSlot').innerHTML = retry
-    ? `<div class="retry-badge">🔁 Retry — hints on missed questions &nbsp;|&nbsp; correct answers worth ${PTS_RETRY} pts</div>` : '';
-  document.getElementById('qText').innerHTML = q.text;
+  document.getElementById('qCounter').textContent=`Question ${qIdx+1} of ${m.questions.length}`;
+  document.getElementById('retryBadgeSlot').innerHTML=retry?`<div class="retry-badge">🔁 Retry — hints on missed questions &nbsp;|&nbsp; correct answers worth ${PTS_RETRY} pts</div>`:'';
 
-  const cd = document.getElementById('choicesDiv');
-  cd.innerHTML = '';
-  q.choices.forEach((choice, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.innerHTML = `<span class="choice-letter">${['A','B','C','D'][i]}.</span><span>${choice}</span>`;
-    btn.onclick = () => handleAnswer(i);
+  // Set question text — then reset read button
+  const qTextEl=document.getElementById('qText');
+  qTextEl.innerHTML=renderFractions(q.text);
+  qTextEl.dataset.rawText=q.text;
+  const qBtn=document.getElementById('qReadBtn');
+  if(qBtn){qBtn.textContent='🔊 Read Question';qBtn.classList.remove('active');}
+
+  const cd=document.getElementById('choicesDiv');
+  cd.innerHTML='';
+  q.choices.forEach((choice,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn locked';
+    btn.innerHTML=`<span class="choice-letter">${['A','B','C','D'][i]}.</span><span>${renderFractions(choice)}</span>`;
+    btn.onclick=()=>handleSelect(i);
     cd.appendChild(btn);
   });
 
-  const hintArea = document.getElementById('hintArea');
-  hintArea.innerHTML = '';
-  if (wasWrong && q.hint) {
-    const hb = document.createElement('button');
-    hb.className = 'hint-btn'; hb.innerHTML = '💡 Show Hint';
-    hb.onclick = () => { hb.remove(); const box = document.createElement('div'); box.className = 'hint-box'; box.textContent = q.hint; hintArea.appendChild(box); };
+  const hintArea=document.getElementById('hintArea');
+  hintArea.innerHTML='';
+  if(wasWrong&&q.hint){
+    const hb=document.createElement('button');hb.className='btn btn-ghost';hb.style.marginTop='10px';hb.innerHTML='💡 Show Hint';
+    hb.onclick=()=>{hb.remove();const box=document.createElement('div');box.style.cssText='margin-top:10px;padding:12px 16px;background:rgba(255,233,79,.08);border:2px solid rgba(255,233,79,.3);border-radius:12px;color:var(--yellow);font-size:calc(var(--fs)*.88);font-weight:700;line-height:1.55;';box.textContent=q.hint;hintArea.appendChild(box);};
     hintArea.appendChild(hb);
   }
+
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('confirmBtn').classList.add('hidden');
+  document.getElementById('countdownEl').classList.add('hidden');
+  document.getElementById('missedReview').classList.add('hidden');
+  selectedIdx=-1;
+
+  // 15-second reading lock — restore from saved state if paused mid-question
+  const rcEl=document.getElementById('readCountdownEl');
+  const rcNum=document.getElementById('readCountdownNum');
+  rcEl.classList.remove('hidden');
+  setMsg('📖 Read the question carefully — answers unlock in 15 seconds!','neutral');
+  qStartTime=Date.now();
+
+  // Restore saved read timer if we paused mid-lock
+  let readSecs=15;
+  if(state.readLockPausedAt!=null&&state.readLockSecsLeft!=null&&state.readLockSecsLeft>0){
+    const hiddenMs=Date.now()-state.readLockPausedAt;
+    const hiddenSecs=Math.floor(hiddenMs/1000);
+    readSecs=Math.max(1,state.readLockSecsLeft-hiddenSecs);
+    state.readLockPausedAt=null;state.readLockSecsLeft=null;saveState();
+  }
+  currentReadSecs=readSecs;
+  isReadLocked=true;
+  if(rcNum)rcNum.textContent=readSecs;
+
+  readTimerInterval=setInterval(()=>{
+    readSecs--;
+    currentReadSecs=readSecs;
+    if(rcNum)rcNum.textContent=readSecs<=0?'GO!':readSecs;
+    if(readSecs<=0){
+      isReadLocked=false;
+      clearInterval(readTimerInterval);readTimerInterval=null;
+      setTimeout(()=>{
+        rcEl.classList.add('hidden');
+        document.querySelectorAll('.choice-btn').forEach(b=>b.classList.remove('locked'));
+        setMsg('Pick the right answer to zap the monster! ⚡','neutral');
+      },400);
+    }
+  },1000);
 }
 
-// ── HANDLE ANSWER ──
-function handleAnswer(idx) {
-  if (state.awaitingNext) return;
-  const mid = state.currentMonsterId;
-  const m   = MONSTERS.find(m => m.id === mid);
-  const q   = shuffledQuestions[mid][state.currentQIndex];
-  const ok  = idx === q.correct;
-  const pts = ok ? (onRetry[mid] ? PTS_RETRY : PTS_FIRST) : 0;
-  const ptsBadge = onRetry[mid] ? `+${PTS_RETRY} pts (retry)` : `+${PTS_FIRST} pts`;
+// ── PHASE 1: SELECT ──
+function handleSelect(idx){
+  if(state.awaitingNext)return;
+  selectedIdx=idx;
+  document.querySelectorAll('.choice-btn').forEach((btn,i)=>{btn.classList.remove('selected');if(i===idx)btn.classList.add('selected');});
+  setMsg('Sure about that? Tap ✅ That\'s My Answer! to lock it in — or pick a different one.','neutral');
+  document.getElementById('confirmBtn').classList.remove('hidden');
+}
 
-  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === q.correct) btn.classList.add('correct');
-    if (i === idx && !ok) btn.classList.add('wrong');
-  });
-  document.getElementById('hintArea').innerHTML = '';
+// ── PHASE 2: CONFIRM & LOCK IN ──
+function confirmAnswer(){
+  if(state.awaitingNext||selectedIdx===-1)return;
+  stopReading();
+  const idx=selectedIdx;
+  const mid=state.currentMonsterId;
+  const m=MONSTERS.find(m=>m.id===mid);
+  const q=shuffledQuestions[mid][state.currentQIndex];
+  const ok=idx===q.correct;
+  const pts=ok?(onRetry[mid]?PTS_RETRY:PTS_FIRST):0;
+  const ptsBadge=onRetry[mid]?`+${PTS_RETRY} pts (retry)`:`+${PTS_FIRST} pts`;
 
-  if (ok) {
-    state.monsterHp[mid]--;
-    state.score = capScore(state.score + pts);
-    updateScores();
-    setMsg(`⚡ ZAP! ${ptsBadge} — ${q.hint ? '' : ''}Correct!`, 'correct');
-    const emo = document.getElementById('mEmoji');
-    emo.classList.add('hit'); setTimeout(() => emo.classList.remove('hit'), 400);
-  } else {
-    if (!missedQs[mid]) missedQs[mid] = new Set();
-    missedQs[mid].add(state.currentQIndex);
-    state.playerHp = Math.max(0, state.playerHp - DMG);
-    setMsg(`💥 The monster zaps YOU! The correct answer was: ${q.choices[q.correct]}`, 'wrong');
-    const av = document.getElementById('playerAvatar');
-    av.classList.add('hurt'); setTimeout(() => av.classList.remove('hurt'), 450);
+  if(qStartTime){
+    const tElapsed=Math.floor((Date.now()-qStartTime)/1000);
+    const key=`${mid}_${state.currentQIndex}`;
+    timePerQuestion[key]=tElapsed;
+    qStartTime=null;
   }
 
-  updateBars(); saveState();
-  state.awaitingNext = true;
+  document.getElementById('confirmBtn').classList.add('hidden');
+  document.querySelectorAll('.choice-btn').forEach((btn,i)=>{
+    btn.disabled=true;btn.classList.remove('selected');
+    if(i===q.correct)btn.classList.add('correct');
+    if(i===idx&&!ok)btn.classList.add('wrong');
+  });
+  document.getElementById('hintArea').innerHTML='';
 
-  // 6-second countdown before Next button appears
-  const nextBtn     = document.getElementById('nextBtn');
-  const countdownEl = document.getElementById('countdownEl');
-  const countdownNum = document.getElementById('countdownNum');
-  countdownEl.classList.remove('hidden');
-  nextBtn.classList.add('hidden');
-  let secs = 6;
-  countdownNum.textContent = secs;
-  const ticker = setInterval(() => {
-    secs--;
-    countdownNum.textContent = secs;
-    if (secs <= 0) {
-      clearInterval(ticker);
+  if(ok){
+    state.monsterHp[mid]--;
+    state.score=capScore(state.score+pts);
+    updateScores();
+    setMsg(`⚡ ZAP! ${ptsBadge} — Correct!`,'correct');
+    const emo=document.getElementById('mEmoji');emo.classList.add('hit');setTimeout(()=>emo.classList.remove('hit'),400);
+  }else{
+    if(!missedQs[mid])missedQs[mid]=new Set();
+    missedQs[mid].add(state.currentQIndex);
+    const qNum=`${mid.charAt(0).toUpperCase()+mid.slice(1)}_Q${state.currentQIndex+1}`;
+    if(!allWrongQuestions.includes(qNum))allWrongQuestions.push(qNum);
+    state.playerHp=Math.max(0,state.playerHp-DMG);
+    setMsg(`💥 The monster zaps YOU! The correct answer was: ${renderFractions(q.choices[q.correct])}`,'wrong');
+    const av=document.getElementById('playerAvatar');av.classList.add('hurt');setTimeout(()=>av.classList.remove('hurt'),450);
+  }
+
+  // Highlights persist until Next Question is clicked (removed in nextQuestion/renderQ)
+  updateBars();saveState();
+  state.awaitingNext=true;
+
+  // 10-second next countdown
+  const nextBtn=document.getElementById('nextBtn');
+  const countdownEl=document.getElementById('countdownEl');
+  const countdownNum=document.getElementById('countdownNum');
+  countdownEl.classList.remove('hidden');nextBtn.classList.add('hidden');
+  // Restore next-countdown if it was paused mid-tick
+  let secs=10;
+  if(state.nextCDPausedAt!=null&&state.nextCDSecsLeft!=null){
+    const hiddenSecs=Math.floor((Date.now()-state.nextCDPausedAt)/1000);
+    secs=Math.max(0,state.nextCDSecsLeft-hiddenSecs);
+    state.nextCDPausedAt=null;state.nextCDSecsLeft=null;saveState();
+  }
+  nextSecsRemaining=secs;
+  countdownNum.textContent=secs;
+  if(nextTickerInterval)clearInterval(nextTickerInterval);
+  nextTickerInterval=setInterval(()=>{
+    secs--;nextSecsRemaining=secs;countdownNum.textContent=secs;
+    if(secs<=0){
+      clearInterval(nextTickerInterval);nextTickerInterval=null;
       countdownEl.classList.add('hidden');
-      // Check end conditions
-      if (state.playerHp <= 0) { showDefeat(); return; }
-      if (state.monsterHp[mid] <= 0) {
-        state.slain.push(mid);
-        missedQs[mid] = new Set(); onRetry[mid] = false;
-        saveState(); showVictory(m); return;
-      }
-      nextBtn.textContent = (state.currentQIndex >= m.questions.length - 1) ? 'See Results →' : 'Next Question →';
-      nextBtn.onclick = nextQuestion;
-      nextBtn.classList.remove('hidden');
+      if(state.playerHp<=0){showDefeat();return;}
+      if(state.monsterHp[mid]<=0){state.slain.push(mid);missedQs[mid]=new Set();onRetry[mid]=false;saveState();showVictory(m);return;}
+      const isLast=state.currentQIndex>=m.questions.length-1;
+      nextBtn.textContent=isLast?'See Results →':'Next Question →';
+      nextBtn.onclick=nextQuestion;nextBtn.classList.remove('hidden');
     }
-  }, 1000);
+  },1000);
 }
 
-function nextQuestion() {
-  state.currentQIndex++;
-  state.awaitingNext = false;
+function nextQuestion(){
+  state.currentQIndex++;state.awaitingNext=false;selectedIdx=-1;
   document.getElementById('nextBtn').classList.add('hidden');
-  setMsg('Pick the right answer to zap the monster! ⚡', 'neutral');
+  setMsg('Pick the right answer to zap the monster! ⚡','neutral');
   renderQ();
 }
 
-function updateBars() {
-  const m = MONSTERS.find(m => m.id === state.currentMonsterId);
-  if (!m) return;
-  const mHp = Math.max(0, state.monsterHp[state.currentMonsterId]);
-  document.getElementById('monsterHpBar').style.width = ((mHp / m.questions.length) * 100) + '%';
-  document.getElementById('monsterHpNum').textContent = `${mHp}/${m.questions.length}`;
-  document.getElementById('playerHpBar').style.width  = state.playerHp + '%';
-  document.getElementById('playerHpNum').textContent  = `${state.playerHp}/${MAX_HP}`;
+function updateBars(){
+  const m=MONSTERS.find(m=>m.id===state.currentMonsterId);if(!m)return;
+  const mHp=Math.max(0,state.monsterHp[state.currentMonsterId]);
+  document.getElementById('monsterHpBar').style.width=((mHp/m.questions.length)*100)+'%';
+  document.getElementById('monsterHpNum').textContent=`${mHp}/${m.questions.length}`;
+  document.getElementById('playerHpBar').style.width=state.playerHp+'%';
+  document.getElementById('playerHpNum').textContent=`${state.playerHp}/${MAX_HP}`;
 }
-function updateScores() {
-  document.getElementById('scoreDisplay').textContent = state.score;
-  document.getElementById('scoreBattle').textContent  = state.score;
-}
-function setMsg(text, type) {
-  const el = document.getElementById('battleMsg');
-  el.className = 'battle-msg msg-' + type; el.textContent = text;
-}
+function updateScores(){document.getElementById('scoreDisplay').textContent=state.score;document.getElementById('scoreBattle').textContent=state.score;}
+function setMsg(text,type){const el=document.getElementById('battleMsg');el.className='battle-msg msg-'+type;el.textContent=text;}
 
 // ═══════════════════════════════════════════════════
 //  OVERLAYS
 // ═══════════════════════════════════════════════════
-function showVictory(m) {
-  if (MONSTERS.every(mo => state.slain.includes(mo.id))) {
-    state.done = true;
-    saveState();
-    stopTimer();
-    submitScoreFinal();
-    lockStudent(state.playerName);
-    document.getElementById('winAllBody').innerHTML =
-      `<strong style="color:var(--yellow)">${state.playerName}</strong> defeated every monster and is ready for the SBAC!<br/><br/>Final Score: <strong style="color:var(--accent)">${state.score} / ${MAX_SCORE} points</strong><br/>Time: <strong style="color:var(--teal)">${formatTime(elapsedSeconds)}</strong> 🎉`;
+function showVictory(m){
+  if(MONSTERS.every(mo=>state.slain.includes(mo.id))){
+    state.done=true;saveState();stopTimer();submitScoreFinal();lockStudent(state.playerName);
+    document.getElementById('winAllBody').innerHTML=`<strong style="color:var(--yellow)">${state.playerName}</strong> defeated every monster and is SBAC ready!<br/><br/>Final Score: <strong style="color:var(--accent)">${state.score} / ${MAX_SCORE} pts</strong><br/>Time: <strong style="color:var(--teal)">${formatTime(elapsedSeconds)}</strong> 🎉`;
     document.getElementById('winAllOverlay').classList.add('show');
-  } else {
+  }else{
     submitScorePartial();
-    document.getElementById('victoryIcon').textContent  = m.emoji;
-    document.getElementById('victoryTitle').textContent = `${m.name} Defeated!`;
-    document.getElementById('victoryBody').innerHTML    = `You answered all the ${m.skill} questions correctly!<br/>Keep going — more monsters are waiting! 👾`;
+    document.getElementById('victoryIcon').textContent=m.emoji;
+    document.getElementById('victoryTitle').textContent=`${m.name} Defeated!`;
+    document.getElementById('victoryBody').innerHTML=`You answered all the ${m.skill} questions correctly!<br/>Keep going — more monsters are waiting! 👾`;
     document.getElementById('victoryOverlay').classList.add('show');
   }
 }
-function closeVictory() { document.getElementById('victoryOverlay').classList.remove('show'); buildSelect(); showScreen('select'); }
+function closeVictory(){document.getElementById('victoryOverlay').classList.remove('show');if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}buildSelect();showScreen('select');}
 
-function showDefeat() {
-  const m = MONSTERS.find(m => m.id === state.currentMonsterId);
-  document.getElementById('defeatBody').innerHTML =
-    `${m.name} zapped you too many times!<br/><br/>On your retry, questions you got wrong will show a <strong style="color:var(--yellow)">💡 Hint button</strong>.<br/>Correct answers on retry are worth <strong style="color:var(--yellow)">${PTS_RETRY} points</strong> instead of ${PTS_FIRST}.`;
+function showDefeat(){
+  const mid=state.currentMonsterId;
+  const missed=[...(missedQs[mid]||new Set())];
+  if(missed.length){
+    const list=document.getElementById('missedReviewList');
+    list.innerHTML='';
+    missed.forEach(qIdx=>{
+      const q=shuffledQuestions[mid][qIdx];
+      const origQ=MONSTERS.find(m=>m.id===mid).questions[qIdx];
+      const item=document.createElement('div');item.className='missed-item';
+      item.innerHTML=`<div class="missed-item-wrong">❌ You missed this question:</div><div class="missed-item-q">${renderFractions(origQ.text.replace(/&nbsp;/g,' '))}</div><div class="missed-item-a">✅ Correct answer: ${renderFractions(q.choices[q.correct])}</div>`;
+      list.appendChild(item);
+    });
+    document.getElementById('missedReview').classList.remove('hidden');
+  }
+  const m=MONSTERS.find(m=>m.id===mid);
+  document.getElementById('defeatBody').innerHTML=`${m.name} zapped you too many times!<br/><br/>Review the missed questions below, then try again. Correct answers on retry are worth <strong style="color:var(--yellow)">${PTS_RETRY} pts</strong> instead of ${PTS_FIRST}.`;
   document.getElementById('defeatOverlay').classList.add('show');
 }
-function closeDefeat()  { document.getElementById('defeatOverlay').classList.remove('show'); buildSelect(); showScreen('select'); }
-function retryMonster() {
+function closeDefeat(){document.getElementById('defeatOverlay').classList.remove('show');if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}buildSelect();showScreen('select');}
+function retryMonster(){
   document.getElementById('defeatOverlay').classList.remove('show');
-  const mid = state.currentMonsterId;
-  onRetry[mid] = true;
-  state.monsterHp[mid] = MONSTERS.find(m => m.id === mid).questions.length;
-  state.currentQIndex = 0;
-  saveState();
-  enterBattle(mid);
+  if(readTimerInterval){clearInterval(readTimerInterval);readTimerInterval=null;}
+  if(nextTickerInterval){clearInterval(nextTickerInterval);nextTickerInterval=null;}
+  const mid=state.currentMonsterId;
+  onRetry[mid]=true;state.monsterHp[mid]=MONSTERS.find(m=>m.id===mid).questions.length;state.currentQIndex=0;saveState();enterBattle(mid);
 }
-function closeWinAll()  { document.getElementById('winAllOverlay').classList.remove('show'); showLeaderboard(); }
+function closeWinAll(){document.getElementById('winAllOverlay').classList.remove('show');showLeaderboard();}
 
 // ═══════════════════════════════════════════════════
-//  LEADERBOARD — Google Sheets
+//  LEADERBOARD & SCORE SUBMISSION
 // ═══════════════════════════════════════════════════
-function getLocalLB() { try { return JSON.parse(localStorage.getItem(LB_KEY)) || []; } catch(e) { return []; } }
-function saveLocalLB(lb) { localStorage.setItem(LB_KEY, JSON.stringify(lb)); }
+function getLocalLB(){try{return JSON.parse(localStorage.getItem(LB_KEY))||[];}catch(e){return[];}}
+function saveLocalLB(lb){localStorage.setItem(LB_KEY,JSON.stringify(lb));}
 
-function mergeEntry(lb, entry) {
-  const i = lb.findIndex(e => e.name === entry.name);
-  if (i >= 0) {
-    const ex = lb[i];
-    const better = entry.score > ex.score ||
-      (entry.score === ex.score && entry.elapsedSeconds != null &&
-       (ex.elapsedSeconds == null || entry.elapsedSeconds < ex.elapsedSeconds));
-    if (better) lb[i] = entry;
-    // Always increment session count
-    lb[i].sessions = (lb[i].sessions || 1) + (entry.name === ex.name && entry.sessionId !== ex.sessionId ? 1 : 0);
-  } else {
-    lb.push({ ...entry, sessions: 1 });
-  }
-  lb.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    const tA = a.elapsedSeconds ?? Infinity;
-    const tB = b.elapsedSeconds ?? Infinity;
-    return tA - tB;
-  });
+function mergeEntry(lb,entry){
+  const i=lb.findIndex(e=>e.name===entry.name);
+  if(i>=0){const ex=lb[i];const better=entry.score>ex.score||(entry.score===ex.score&&entry.elapsedSeconds!=null&&(ex.elapsedSeconds==null||entry.elapsedSeconds<ex.elapsedSeconds));if(better)lb[i]={...entry,sessions:(ex.sessions||1)+1};else lb[i].sessions=(ex.sessions||1)+1;}
+  else lb.push({...entry,sessions:1});
+  lb.sort((a,b)=>{if(b.score!==a.score)return b.score-a.score;const tA=a.elapsedSeconds??Infinity,tB=b.elapsedSeconds??Infinity;return tA-tB;});
   return lb;
 }
 
-async function submitScorePartial() {
-  const entry = {
-    name: state.playerName,
-    sessionId: state.sessionId,
-    score: capScore(state.score),
-    slain: state.slain.length,
-    elapsedSeconds: elapsedSeconds,
-    done: false
-  };
-  saveLocalLB(mergeEntry(getLocalLB(), entry));
-  if (!SHEET_URL) return;
-  try {
-    await fetch(SHEET_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ action:'submit', game:'monsters', ...entry })
-    });
-  } catch(e) {}
+function buildSubmissionPayload(done){
+  const tpqArr=[];
+  MONSTERS.forEach(m=>{m.questions.forEach((_,idx)=>{const key=`${m.id}_${idx}`;tpqArr.push(timePerQuestion[key]??0);});});
+  return{name:state.playerName,sessionId:state.sessionId,score:capScore(state.score),slain:state.slain.length,elapsedSeconds,done,tabSwitches,wrongQuestions:allWrongQuestions.join(','),timePerQuestion:tpqArr.join(',')};
 }
 
-async function submitScoreFinal() {
-  const entry = {
-    name: state.playerName,
-    sessionId: state.sessionId,
-    score: capScore(state.score),
-    slain: state.slain.length,
-    elapsedSeconds: elapsedSeconds,
-    done: true
-  };
-  saveLocalLB(mergeEntry(getLocalLB(), entry));
+async function submitScorePartial(){
+  const entry=buildSubmissionPayload(false);
+  saveLocalLB(mergeEntry(getLocalLB(),entry));
+  if(!SHEET_URL)return;
+  try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'submit',game:'monsters',...entry})});}catch(e){}
+}
+
+async function submitScoreFinal(){
+  const entry=buildSubmissionPayload(true);
+  saveLocalLB(mergeEntry(getLocalLB(),entry));
   localStorage.removeItem(SAVE_KEY);
-  if (!SHEET_URL) return;
-  try {
-    await fetch(SHEET_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ action:'submit', game:'monsters', ...entry })
-    });
-  } catch(e) {}
+  if(!SHEET_URL)return;
+  try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'submit',game:'monsters',...entry})});}catch(e){}
 }
 
-async function fetchLB() {
-  if (!SHEET_URL) return getLocalLB();
-  try {
-    const res = await fetch(`${SHEET_URL}?action=leaderboard&game=monsters`, { cache:'no-store' });
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    if (Array.isArray(data)) { saveLocalLB(data); return data; }
-    return getLocalLB();
-  } catch(e) { return getLocalLB(); }
+async function fetchLB(){
+  if(!SHEET_URL)return getLocalLB();
+  try{const res=await fetch(`${SHEET_URL}?action=leaderboard&game=monsters`,{cache:'no-store'});if(!res.ok)throw new Error();const data=await res.json();if(Array.isArray(data)){saveLocalLB(data);return data;}return getLocalLB();}catch(e){return getLocalLB();}
 }
 
-async function showLeaderboard() {
-  prevScreen = currentScreen;
-  showScreen('leaderboard');
-  const tbody = document.getElementById('lbBody');
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">⏳ Loading scores...</td></tr>';
-  const lb = await fetchLB();
-  const medals = ['🥇','🥈','🥉'];
-  tbody.innerHTML = '';
-  if (!lb.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">No scores yet — go slay some monsters!</td></tr>';
-  } else {
-    lb.forEach((e, i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="font-weight:800;font-size:1.1rem;">${medals[i]||(i+1)}</td>
-        <td style="font-weight:800;">${e.name}</td>
-        <td class="lb-score">⭐ ${e.score}</td>
-        <td style="color:var(--muted);font-weight:700;">${'👾'.repeat(Math.min(e.slain||0,5))} ${e.slain||0}/5</td>
-        <td style="color:var(--teal);font-weight:700;">⏱ ${formatTime(e.elapsedSeconds)}</td>
-        <td style="color:var(--muted);font-weight:700;font-size:.78rem;">${e.sessions||1} run${(e.sessions||1)>1?'s':''}</td>`;
-      tbody.appendChild(tr);
-    });
-  }
+async function showLeaderboard(){
+  prevScreen=currentScreen;showScreen('leaderboard');
+  const tbody=document.getElementById('lbBody');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">⏳ Loading scores...</td></tr>';
+  const lb=await fetchLB();
+  const medals=['🥇','🥈','🥉'];tbody.innerHTML='';
+  if(!lb.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-weight:700;">No scores yet — go slay some monsters!</td></tr>';}
+  else{lb.forEach((e,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<td style="font-weight:800;font-size:1.1rem;">${medals[i]||(i+1)}</td><td style="font-weight:800;">${e.name}</td><td class="lb-score">⭐ ${e.score}</td><td style="color:var(--muted);font-weight:700;">${'👾'.repeat(Math.min(e.slain||0,5))} ${e.slain||0}/5</td><td style="color:var(--teal);font-weight:700;">⏱ ${formatTime(e.elapsedSeconds)}</td><td style="color:var(--muted);font-weight:700;font-size:.78rem;">${e.sessions||1} run${(e.sessions||1)>1?'s':''}</td>`;tbody.appendChild(tr);});}
 }
 
-// ── PIN / CLEAR ──
-function promptClear() {
-  pinMode = 'clear';
-  document.getElementById('pinTitle').textContent = 'Teacher Access';
-  document.getElementById('pinBody').textContent  = 'Enter the teacher PIN to clear all scores.';
-  document.getElementById('pinInput').value = '';
-  document.getElementById('pinError').textContent = '';
+// ═══════════════════════════════════════════════════
+//  PIN
+// ═══════════════════════════════════════════════════
+function promptPin(mode){
+  pinMode=mode;
+  const titles={clear:'Teacher Access',unlock:'Unlock for Replay',startfresh:'Teacher Required'};
+  const bodies={clear:'Enter the teacher PIN to clear all scores.',unlock:'Enter the teacher PIN to allow this student to replay.',startfresh:'Starting fresh requires the teacher PIN.'};
+  document.getElementById('pinTitle').textContent=titles[mode]||'Teacher Access';
+  document.getElementById('pinBody').textContent=bodies[mode]||'Enter the teacher PIN.';
+  document.getElementById('pinInput').value='';document.getElementById('pinError').textContent='';
   document.getElementById('pinOverlay').classList.add('show');
-  setTimeout(() => document.getElementById('pinInput').focus(), 120);
+  setTimeout(()=>document.getElementById('pinInput').focus(),120);
 }
-async function checkPin() {
-  const val = document.getElementById('pinInput').value.trim();
-  if (val === TEACHER_PIN) {
+async function checkPin(){
+  const val=document.getElementById('pinInput').value.trim();
+  if(val===TEACHER_PIN){
     document.getElementById('pinOverlay').classList.remove('show');
-    if (pinMode === 'clear') {
-      saveLocalLB([]);
-      if (SHEET_URL) {
-        try { await fetch(SHEET_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'clear', game:'monsters' }) }); } catch(e) {}
-      }
-      showLeaderboard();
-    } else if (pinMode === 'unlock') {
-      const name = document.getElementById('nameSelect').value;
-      unlockStudent(name);
-      document.getElementById('lockedBanner').classList.add('hidden');
-      document.getElementById('idSection').classList.remove('hidden');
-      document.getElementById('loginError').textContent = '';
-      setTimeout(() => document.getElementById('studentIdInput').focus(), 50);
-    } else if (pinMode === 'startfresh') {
-      clearResume();
-    }
-  } else {
-    document.getElementById('pinError').textContent = 'Wrong PIN — try again.';
-    document.getElementById('pinInput').value = '';
-  }
+    if(pinMode==='clear'){saveLocalLB([]);if(SHEET_URL){try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'clear',game:'monsters'})});}catch(e){}}showLeaderboard();}
+    else if(pinMode==='unlock'){const name=document.getElementById('nameSelect').value;unlockStudent(name);document.getElementById('lockedBanner').classList.add('hidden');document.getElementById('idSection').classList.remove('hidden');document.getElementById('loginError').textContent='';setTimeout(()=>document.getElementById('studentIdInput').focus(),50);}
+    else if(pinMode==='startfresh'){clearResume();}
+  }else{document.getElementById('pinError').textContent='Wrong PIN — try again.';document.getElementById('pinInput').value='';}
 }
-function closePin() { document.getElementById('pinOverlay').classList.remove('show'); }
+function closePin(){document.getElementById('pinOverlay').classList.remove('show');}
 </script>
 </body>
 </html>
